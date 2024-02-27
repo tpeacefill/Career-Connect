@@ -1,0 +1,274 @@
+
+
+.dashboard {
+  display: grid;
+  grid-template-columns: 13% 87%; /* 13% for Sidepane, 87% for Menubar and page-content */
+  grid-template-rows: 82px calc(100vh - 82px); /* 82px for Menubar, remaining for page-content */
+}
+
+.page-content {
+  grid-column: 2; /* Span across the second column */
+  grid-row: 2; /* Span across the second row */
+  background: #1b1b1b;
+}
+
+.dash-content1 {
+  height: 243px;
+  width: 1400px;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.welcome-msg {
+  width: 360px;
+  height: 53px;
+  margin-bottom: 10px;
+}
+
+.welcome-msg h3 {
+  color: white;
+  font-family: poppins;
+  font-size: 15px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.welcome-msg p {
+  color: white;
+  font-family: poppins;
+  font-size: 15px;
+  font-weight: 50px;
+  margin-top: 0;
+  margin-bottom: 0;
+  opacity: 0.5;
+}
+
+.content-feature {
+  background: #151617;
+  height: 180px;
+  width: 1400px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.content-txt h4 {
+  color: white;
+  font-family: poppins;
+  font-size: 15px;
+  align-items: flex-start;
+  font-weight: 1px;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+.content-txt p {
+  color: #ad8547;
+  font-family: poppins;
+  font-size: 15px;
+  align-items: flex-end;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+.content-imgs {
+  height: 130px;
+  width: 800px;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 145px;
+}
+
+.content-img1,
+.content-img2,
+.content-img3 {
+  display: flex;
+  flex-direction: column;
+}
+
+.content-img1 p,
+.content-img2 p,
+.content-img3 p {
+  font-size: 18px;
+  color: white;
+  opacity: 0.5;
+}
+
+.content-img1 img,
+.content-img2 img,
+.content-img3 img {
+  margin: auto;
+}
+
+.dash-content2 {
+  width: 1400px;
+  height: 48px;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  gap: 820px;
+}
+
+.content2-txt1 h5,
+.content2-txt2 h5 {
+  color: white;
+  font-size: 15px;
+  font-family: poppins;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.content2-txt1 p,
+.content2-txt2 p {
+  color: white;
+  font-size: 15px;
+  font-family: poppins;
+  margin-top: 0;
+  margin-bottom: 0;
+  opacity: 0.5;
+}
+
+.dash-content3 {
+  width: 1400px;
+  height: 500px;
+  margin: auto;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 74px;
+}
+
+.course-jobs {
+  width: 950px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+.activity-event {
+  height: 520px;
+  width: 375px;
+  background: #151617;
+  border: none;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.courses {
+  height: 280px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  width: 950px;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.jobs {
+  height: 240px;
+  width: 950px;
+}
+
+
+.course-content h5 {
+  font-size: 18px;
+  font-family: poppins;
+  color: white;
+  margin-top: 0;
+  margin-bottom: 14px;
+}
+
+.course-content img {
+  border: none;
+  border-radius: 5px;
+}
+
+
+.jobs-msg {
+  width: 950px;
+  height: 48px;
+  flex-direction: row;
+  display: flex;
+  margin-bottom: 10px;
+  gap: 500px;
+}
+
+.jobs-msg1 h4 {
+  font-family: poppins;
+  font-size: 15px;
+  color: white;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.jobs-msg1 p {
+  font-family: poppins;
+  font-size: 15px;
+  color: white;
+  margin-bottom: 0;
+  margin-top: 0;
+  opacity: 0.5;
+}
+
+.text-msg1 {
+  font-family: poppins;
+  font-size: 15px;
+  color: #ad8547;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.jobs2 {
+  height: 160px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.activity-alert {
+  height: 52px;
+  width: 270px;
+  display: flex;
+  flex-direction: row;
+  gap: 45px;
+  margin: auto;
+}
+
+.activity-alert p {
+  font-family: poppins;
+  font-size: 15px;
+  color: white;
+  opacity: 0.5;
+}
+
+.activity-alert button {
+  height: 52px;
+  width: 52px;
+  border-radius: 50px;
+  border: none;
+  background: #ad8547;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.created-activity {
+  height: 435px;
+  width: 375px;
+}
+
+.divider1 {
+  display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 375px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.3);
+}

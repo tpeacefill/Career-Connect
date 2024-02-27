@@ -1,0 +1,98 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
+
+
+.course1 {
+    height: 279px;
+    width: 215px;
+    border: none;
+    border-radius: 20px;
+    background: #151617;
+    display: flex;
+  }
+
+  .course-content {
+    width: 180px;
+    height: 246px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .item1 {
+    width: 179px;
+    height: 26px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .item1-coursename {
+    width: 77px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eadb8d;
+    border-radius: 10px;
+    border: none;
+  }
+  
+  .item1-coursename p {
+    font-family: poppins;
+    font-size: 10px;
+  }
+
+  .item1-options {
+    width: 20px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #2c3033;
+    border-radius: 5px;
+    border: none;
+  }
+
+  .description {
+    font-family: poppins;
+    font-size: 10px;
+    color: white;
+    opacity: 0.5;
+    margin-bottom: 1px;
+  }
+
+  .item3 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .progresscontainer {
+    width: 106px;
+    height: 5px;
+    border: none;
+    border-radius: 50px;
+    background: #2c3033;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+  
+  .percentage,
+  .outof {
+    font-family: poppins;
+    font-size: 15px;
+    color: white;
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+
+
+  .progressbar {
+    width: 53px;
+    height: 5px;
+    border: none;
+    border-radius: 50px;
+    background: #eadb8d;
+  }
+  

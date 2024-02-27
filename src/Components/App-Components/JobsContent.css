@@ -1,0 +1,76 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
+
+
+.jobs-content {
+    height: 182px;
+    width: 950px;
+    display: flex;
+    flex-direction: column;
+}
+
+.jobs-content1 {
+    width: 950px;
+    height: 81px;
+    border: none;
+    background: #151617;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 220px;
+}
+
+.jobs-content-text {
+    width: 580px;
+    flex-direction: row;
+    display: flex;
+    gap: 15px;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+  }
+  
+  .jobs-content-text h4 {
+    font-family: poppins;
+    font-size: 15px;
+    color: white;
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+  
+  .jobs-content-text p {
+      font-family: poppins;
+      font-size: 13px;
+      color: white;
+      margin-bottom: 0;
+      margin-top: 0;
+      opacity: 0.5;
+    }
+
+    .Jobs-image {
+        height: 39px;
+        width: 35px;
+        border-radius: 5px;
+      }
+    
+      .jobs-save {
+        flex-direction: column;
+        display: flex;
+        width: 119px;
+        margin-right: auto;
+        gap: -1px;
+        margin-top: auto;
+        margin-bottom: auto;
+      }
+    
+      .jobs-save img {
+        height: 24px;
+        width: 24px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    
+      .jobs-save p {
+        font-family: poppins;
+        font-size: 10px;
+        color: #ad8547;
+      }
