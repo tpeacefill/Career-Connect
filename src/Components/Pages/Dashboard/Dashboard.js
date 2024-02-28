@@ -12,10 +12,6 @@ import ExtraSkills from "../../Images/addskill.svg";
 import ResumeLoad from "../../Images/ResumeLoad.svg";
 import AddIcon from "../../Images/add_icon.svg";
 
-
-
-
-
 const Dashboard = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
 
@@ -24,7 +20,6 @@ const Dashboard = () => {
   };
   return (
     <div className="dashboard">
-      {isDialogOpen && <DialogBox onClose={toggleDialog} />}
       <Sidepane />
       <Menubar />
       <div className="page-content">
@@ -34,7 +29,6 @@ const Dashboard = () => {
             <p>There’s a lot to achieve</p>
           </div>
           <div className="content-feature">
-            
             <div className="content-imgs">
               <div className="content-img1">
                 <img src={JobAlert} alt="Job Alert" />
@@ -81,22 +75,24 @@ const Dashboard = () => {
                 <p className="text-msg1">View More</p>
               </div>
               <div className="jobs2">
-              <JobsContent />
-              <JobsContent />
+                <JobsContent />
+                <JobsContent />
               </div>
             </div>
           </div>
           {/*Remember to complete calendar*/}
           <div className="activity-event">
-          
-            <div className="created-activity">
-              
-            </div>
+            <div className="created-activity"></div>
             <div className="divider1"></div>
             <div className="activity-alert">
               <p>Create an activity alert</p>
-              <button onClick={toggleDialog}>
-                <img src={AddIcon} alt="add-icon"/>
+              {isDialogOpen && (
+                <div className="dialog-overlay">
+                  <DialogBox onClose={toggleDialog} />
+                </div>
+              )}
+              <button className= "activity-alert-button" onClick={toggleDialog}>
+                <img src={AddIcon} alt="add-icon" />
               </button>
             </div>
           </div>

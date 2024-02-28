@@ -238,6 +238,7 @@
   flex-direction: row;
   gap: 45px;
   margin: auto;
+  position: relative;
 }
 
 .activity-alert p {
@@ -247,14 +248,14 @@
   opacity: 0.5;
 }
 
-.activity-alert button {
+.activity-alert-button {
   height: 52px;
   width: 52px;
   border-radius: 50px;
   border: none;
   background: #ad8547;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 }
@@ -271,4 +272,17 @@
     width: 375px;
     height: 1px;
     background: rgba(255, 255, 255, 0.3);
+}
+
+.dialog-overlay {
+  position: fixed; /* Fixed position to cover the entire screen */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  display: flex;
+  justify-content: center; /* Center children horizontally */
+  align-items: center; /* Center children vertically */
+  z-index: 1000; /* High z-index to ensure it's on top of other content */
 }

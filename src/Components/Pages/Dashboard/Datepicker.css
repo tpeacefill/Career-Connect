@@ -1,0 +1,10 @@
+/* Override styles for previous button */
+.react-datepicker__navigation-icon {
+    border-radius: 0 !important; /* Make the button square */
+  }
+  
+  /* Override styles for next button */
+  .react-datepicker__navigation-icon--next {
+    border-radius: 0 !important; /* Make the button square */
+  }
+  
