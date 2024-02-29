@@ -1,23 +1,41 @@
 // Dashboard.js
 
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Dashboard.css";
 import Sidepane from "../../App-Components/Sidepane";
 import DialogBox from "../../App-Components/Dialog";
+import ExtraSkillsBox from "../../App-Components/ExtraSkillsBox"; // Import ExtraSkillsBox
+import CreateAlertBox from "../../App-Components/CreateAlertBox"; 
 import CourseCards from "../../App-Components/CourseCards";
 import JobsContent from "../../App-Components/JobsContent";
 import Menubar from "../../App-Components/Menubar";
 import JobAlert from "../../Images/Create-alert.svg";
-import ExtraSkills from "../../Images/addskill.svg";
+import ExtraSkillss from "../../Images/addskill.svg";
 import ResumeLoad from "../../Images/ResumeLoad.svg";
 import AddIcon from "../../Images/add_icon.svg";
 
 const Dashboard = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
+  const [dialogType, setDialogType] = useState("");
 
-  const toggleDialog = () => {
+  const toggleDialog = (type) => {
+    setDialogType(type);
     setDialogOpen(!isDialogOpen);
   };
+
+  // Function to render the appropriate dialog component based on dialogType
+  const renderDialogComponent = () => {
+    switch (dialogType) {
+      case "extraSkills":
+        return <ExtraSkillsBox onClose={toggleDialog} />;
+      case "createAlert":
+        return <CreateAlertBox onClose={toggleDialog} />;
+      default:
+        return <DialogBox onClose={toggleDialog} type={dialogType} />;
+    }
+  };
+
   return (
     <div className="dashboard">
       <Sidepane />
@@ -31,16 +49,22 @@ const Dashboard = () => {
           <div className="content-feature">
             <div className="content-imgs">
               <div className="content-img1">
-                <img src={JobAlert} alt="Job Alert" />
-                <p>Create a job alert</p>
+                <div className="content-img1-inner" onClick={() => toggleDialog("createAlert")}>
+                  <img src={JobAlert} alt="Job Alert" />
+                  <p>Create a job alert</p>
+                </div>
               </div>
               <div className="content-img2">
-                <img src={ExtraSkills} alt="Extra Skill Sets" />
-                <p>Add extra skill sets</p>
+                <div className="content-img2-inner" onClick={() => toggleDialog("extraSkills")}>
+                  <img src={ExtraSkillss} alt="Extra Skill Sets" />
+                  <p>Add extra skill sets</p>
+                </div>
               </div>
               <div className="content-img3">
-                <img src={ResumeLoad} alt="Upload Resume" />
-                <p>Upload your resume</p>
+                <Link to="/resumes" className="content-img3-1">
+                  <img src={ResumeLoad} alt="Upload Resume" />
+                  <p>Upload your resume</p>
+                </Link>
               </div>
             </div>
           </div>
@@ -52,7 +76,7 @@ const Dashboard = () => {
             <p>Continue learning, you’ll get there</p>
           </div>
           <div className="content2-txt2">
-            <h5>Your Personalized Calender</h5>
+            <h5>Your Personalized Calendar</h5>
             <p>Keep track of your own activities</p>
           </div>
         </div>
@@ -65,7 +89,6 @@ const Dashboard = () => {
               <CourseCards />
               <CourseCards />
             </div>
-            {/*Pay attention to jobs side*/}
             <div className="jobs">
               <div className="jobs-msg">
                 <div className="jobs-msg1">
@@ -80,7 +103,6 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          {/*Remember to complete calendar*/}
           <div className="activity-event">
             <div className="created-activity"></div>
             <div className="divider1"></div>
@@ -88,10 +110,10 @@ const Dashboard = () => {
               <p>Create an activity alert</p>
               {isDialogOpen && (
                 <div className="dialog-overlay">
-                  <DialogBox onClose={toggleDialog} />
+                  {renderDialogComponent()}
                 </div>
               )}
-              <button className= "activity-alert-button" onClick={toggleDialog}>
+              <button className="activity-alert-button" onClick={() => toggleDialog("activityAlert")}>
                 <img src={AddIcon} alt="add-icon" />
               </button>
             </div>
@@ -103,6 +125,11 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+
+
+
+
 
 {
   /*import { signOut } from "firebase/auth";

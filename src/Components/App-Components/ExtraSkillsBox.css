@@ -1,0 +1,132 @@
+.dialog-box {
+    height: 500px;
+    width: 600px;
+    background: #1b1b1b;
+    z-index: 1;
+    border-radius: 10px;
+  }
+  
+  .dialog-container {
+    height: 455px;
+    width: 531px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    margin-right: 25px;
+    margin-left: 44px;
+  }
+  
+  .dialog-header {
+    height: 27px;
+    width: 420px;
+    flex-direction: row;
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+    margin-left: 100px;
+  }
+  
+  .dialog-header p {
+      font-family: poppins;
+      font-size: 18px;
+      color: #AD8547;
+      margin-top: 0;
+      margin-bottom: 0;
+  }
+  
+  .dialog-content {
+      height: 332px;
+      width: 512px;
+      flex-direction: column;
+      display: flex;
+      margin-bottom: 23px;
+      justify-content: space-between;
+  }
+  
+.activity-title {
+    width: 512px;
+    height: 81px;
+    margin-bottom: 10px;
+}
+
+  
+  .activity-title select{
+    width: 512px;
+    height: 30px; /* Adjust height as needed for .activity-description */
+    padding-left: 20px; /* Presumed existing padding, add this if needed */
+    border: 1px solid transparent; /* Default transparent border */
+    background: #292929;
+    border-radius: 5px;
+    font-size: 15px;
+    font-family: poppins;
+    color: rgba(255, 255, 255, 0.5);
+    outline: none; /* Optionally removes the default focus outline */
+    margin-bottom: 10px;
+  }
+  
+  .activity-title p {
+      font-family: poppins;
+      font-size: 15px;
+      color: #AD8547;
+      margin-top: 0;
+      margin-bottom: 0;
+  }
+  
+  
+  .activity-description {
+      height: 240px;
+      width: 512px;
+      display: flex;
+      flex-direction: column;
+  }
+  
+  .activity-description p {
+      font-family: poppins;
+      font-size: 15px;
+      color: #AD8547;
+      margin-top: 0;
+      margin-bottom: 0;
+  }
+  
+  
+  .activity-description input {
+      width: 512px;
+      height: 107px;
+      border: none;
+      background: #292929;
+      border-radius: 15px;
+      font-size: 15px;
+      font-family: poppins;
+      color: rgba(255, 255, 255, 0.5);
+  }
+  
+.savebutton  {
+      height: 46px;
+      width: 131px;
+      border: none;
+      border-radius: 5px;
+      background: #AD8547;
+      font-family: poppins;
+      font-size: 15px;
+      color: white;
+      margin-left: 180px;
+  }
+  
+  .selected-jobs {
+      width: 512px;
+      height: 200px; /* Adjust height as needed for .activity-description */
+      padding-left: 20px; /* Presumed existing padding, add this if needed */
+      border: 1px solid transparent; /* Default transparent border */
+      background: #292929;
+      border-radius: 15px;
+      font-size: 15px;
+      font-family: poppins;
+      color: rgba(255, 255, 255, 0.5);
+      outline: none; /* Optionally removes the default focus outline */
+      overflow: auto;
+  }
+
+  
+  .activity-title select:focus{
+      border-color: #AD8547; /* Changes the border color on focus */
+  }
+  
