@@ -1,21 +1,27 @@
+// ProfilePicture.js
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "./profilePicture.css"; // Ensure your CSS styles are correctly applied
-import { useUser } from "../App-Components/UserContext"; // Adjust this import path as necessary
+import "./profilePicture.css"; // Make sure this path is correct
+import { useUser } from "../App-Components/UserContext";
 
-const ProfilePicture = () => {
+const ProfilePicture = ({ className }) => {
   const [showDropdown, setShowDropdown] = useState(false);
-  const { profileData } = useUser();
+  const { profileData } = useUser(); // Get the user data from your context
 
   const toggleDropdown = () => setShowDropdown(!showDropdown);
 
+  // Determine the initials for the user
+  const initials = profileData.fullName
+    ? profileData.fullName.split(' ').map(name => name[0]).join('').toUpperCase()
+    : "U";
+
+  // Add the passed className to the container class list
+  const containerClasses = `profile-container ${className || ''}`.trim();
+
   return (
-    <div className="profile-container" onClick={toggleDropdown}>
-      {profileData.profilePicture ? (
-        <div className="profile-initials">{profileData.profilePicture}</div>
-      ) : (
-        <div className="profile-initials">{"U"}</div>
-      )}
+    <div className={containerClasses} onClick={toggleDropdown}>
+      <div className="profile-initials">{initials}</div>
       {showDropdown && (
         <div className="dropdown-content">
           <Link to="/view-profile" onClick={() => setShowDropdown(false)}>View Profile</Link>
