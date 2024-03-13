@@ -3,24 +3,22 @@ import React from "react";
 import "./Sidepane.css";
 import AppLogo from "../Images/App_logo.png";
 import { useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth"; // Make sure to import signOut
 import IconButton from "./IconButton";
 import { Link } from "react-router-dom";
 
-const Sidepane = ({ auth }) => {
-  const navigate = useNavigate(); // Using useNavigate hook to get navigation function
+  const Sidepane = ({ auth, handleLogout }) => {
+  const navigate = useNavigate();
 
   const logout = async () => {
     try {
-      // Assuming signOut is the function to log the user out
-      await auth.signOut();
-      navigate("/login");
+      await signOut(auth); // Signs the user out
+      console.log('User has been logged out');
+      navigate("/login"); // Navigates to the login page
     } catch (error) {
-      console.error(error);
+      // Error handling, maybe show an error message to the user
+      console.error("Logout Error:", error);
     }
-  };
-
-  const navigateToJobs = () => {
-    navigate("/jobs");
   };
 
   return (
@@ -61,7 +59,7 @@ const Sidepane = ({ auth }) => {
           <div style={{ marginBottom: "25px" }}></div>
           <Link to="/jobs">
             <IconButton
-              onClick={navigateToJobs} // Navigate to the Jobs page when clicked
+              // Navigate to the Jobs page when clicked
               svg={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -263,25 +261,28 @@ const Sidepane = ({ auth }) => {
             />
           </Link>
           <div style={{ marginBottom: "25px" }}></div>
-          <IconButton
-            handleLogout={logout}
-            svg={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M5 21C4.45 21 3.979 20.804 3.587 20.412C3.195 20.02 2.99934 19.5493 3 19V5C3 4.45 3.196 3.979 3.588 3.587C3.98 3.195 4.45067 2.99934 5 3H12V5H5V19H12V21H5ZM16 17L14.625 15.55L17.175 13H9V11H17.175L14.625 8.45L16 7L21 12L16 17Z"
-                  fill="white"
-                  fill-opacity="0.5"
-                />
-              </svg>
-            } // Replace with your actual SVG component
-            label="Logout"
-          />
+
+          {/*<Link to="/login">*/}
+            <IconButton
+              handleClick={logout}
+              svg={
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path
+                    d="M5 21C4.45 21 3.979 20.804 3.587 20.412C3.195 20.02 2.99934 19.5493 3 19V5C3 4.45 3.196 3.979 3.588 3.587C3.98 3.195 4.45067 2.99934 5 3H12V5H5V19H12V21H5ZM16 17L14.625 15.55L17.175 13H9V11H17.175L14.625 8.45L16 7L21 12L16 17Z"
+                    fill="white"
+                    fill-opacity="0.5"
+                  />
+                </svg>
+              } // Replace with your actual SVG component
+              label="Logout"
+            />
+          {/*</Link>*/}
         </div>
       </div>
     </div>

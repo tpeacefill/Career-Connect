@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, Timestamp } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, googleProvider, db } from "../../Config/firebase";
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
@@ -18,6 +18,13 @@ const Signup = () => {
   const [error, setError] = useState(null);
   const [success, setShowSuccess] = useState(false); // State to manage success message
 
+  // Function to update lastActive when the user is active
+  const updateLastActive = async (userId) => {
+    const userRef = doc(db, "User", userId);
+    const timestamp = Timestamp.now(); // Get the current timestamp
+    await setDoc(userRef, { lastActive: timestamp }, { merge: true });
+  };
+
   const signup = async () => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -26,10 +33,13 @@ const Signup = () => {
         password
       );
       const user = userCredential.user;
+      const timestamp = Timestamp.now(); // Get the current timestamp
 
-      await setDoc(doc(db, "users", user.uid), {
+      await setDoc(doc(db, "User", user.uid), {
         fullName,
         email,
+        dateJoined: timestamp, // Save the current timestamp as dateJoined
+        lastActive: timestamp, // Initialize lastActive with the current timestamp
       });
 
       setShowSuccess(true);
@@ -39,11 +49,11 @@ const Signup = () => {
   };
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
-        // Extract the user's name from the Firebase user object
-        const userName = user.displayName || fullName || "User";
-        navigate("/dashboard", { state: { userName } });
+        await updateLastActive(user.uid);
+        navigate("/dashboard", { state: { userName: user.displayName || fullName } });
+
       }
     });
 
@@ -54,21 +64,22 @@ const Signup = () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
+      const timestamp = Timestamp.now(); // Get the current timestamp
 
-      // Access the user's profile information
-      const { displayName, email } = user;
-
-      // Save user's name and email to Firestore
-      await setDoc(doc(db, "users", user.uid), {
-        fullName: displayName,
-        email: email,
+      await setDoc(doc(db, "User", user.uid), {
+        fullName: user.displayName,
+        email: user.email,
+        dateJoined: timestamp,
+        lastActive: timestamp,
       });
+
 
       setShowSuccess(true);
     } catch (error) {
       setError(error.message);
     }
   };
+
 
   const closeErrorOverlay = () => {
     setError(null);
@@ -78,6 +89,7 @@ const Signup = () => {
     setShowSuccess(false);
     navigate("/dashboard", { state: { userName: fullName } });
   };
+
 
   return (
     <div className="signup-page">

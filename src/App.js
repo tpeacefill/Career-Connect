@@ -2,6 +2,7 @@
 
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { UserProvider } from './Components/App-Components/UserContext.js';
 import SplashScreen from "./Components/Pages/SplashScreen/SplashScreen.js";
 import Login from "./Components/Pages/Login-Signup/Login.js";
 import Signup from "./Components/Pages/Login-Signup/Signup.js";
@@ -14,12 +15,14 @@ import Interviews from "./Components/Pages/Interviews/Interviews.js";
 import Help from "./Components/Pages/Help/Help.js";
 import Network from "./Components/Pages/Network/Network.js";
 import Settings from "./Components/Pages/Settings/Settings.js";
+import Tryout from "./Components/Pages/Tryout.js";
 
 
 
 function App() {
   return (
     <div className="App">
+      <UserProvider>
       <Router>
         <Routes>
           <Route path="/" element={<SplashScreen />} />
@@ -34,8 +37,10 @@ function App() {
           <Route path="/interviews" element={<Interviews />} />
           <Route path="/network" element={< Network />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/try" element={<Tryout />} />
         </Routes>
       </Router>
+      </UserProvider>
     </div>
   );
 }

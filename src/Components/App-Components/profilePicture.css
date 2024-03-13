@@ -1,0 +1,9 @@
+/* ProfilePicture.css */
+
+.profile-image {
+    width: 37px;
+    height: 37px;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  

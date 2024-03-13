@@ -2,6 +2,9 @@
 
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../../Config/firebase";
+import { signOut } from "firebase/auth";
 import "./Dashboard.css";
 import Sidepane from "../../App-Components/Sidepane";
 import DialogBox from "../../App-Components/Dialog";
@@ -16,6 +19,18 @@ import ResumeLoad from "../../Images/ResumeLoad.svg";
 import AddIcon from "../../Images/add_icon.svg";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      console.log('User has been logged out');
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout Error:", error);
+    }
+  };
+
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState("");
 
@@ -38,7 +53,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
-      <Sidepane />
+      <Sidepane auth={auth} handleLogout={logout} /> 
       <Menubar />
       <div className="page-content">
         <div className="dash-content1">

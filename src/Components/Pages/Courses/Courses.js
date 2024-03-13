@@ -17,15 +17,16 @@ const Courses = () => {
   const logout = async () => {
     try {
       await signOut(auth);
+      console.log('User has been logged out');
       navigate("/login");
     } catch (error) {
-      console.error(error);
+      console.error("Logout Error:", error);
     }
   };
 
   return (
     <div className="coursess">
-      <Sidepane handleLogout={logout} />
+       <Sidepane auth={auth} handleLogout={logout} /> 
       <Menubar />
       <div className="page-content">
         <div className="Jobss-heading">
