@@ -7,37 +7,39 @@ const UserContext = createContext();
 
 export const useUser = () => useContext(UserContext);
 
+// UserProvider component
 export const UserProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [fullName, setFullName] = useState('');
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        // User is signed in.
-        const userRef = doc(db, "User", user.uid); // Adjust "users" to your users collection path
-        const userSnap = await getDoc(userRef);
-
-        if (userSnap.exists()) {
-          setFullName(userSnap.data().fullName); // Assuming 'fullName' is the field name in your db
-          setCurrentUser(user);
+    const [currentUser, setCurrentUser] = useState(null);
+    const [profileData, setProfileData] = useState({ fullName: '', profilePicture: '' });
+  
+    useEffect(() => {
+      const unsubscribe = auth.onAuthStateChanged(async (user) => {
+        if (user) {
+          const userRef = doc(db, "User", user.uid);
+          const userSnap = await getDoc(userRef);
+  
+          if (userSnap.exists()) {
+            setProfileData({
+              fullName: userSnap.data().fullName,
+              profilePicture: userSnap.data().profilePicture,
+            });
+            setCurrentUser(user);
+          } else {
+            console.log("No such document!");
+          }
         } else {
-          // User data not found in db, handle accordingly
-          console.log("No such document!");
+          setCurrentUser(null);
+          setProfileData({ fullName: '', profilePicture: '' });
         }
-      } else {
-        // User is signed out.
-        setCurrentUser(null);
-        setFullName('');
-      }
-    });
-
-    return () => unsubscribe(); // Clean up subscription
-  }, []);
-
-  return (
-    <UserContext.Provider value={{ currentUser, fullName }}>
-      {children}
-    </UserContext.Provider>
-  );
-};
+      });
+  
+      return unsubscribe;
+    }, []);
+  
+    return (
+      <UserContext.Provider value={{ currentUser, profileData }}>
+        {children}
+      </UserContext.Provider>
+    );
+  };
+  

@@ -25,6 +25,11 @@ const Signup = () => {
     await setDoc(userRef, { lastActive: timestamp }, { merge: true });
   };
 
+  // Helper function to get initials
+const getInitials = (name) => {
+  return name.split(' ').map((n) => n[0]).join('').toUpperCase();
+};
+
   const signup = async () => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -33,6 +38,7 @@ const Signup = () => {
         password
       );
       const user = userCredential.user;
+      const initials = getInitials(fullName);
       const timestamp = Timestamp.now(); // Get the current timestamp
 
       await setDoc(doc(db, "User", user.uid), {
@@ -40,6 +46,8 @@ const Signup = () => {
         email,
         dateJoined: timestamp, // Save the current timestamp as dateJoined
         lastActive: timestamp, // Initialize lastActive with the current timestamp
+        profilePicture: initials,
+
       });
 
       setShowSuccess(true);
@@ -65,12 +73,14 @@ const Signup = () => {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
       const timestamp = Timestamp.now(); // Get the current timestamp
+      const initials = getInitials(user.displayName || "");
 
       await setDoc(doc(db, "User", user.uid), {
         fullName: user.displayName,
         email: user.email,
         dateJoined: timestamp,
         lastActive: timestamp,
+        profilePicture: initials,
       });
 
 

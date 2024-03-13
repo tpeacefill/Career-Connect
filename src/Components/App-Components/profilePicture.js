@@ -1,39 +1,26 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; // Assuming you're using React Router for navigation
-import "./profilePicture.css"; // Your CSS file for styling the profile picture component
-import Profile from '../Images/Profile.png';
-
+import { Link } from "react-router-dom";
+import "./profilePicture.css"; // Ensure your CSS styles are correctly applied
+import { useUser } from "../App-Components/UserContext"; // Adjust this import path as necessary
 
 const ProfilePicture = () => {
   const [showDropdown, setShowDropdown] = useState(false);
+  const { profileData } = useUser();
 
-  const toggleDropdown = () => {
-    setShowDropdown(!showDropdown);
-  };
-
-  const closeDropdown = () => {
-    setShowDropdown(false);
-  };
+  const toggleDropdown = () => setShowDropdown(!showDropdown);
 
   return (
-    <div className="profile-picture">
-      <img
-        src={Profile} // Assuming you have imported the profile picture image
-        alt="Profile"
-        className="profile-image"
-        onClick={toggleDropdown}
-      />
+    <div className="profile-container" onClick={toggleDropdown}>
+      {profileData.profilePicture ? (
+        <div className="profile-initials">{profileData.profilePicture}</div>
+      ) : (
+        <div className="profile-initials">{"U"}</div>
+      )}
       {showDropdown && (
         <div className="dropdown-content">
-          <Link to="/view-profile" className="dropdown-link" onClick={closeDropdown}>
-            View Profile
-          </Link>
-          <Link to="/settings" className="dropdown-link" onClick={closeDropdown}>
-            Settings
-          </Link>
-          <Link to="/help" className="dropdown-link" onClick={closeDropdown}>
-            Help
-          </Link>
+          <Link to="/view-profile" onClick={() => setShowDropdown(false)}>View Profile</Link>
+          <Link to="/settings" onClick={() => setShowDropdown(false)}>Settings</Link>
+          <Link to="/help" onClick={() => setShowDropdown(false)}>Help</Link>
         </div>
       )}
     </div>
