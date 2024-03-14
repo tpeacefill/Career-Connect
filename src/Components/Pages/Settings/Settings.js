@@ -1,6 +1,6 @@
 // Settings.js
 
-import React, {useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../../Config/firebase";
 import { signOut } from "firebase/auth";
@@ -8,6 +8,7 @@ import { doc, getDoc } from "firebase/firestore"; // Import the Firestore method
 import "./Settings.css";
 import Sidepane from "../../App-Components/Sidepane";
 import Menubar from "../../App-Components/Menubar";
+import ExtraSkillsBox from "../../App-Components/ExtraSkillsBox";
 import ProfilePicture from "../../App-Components/profilePicture";
 import { useUser } from "../../App-Components/UserContext"; // Make sure the path to useUser is correct
 
@@ -15,9 +16,19 @@ const Settings = () => {
   const navigate = useNavigate();
   const { currentUser, profileData } = useUser();
   const [userDetails, setUserDetails] = React.useState({
-    fullName: '',
-    email: '',
+    fullName: "",
+    email: "",
   });
+
+  const [showExtraSkills, setShowExtraSkills] = useState(false);
+
+  const handleEditClick = () => {
+    setShowExtraSkills(true);
+  };
+
+  const handleCloseExtraSkills = () => {
+    setShowExtraSkills(false);
+  };
 
   const logout = async () => {
     try {
@@ -45,7 +56,7 @@ const Settings = () => {
           console.log("No such document in 'User' collection!");
         }
       };
-      
+
       fetchUserData();
     }
   }, [currentUser]);
@@ -58,15 +69,34 @@ const Settings = () => {
         <div className="dash-content">
           <div className="profileContent">
             <div className="profileCnt">
-              <ProfilePicture className="settings-profile-picture" />
+              <ProfilePicture
+                className="settings-profile-picture"
+                showDropdownMenu={false}
+              />
               <div className="name-password">
-                <h3 className="name-password-name">{userDetails.fullName || profileData.fullName}</h3> {/* Display the full name */}
-                <p className="name-password-email">{userDetails.email || profileData.email}</p> {/* Display the email */}
+                <h3 className="name-password-name">
+                  {userDetails.fullName || profileData.fullName}
+                </h3>{" "}
+                {/* Display the full name */}
+                <p className="name-password-email">
+                  {userDetails.email || profileData.email}
+                </p>{" "}
+                {/* Display the email */}
               </div>
-              <button className="edit-profile">Edit</button>
+              <button className="edit-profile" onClick={handleEditClick}>
+                Edit
+              </button>
             </div>
-            <div className="profilebio"></div>
+            <div className="profilebio">
+              <p>Add your bio in here.....</p>
+            </div>
           </div>
+          {showExtraSkills && (
+            <div className="dialog-overlay">
+              <ExtraSkillsBox onClose={handleCloseExtraSkills} />
+            </div>
+            
+          )}
         </div>
       </div>
     </div>

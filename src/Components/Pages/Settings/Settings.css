@@ -93,3 +93,28 @@
     color: white;
     font-size: 20px;
   }
+
+  .profilebio {
+    height: 70px;
+    width: 650px;
+    flex-direction: row;
+    display: flex;
+  }
+
+  .profilebio p {
+    color: white;
+    opacity: 0.5;
+  }
+  
+  .dialog-overlay {
+    position: fixed; /* Fixed position to cover the entire screen */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    display: flex;
+    justify-content: center; /* Center children horizontally */
+    align-items: center; /* Center children vertically */
+    z-index: 1000; /* High z-index to ensure it's on top of other content */
+  }
