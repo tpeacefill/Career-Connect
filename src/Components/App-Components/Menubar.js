@@ -21,7 +21,9 @@ const Menubar = () => {
         <div className="Post-items">
           <img src={Addpost} alt="Addpost" className="Addpost" />
           <img src={Notifications} alt="Notifications" className="Notifications" />
-          <ProfilePicture />
+          <ProfilePicture 
+          showDropdownMenu={true} // Set to false for EditProfileDialog
+          />
         </div>
       </div>
     </div>

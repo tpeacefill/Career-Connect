@@ -1,33 +1,31 @@
-// Settings.js
-
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../../Config/firebase";
 import { signOut } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore"; // Import the Firestore method to get document data
+import { doc, getDoc } from "firebase/firestore";
 import "./Settings.css";
 import Sidepane from "../../App-Components/Sidepane";
 import Menubar from "../../App-Components/Menubar";
-import ExtraSkillsBox from "../../App-Components/ExtraSkillsBox";
+import EditProfileDialog from "../../App-Components/EditProfileDialog";
 import ProfilePicture from "../../App-Components/profilePicture";
-import { useUser } from "../../App-Components/UserContext"; // Make sure the path to useUser is correct
+import { useUser } from "../../App-Components/UserContext";
 
 const Settings = () => {
   const navigate = useNavigate();
   const { currentUser, profileData } = useUser();
-  const [userDetails, setUserDetails] = React.useState({
+  const [userDetails, setUserDetails] = useState({
     fullName: "",
     email: "",
   });
-
-  const [showExtraSkills, setShowExtraSkills] = useState(false);
+  const [showEditProfile, setShowEditProfile] = useState(false);
+  const userId = currentUser?.uid;
 
   const handleEditClick = () => {
-    setShowExtraSkills(true);
+    setShowEditProfile(true);
   };
 
-  const handleCloseExtraSkills = () => {
-    setShowExtraSkills(false);
+  const handleCloseEditProfile = () => {
+    setShowEditProfile(false);
   };
 
   const logout = async () => {
@@ -40,7 +38,6 @@ const Settings = () => {
     }
   };
 
-  // Fetch user details once when the component mounts
   useEffect(() => {
     if (currentUser) {
       const fetchUserData = async () => {
@@ -76,12 +73,10 @@ const Settings = () => {
               <div className="name-password">
                 <h3 className="name-password-name">
                   {userDetails.fullName || profileData.fullName}
-                </h3>{" "}
-                {/* Display the full name */}
+                </h3>
                 <p className="name-password-email">
                   {userDetails.email || profileData.email}
-                </p>{" "}
-                {/* Display the email */}
+                </p>
               </div>
               <button className="edit-profile" onClick={handleEditClick}>
                 Edit
@@ -91,11 +86,10 @@ const Settings = () => {
               <p>Add your bio in here.....</p>
             </div>
           </div>
-          {showExtraSkills && (
+          {showEditProfile && userId && (
             <div className="dialog-overlay">
-              <ExtraSkillsBox onClose={handleCloseExtraSkills} />
+               <EditProfileDialog onClose={handleCloseEditProfile} userId={currentUser?.uid} />
             </div>
-            
           )}
         </div>
       </div>

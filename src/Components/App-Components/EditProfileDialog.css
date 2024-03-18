@@ -1,0 +1,142 @@
+.dialog-box {
+  height: 500px;
+  width: 600px;
+  background: #1b1b1b;
+  z-index: 1;
+  border-radius: 10px;
+}
+
+.dialog-container {
+  height: 455px;
+  width: 531px;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  margin-right: 25px;
+  margin-left: 44px;
+}
+
+.dialog-headers {
+  height: 27px;
+  width: 420px;
+  flex-direction: row;
+  display: flex;
+  gap: 50px;
+  margin-bottom: 15px;
+  margin-left: 170px;
+}
+
+.dialog-headers p {
+  font-family: poppins;
+  font-size: 18px;
+  color: #ad8547;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.dialog-content {
+  height: 332px;
+  width: 512px;
+  flex-direction: column;
+  display: flex;
+  margin-bottom: 23px;
+  justify-content: space-between;
+}
+
+.dialog-content-profile {
+  width: 512px;
+  height: 90px;
+  flex-direction: row;
+  display: flex;
+}
+
+.settings-profile-picture .profile-initials {
+  width: 90px;
+  height: 90px;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ad8547; /* Choose a background color that fits your design */
+  color: white;
+  margin-right: 20px;
+  /* other styles you want to override */
+}
+
+.dialog-content-profile p {
+  color: white;
+  opacity: 0.5;
+  margin-top: auto;
+  margin-bottom: auto;
+  font-size: 15px;
+  font-family: Poppins;
+}
+
+.dialog-bio {
+  height: 240px;
+  width: 512px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dialog-bio p {
+  color: #ad8547;
+  opacity: 0.5;
+  margin-top: auto;
+  margin-bottom: auto;
+  font-size: 15px;
+  font-family: Poppins;
+}
+
+.dialog-bio-input {
+  width: 512px;
+  height: 200px; /* Adjust height as needed for .activity-description */
+  padding-left: 20px; /* Presumed existing padding, add this if needed */
+  border: 1px solid transparent; /* Default transparent border */
+  background: #292929;
+  border-radius: 15px;
+  font-size: 15px;
+  font-family: poppins;
+  color: rgba(255, 255, 255, 0.5);
+  outline: none; /* Optionally removes the default focus outline */
+  overflow: auto;
+  flex-direction: column;
+  display: flex;
+}
+
+.dialog-bio-input select:focus {
+  border-color: #ad8547; /* Changes the border color on focus */
+}
+
+.upload-icon {
+  margin-right: 20px;
+  background: #292929;
+  width: 90px;
+  height: 90px;
+  border-radius: 50px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.upload-icon img {
+  height: 50px;
+  width: 50px;
+}
+
+.done-cropping-button {
+  height: 40px;
+  width: 180px;
+  background-color: #ad8547;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border: none;
+  color: white;
+  border-radius: 10px;
+  font-family: Poppins;
+}
+
+.cropper-container {
+  position: relative;
+}

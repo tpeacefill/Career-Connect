@@ -2,15 +2,15 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import "./profilePicture.css"; // Make sure this path is correct
+import "./profilePicture.css";
 import { useUser } from "../App-Components/UserContext";
 
-const ProfilePicture = ({ className, showDropdownMenu = true }) => {
+const ProfilePicture = ({ className, imageUrl, onUpload, uploading, showDropdownMenu = false }) => { // Set default to false
   const [showDropdown, setShowDropdown] = React.useState(false);
-  const { profileData } = useUser(); // Get the user data from your context
+  const { profileData } = useUser();
 
   const toggleDropdown = () => {
-    if (showDropdownMenu) {
+    if (showDropdownMenu) { // Only show dropdown if enabled
       setShowDropdown(!showDropdown);
     }
   };

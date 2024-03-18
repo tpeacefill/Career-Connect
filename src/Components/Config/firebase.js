@@ -6,6 +6,7 @@ import {
   signInWithPopup,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -22,6 +23,8 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 const db = getFirestore(app);
+const storage = getStorage(app);
+
 
 export {
   auth,
@@ -34,4 +37,5 @@ export {
   signInWithPopup,
   doc,
   setDoc,
+  storage,
 };
