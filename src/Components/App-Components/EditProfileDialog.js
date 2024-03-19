@@ -5,10 +5,13 @@ import { doc, updateDoc } from "firebase/firestore";
 import "./EditProfileDialog.css";
 import closeBrown from "../Images/closebrown.svg";
 import Cropper from "react-cropper";
-import "cropperjs/dist/cropper.css";
+import "cropperjs/dist/cropper.css"; // Ensure the CSS is correctly imported
 import AddImage from "../Images/AddImage.svg";
 import ErrorOverlay from "../Pages/Error-Success/ErrorOverlay";
 import SuccessOverlay from "../Pages/Error-Success/SuccessOverlay";
+import { useUser } from "../App-Components/UserContext";
+
+
 
 const EditProfileDialog = ({ onClose, userId, updateBio }) => {
   const [bio, setBio] = useState("");
@@ -19,6 +22,7 @@ const EditProfileDialog = ({ onClose, userId, updateBio }) => {
   const [isCropping, setIsCropping] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const { updateProfilePicture } = useUser();
 
   const onCrop = () => {
     const imageElement = cropperRef?.current;
@@ -43,7 +47,7 @@ const EditProfileDialog = ({ onClose, userId, updateBio }) => {
     onCrop();
   };
 
-  const uploadImage = async () => {
+  const uploadImage = async (updateBioCallback) => {
     if (!croppedImageUrl) return;
 
     setUploading(true);
@@ -64,7 +68,7 @@ const EditProfileDialog = ({ onClose, userId, updateBio }) => {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-          await updateProfile(downloadURL);
+          await updateProfile(downloadURL, bio, updateBioCallback);
           setUploading(false);
           setCroppedImageUrl(downloadURL);
           setSuccess(true);
@@ -73,14 +77,14 @@ const EditProfileDialog = ({ onClose, userId, updateBio }) => {
     );
   };
 
-  const updateProfile = async (profileUrl) => {
+  const updateProfile = async (profileUrl, bio, updateBioCallback) => {
     try {
       const userRef = doc(db, "User", userId);
       await updateDoc(userRef, {
         bio,
         profilePicture: profileUrl,
       });
-      updateBio(bio); // Update bio on settings page
+      updateBioCallback(bio); // Update bio on settings page
       setSuccess(true);
     } catch (error) {
       console.error("Error updating profile:", error);
@@ -89,8 +93,9 @@ const EditProfileDialog = ({ onClose, userId, updateBio }) => {
   };
 
   const handleSaveClick = async () => {
-    await uploadImage();
+    await uploadImage(updateBio); // Pass updateBio as the callback function
   };
+  
 
   const handleCloseError = () => {
     setError(null);
@@ -108,10 +113,7 @@ const EditProfileDialog = ({ onClose, userId, updateBio }) => {
           <ErrorOverlay message={error} onClose={handleCloseError} />
         )}
         {success && (
-          <SuccessOverlay
-            message="Profile updated successfully"
-            onClose={handleCloseSuccess}
-          />
+          <SuccessOverlay message="Profile updated successfully" onClose={handleCloseSuccess} />
         )}
         <div className="dialog-headers">
           <p>Edit your user Profile</p>
@@ -120,13 +122,10 @@ const EditProfileDialog = ({ onClose, userId, updateBio }) => {
         <div className="dialog-content">
           <div className="dialog-content-profile">
             {isCropping ? (
-              <div
-                className="cropper-container"
-                style={{ height: 300, width: "100%" }}
-              >
+              <div className="cropper-container" style={{ height: 300, width: "100%" }}>
                 <Cropper
                   src={image}
-                  style={{ height: 250, width: "100%" }}
+                  style={{ height: 250, width: "100%"}}
                   initialAspectRatio={1}
                   aspectRatio={1}
                   preview=".img-preview"
@@ -147,9 +146,7 @@ const EditProfileDialog = ({ onClose, userId, updateBio }) => {
               <>
                 <div
                   className="upload-icon"
-                  onClick={() =>
-                    document.getElementById("fileInput").click()
-                  }
+                  onClick={() => document.getElementById("fileInput").click()}
                 >
                   {croppedImageUrl ? (
                     <img

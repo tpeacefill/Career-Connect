@@ -19,6 +19,28 @@ const Settings = () => {
     bio: "",
   });
   const [showEditProfile, setShowEditProfile] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
+
+  useEffect(() => {
+    if (currentUser?.uid) {
+      const userRef = doc(db, "User", currentUser.uid);
+      const unsubscribe = onSnapshot(userRef, (docSnapshot) => {
+        if (docSnapshot.exists()) {
+          const userData = docSnapshot.data();
+          setUserDetails({
+            fullName: userData.fullName,
+            email: userData.email,
+            bio: userData.bio || "",
+          });
+          setImageUrl(userData.profilePicture || ""); // Set the initial imageUrl
+        } else {
+          console.log("No such document in 'User' collection!");
+        }
+      });
+
+      return unsubscribe; // Cleanup subscription on unmount
+    }
+  }, [currentUser]);
 
   const handleEditClick = () => {
     setShowEditProfile(true);
@@ -31,7 +53,6 @@ const Settings = () => {
   const logout = async () => {
     try {
       await signOut(auth);
-
       console.log("User has been logged out");
       navigate("/login");
     } catch (error) {
@@ -39,36 +60,12 @@ const Settings = () => {
     }
   };
 
-  // This function will be called to update the bio in the state
   const updateBio = (newBio) => {
     setUserDetails((prevDetails) => ({
       ...prevDetails,
       bio: newBio,
     }));
   };
-
-  useEffect(() => {
-    if (currentUser?.uid) {
-      const userRef = doc(db, "User", currentUser.uid);
-
-      // Subscribe to real-time updates
-      const unsubscribe = onSnapshot(userRef, (docSnapshot) => {
-        if (docSnapshot.exists()) {
-          const userData = docSnapshot.data();
-          setUserDetails({
-            fullName: userData.fullName,
-            email: userData.email,
-            bio: userData.bio || "",
-          });
-        } else {
-          console.log("No such document in 'User' collection!");
-        }
-      });
-
-      // Cleanup subscription on unmount
-      return unsubscribe;
-    }
-  }, [currentUser]);
 
   return (
     <div className="settings">
@@ -79,8 +76,9 @@ const Settings = () => {
           <div className="profileContent">
             <div className="profileCnt">
               <ProfilePicture
-                className="settings-profile-picture"
-                showDropdownMenu={false}
+                className="settings-profile-picture" // Use a different className here
+                showDropdownMenu={false} // Set to false for Settings
+                imageUrl={imageUrl}
               />
               <div className="name-password">
                 <h3 className="name-password-name">{userDetails.fullName}</h3>
@@ -99,11 +97,12 @@ const Settings = () => {
               <EditProfileDialog
                 onClose={handleCloseEditProfile}
                 userId={currentUser?.uid}
-                updateBio={updateBio} // Pass this function as a prop to the dialog
+                updateBio={updateBio}
               />
             </div>
           )}
         </div>
+        <div className="personal-information"></div>
       </div>
     </div>
   );

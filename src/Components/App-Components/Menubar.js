@@ -20,9 +20,15 @@ const Menubar = () => {
         <input className="search-bar" type="text" placeholder="Search" />
         <div className="Post-items">
           <img src={Addpost} alt="Addpost" className="Addpost" />
-          <img src={Notifications} alt="Notifications" className="Notifications" />
-          <ProfilePicture 
-          showDropdownMenu={true} // Set to false for EditProfileDialog
+          <img
+            src={Notifications}
+            alt="Notifications"
+            className="Notifications"
+          />
+          <ProfilePicture
+            className="menubar-profile-picture" // Use a different className here
+            showDropdownMenu={true} // Set to true for Menubar
+            imageUrl={profileData.profilePicture}
           />
         </div>
       </div>

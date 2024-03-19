@@ -1,11 +1,9 @@
-// ProfilePicture.js
-
 import React from "react";
 import { Link } from "react-router-dom";
 import "./profilePicture.css";
 import { useUser } from "../App-Components/UserContext";
 
-const ProfilePicture = ({ className, imageUrl, onUpload, uploading, showDropdownMenu = false }) => { // Set default to false
+const ProfilePicture = ({ className, imageUrl, onUpload, uploading, showDropdownMenu = false }) => {
   const [showDropdown, setShowDropdown] = React.useState(false);
   const { profileData } = useUser();
 
@@ -23,7 +21,11 @@ const ProfilePicture = ({ className, imageUrl, onUpload, uploading, showDropdown
 
   return (
     <div className={containerClasses} onClick={toggleDropdown}>
-      <div className="profile-initials">{initials}</div>
+      {imageUrl ? ( // If imageUrl exists, display the image
+        <img src={imageUrl} alt="Profile" className="profile-image" />
+      ) : ( // Otherwise, display initials
+        <div className="profile-initials">{initials}</div>
+      )}
       {showDropdown && showDropdownMenu && (
         <div className="dropdown-content">
           <Link to="/view-profile" onClick={() => setShowDropdown(false)}>View Profile</Link>
