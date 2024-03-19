@@ -5,16 +5,20 @@ import { doc, updateDoc } from "firebase/firestore";
 import "./EditProfileDialog.css";
 import closeBrown from "../Images/closebrown.svg";
 import Cropper from "react-cropper";
-import "cropperjs/dist/cropper.css"; // Ensure the CSS is correctly imported
+import "cropperjs/dist/cropper.css";
 import AddImage from "../Images/AddImage.svg";
+import ErrorOverlay from "../Pages/Error-Success/ErrorOverlay";
+import SuccessOverlay from "../Pages/Error-Success/SuccessOverlay";
 
-const EditProfileDialog = ({ onClose, userId }) => {
+const EditProfileDialog = ({ onClose, userId, updateBio }) => {
   const [bio, setBio] = useState("");
   const [image, setImage] = useState("");
   const [croppedImageUrl, setCroppedImageUrl] = useState("");
   const cropperRef = useRef(null);
   const [uploading, setUploading] = useState(false);
-  const [isCropping, setIsCropping] = useState(false); // New state to control Cropper visibility
+  const [isCropping, setIsCropping] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
 
   const onCrop = () => {
     const imageElement = cropperRef?.current;
@@ -27,7 +31,7 @@ const EditProfileDialog = ({ onClose, userId }) => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setIsCropping(true); // Show cropper when file is selected
+      setIsCropping(true);
       const reader = new FileReader();
       reader.onload = () => setImage(reader.result);
       reader.readAsDataURL(file);
@@ -35,8 +39,8 @@ const EditProfileDialog = ({ onClose, userId }) => {
   };
 
   const handleDoneCropping = () => {
-    setIsCropping(false); // Hide cropper when done
-    onCrop(); // Update cropped image URL
+    setIsCropping(false);
+    onCrop();
   };
 
   const uploadImage = async () => {
@@ -55,34 +59,60 @@ const EditProfileDialog = ({ onClose, userId }) => {
       (snapshot) => {},
       (error) => {
         console.error("Upload failed:", error);
+        setError("Failed to upload image. Please try again.");
         setUploading(false);
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
           await updateProfile(downloadURL);
           setUploading(false);
-          setCroppedImageUrl(downloadURL); // Update cropped image URL after upload
+          setCroppedImageUrl(downloadURL);
+          setSuccess(true);
         });
       }
     );
   };
 
   const updateProfile = async (profileUrl) => {
-    const userRef = doc(db, "User", userId);
-    await updateDoc(userRef, {
-      bio,
-      profilePicture: profileUrl,
-    });
-    onClose();
+    try {
+      const userRef = doc(db, "User", userId);
+      await updateDoc(userRef, {
+        bio,
+        profilePicture: profileUrl,
+      });
+      updateBio(bio); // Update bio on settings page
+      setSuccess(true);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      setError("Failed to update profile. Please try again.");
+    }
   };
 
   const handleSaveClick = async () => {
     await uploadImage();
   };
 
+  const handleCloseError = () => {
+    setError(null);
+  };
+
+  const handleCloseSuccess = () => {
+    setSuccess(false);
+    onClose(); // Navigate to settings page here
+  };
+
   return (
     <div className="dialog-box">
       <div className="dialog-container">
+        {error && (
+          <ErrorOverlay message={error} onClose={handleCloseError} />
+        )}
+        {success && (
+          <SuccessOverlay
+            message="Profile updated successfully"
+            onClose={handleCloseSuccess}
+          />
+        )}
         <div className="dialog-headers">
           <p>Edit your user Profile</p>
           <img src={closeBrown} alt="close" onClick={onClose} />
@@ -90,10 +120,13 @@ const EditProfileDialog = ({ onClose, userId }) => {
         <div className="dialog-content">
           <div className="dialog-content-profile">
             {isCropping ? (
-              <div className="cropper-container" style={{ height: 300, width: "100%" }}>
+              <div
+                className="cropper-container"
+                style={{ height: 300, width: "100%" }}
+              >
                 <Cropper
                   src={image}
-                  style={{ height: 250, width: "100%"}}
+                  style={{ height: 250, width: "100%" }}
                   initialAspectRatio={1}
                   aspectRatio={1}
                   preview=".img-preview"
@@ -114,7 +147,9 @@ const EditProfileDialog = ({ onClose, userId }) => {
               <>
                 <div
                   className="upload-icon"
-                  onClick={() => document.getElementById("fileInput").click()}
+                  onClick={() =>
+                    document.getElementById("fileInput").click()
+                  }
                 >
                   {croppedImageUrl ? (
                     <img
