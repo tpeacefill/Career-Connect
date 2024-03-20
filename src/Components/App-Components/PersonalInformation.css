@@ -1,0 +1,360 @@
+.personal-information {
+    width: 831px;
+    height: 400px;
+    background: #151617;
+    border: none;
+    border-radius: 10px;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.personal-container {
+    width: 780px;
+    height: 370px;
+    display: flex;
+    flex-direction: column;
+}
+
+.personal-infoHeading {
+    width: 780px;
+    flex-direction: row;
+    display: flex;
+    height: 35px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+
+.personal-infoHeading h3 {
+    color: white;
+    font-family: Poppins;
+    font-weight: 200;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.personal-infoHeading label {
+    color: #ad8547;
+    font-family: Poppins;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.personal-contacts {
+    width: 780px;
+    height: 170px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); 
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.personal1 {
+    display: flex;
+    flex-direction: row;
+    height: 60px;
+    width: 700px;
+    margin-bottom: 15px;
+    justify-content: space-between;
+}
+
+.personal2 {
+    display: flex;
+    flex-direction: row;
+    height: 60px;
+    width: 700px;
+    justify-content: space-between;
+}
+
+.personal-cnt1 {
+    height: 60px;
+    width: 320px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.personal-cnt01 {
+    height: 60px;
+    width: 320px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.personal-cnt2 {
+    height: 60px;
+    width: 320px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.personal-cnt02 {
+    height: 60px;
+    width: 320px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.email {
+    height: 45px;
+    width: 45px;
+    background: rgba(41, 42, 44, 0.7);
+    margin-top: auto;
+    margin-bottom: auto;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+}
+.birthday {
+    height: 45px;
+    width: 45px;
+    background: rgba(41, 42, 44, 0.7);
+    margin-top: auto;
+    margin-bottom: auto;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+}
+
+.email-details {
+    height: 60px;
+    width: 250px;
+    flex-direction: column;
+    display: flex;
+}
+
+.birthday-details {
+    height: 60px;
+    width: 250px;
+    flex-direction: column;
+    display: flex;
+}
+
+.email-details h3 {
+    color: white;
+    opacity: 0.5;
+    font-family: Poppins;
+    font-weight: 100;
+    font-size: 15px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.birthday-details h3 {
+    color: white;
+    opacity: 0.5;
+    font-family: Poppins;
+    font-weight: 100;
+    font-size: 15px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.email-details p {
+    color: white;
+    font-family: Poppins;
+    font-weight: 100;
+    font-size: 12px;
+    margin-top: 0;
+    margin-bottom: auto;
+}
+
+.birthday-details p {
+    color: white;
+    font-family: Poppins;
+    font-weight: 100;
+    font-size: 12px;
+    margin-top: 0;
+    margin-bottom: auto;
+}
+
+.phone {
+    height: 45px;
+    width: 45px;
+    background: rgba(41, 42, 44, 0.7);
+    margin-top: auto;
+    margin-bottom: auto;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+}
+
+.salary {
+    height: 45px;
+    width: 45px;
+    background: rgba(41, 42, 44, 0.7);
+    margin-top: auto;
+    margin-bottom: auto;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+}
+
+.phone-details {
+    height: 60px;
+    width: 250px;
+    flex-direction: column;
+    display: flex;
+}
+
+.salary-details {
+    height: 60px;
+    width: 250px;
+    flex-direction: column;
+    display: flex;
+}
+
+.phone-details h3 {
+    color: white;
+    opacity: 0.5;
+    font-family: Poppins;
+    font-weight: 100;
+    font-size: 15px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.salary-details h3 {
+    color: white;
+    opacity: 0.5;
+    font-family: Poppins;
+    font-weight: 100;
+    font-size: 15px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.phone-details p {
+    color: white;
+    font-family: Poppins;
+    font-weight: 100;
+    font-size: 12px;
+    margin-top: 0;
+    margin-bottom: auto;
+}
+
+.salary-details p {
+    color: white;
+    font-family: Poppins;
+    font-weight: 100;
+    font-size: 12px;
+    margin-top: 0;
+    margin-bottom: auto;
+}
+
+.loacation-worktype {
+    width: 780px;
+    height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.location {
+    width: 470px;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.worktype {
+    width: 470px;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.location-icon {
+    height: 45px;
+    width: 45px;
+    background: rgba(41, 42, 44, 0.7);
+    margin-top: auto;
+    margin-bottom: auto;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+}
+
+.worktype-icon {
+    height: 45px;
+    width: 45px;
+    background: rgba(41, 42, 44, 0.7);
+    margin-top: auto;
+    margin-bottom: auto;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+}
+
+.location-details {
+    height: 60px;
+    width: 400px;
+    flex-direction: column;
+    display: flex;
+}
+
+.worktype-details {
+    height: 60px;
+    width: 400px;
+    flex-direction: column;
+    display: flex;
+}
+
+.location-details p {
+    color: white;
+    font-family: Poppins;
+    font-weight: 100;
+    font-size: 12px;
+    margin-top: 0;
+    margin-bottom: auto;
+}
+
+.worktype-details p {
+    color: white;
+    font-family: Poppins;
+    font-weight: 100;
+    font-size: 12px;
+    margin-top: 0;
+    margin-bottom: auto;
+}
+
+.location-details h3 {
+    color: white;
+    opacity: 0.5;
+    font-family: Poppins;
+    font-weight: 100;
+    font-size: 15px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.worktype-details h3 {
+    color: white;
+    opacity: 0.5;
+    font-family: Poppins;
+    font-weight: 100;
+    font-size: 15px;
+    margin-top: auto;
+    margin-bottom: auto;
+}

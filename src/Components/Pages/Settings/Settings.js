@@ -6,6 +6,7 @@ import { doc, onSnapshot } from "firebase/firestore";
 import "./Settings.css";
 import Sidepane from "../../App-Components/Sidepane";
 import Menubar from "../../App-Components/Menubar";
+import PersonalInformation from "../../App-Components/PersonalInformation";
 import EditProfileDialog from "../../App-Components/EditProfileDialog";
 import ProfilePicture from "../../App-Components/profilePicture";
 import { useUser } from "../../App-Components/UserContext";
@@ -102,8 +103,9 @@ const Settings = () => {
             </div>
           )}
         </div>
-        <div className="personal-information"></div>
+        <PersonalInformation />
       </div>
+      
     </div>
   );
 };
