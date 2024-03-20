@@ -1,13 +1,22 @@
 import React from "react";
 import "./PersonalInformation.css";
+import PersonalInformationDialo from './PersonalInformationDialo';
+import { useState } from "react";
 
 const PersonalInformation = () => {
+    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+
+  const handleEditClick = () => {
+    setIsEditDialogOpen(true);
+  };
   return (
+    
     <div className="personal-information">
+        {isEditDialogOpen && <PersonalInformationDialo onClose={() => setIsEditDialogOpen(false)} />}
       <div className="personal-container">
         <div className="personal-infoHeading">
           <h3>All Personal Informations</h3>
-          <label>Edit</label>
+          <label onClick={handleEditClick}>Edit</label>
         </div>
         <div className="personal-contacts">
           <div className="personal1">

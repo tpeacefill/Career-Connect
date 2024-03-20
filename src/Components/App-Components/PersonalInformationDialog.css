@@ -1,0 +1,271 @@
+.overlay {
+  position: fixed;
+  bottom: 1;
+  right: 1;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  z-index: 999; /* Ensure it appears above other content */
+  backdrop-filter: blur(0.5px); /* Apply blur effect */
+  -webkit-backdrop-filter: blur(8px); /* For Safari */
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0;
+  margin-top: auto;
+  flex-direction: column;
+  display: flex;
+}
+
+.dialog-box1 {
+  width: 700px;
+  height: 500px;
+  background: #1b1b1b;
+  z-index: 1;
+  border-radius: 10px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.dialog-container1 {
+  height: 470px;
+  width: 650px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dialog-headers1 {
+  height: 27px;
+  width: 540px;
+  flex-direction: row;
+  display: flex;
+  margin-bottom: 15px;
+  margin-left: auto;
+  margin-right: 0;
+  justify-content: space-between;
+}
+
+.dialog-headers1 p {
+  font-family: poppins;
+  font-size: 18px;
+  color: #ad8547;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 100px;
+}
+
+.dialog-content1 {
+  width: 650px;
+  height: 380px;
+  flex-direction: column;
+  display: flex;
+  justify-content: space-between;
+}
+
+.email-phone1 {
+  width: 570px;
+  height: 80px;
+  display: flex;
+  flex-direction: row;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: space-between;
+}
+
+.birthdate-salary1 {
+  width: 580px;
+  height: 80px;
+  display: flex;
+  flex-direction: row;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: space-between;
+}
+
+.location1 {
+  width: 580px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.worktype1 {
+  width: 580px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.savebutton1 {
+  margin-left: auto;
+  margin-right: auto;
+  height: 46px;
+  width: 131px;
+  border: none;
+  border-radius: 5px;
+  background: #ad8547;
+  font-family: poppins;
+  font-size: 15px;
+  color: white;
+}
+
+.email1 {
+  height: 80px;
+  width: 250px;
+  flex-direction: column;
+  display: flex;
+}
+
+.birthdate1 {
+  height: 80px;
+  width: 250px;
+  flex-direction: column;
+  display: flex;
+}
+
+.phone1 {
+  height: 80px;
+  width: 250px;
+  flex-direction: column;
+  display: flex;
+}
+
+.salary1 {
+  height: 80px;
+  width: 250px;
+  flex-direction: column;
+  display: flex;
+}
+
+.salary01 {
+  width: 250px;
+  height: 50px;
+  border: none;
+  border-radius: 8px;
+  background: #292929;
+  border: 1px solid transparent;
+  font-size: 15px;
+  font-family: poppins;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.email01 {
+  width: 250px;
+  height: 50px;
+  border: none;
+  border-radius: 8px;
+  background: #292929;
+  border: 1px solid transparent;
+  font-size: 15px;
+  font-family: poppins;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.birthdate01 {
+  width: 250px;
+  height: 50px;
+  border: none;
+  border-radius: 8px;
+  background: #292929;
+  border: 1px solid transparent;
+  font-size: 15px;
+  font-family: poppins;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.phone01 {
+  width: 250px;
+  height: 50px;
+  border: none;
+  border-radius: 8px;
+  background: #292929;
+  border: 1px solid transparent;
+  font-size: 15px;
+  font-family: poppins;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.location01 {
+  height: 50px;
+  border: none;
+  border-radius: 8px;
+  background: #292929;
+  border: 1px solid transparent;
+  font-size: 15px;
+  font-family: poppins;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.worktype01 {
+  height: 50px;
+  border: none;
+  border-radius: 8px;
+  background: #292929;
+  border: 1px solid transparent;
+  font-size: 15px;
+  font-family: poppins;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.email1 p {
+  color: #ad8547;
+  margin-top: 0;
+  margin-bottom: 2px;
+  font-family: Poppins;
+  font-size: 15px;
+}
+
+.worktype1 p {
+  color: #ad8547;
+  margin-top: 0;
+  margin-bottom: 2px;
+  font-family: Poppins;
+  font-size: 15px;
+}
+
+.location1 p {
+  color: #ad8547;
+  margin-top: 0;
+  margin-bottom: 2px;
+  font-family: Poppins;
+  font-size: 15px;
+}
+
+.salary1 p {
+  color: #ad8547;
+  margin-top: 0;
+  margin-bottom: 2px;
+  font-family: Poppins;
+  font-size: 15px;
+}
+
+.birthdate1 p {
+  color: #ad8547;
+  margin-top: 0;
+  margin-bottom: 2px;
+  font-family: Poppins;
+  font-size: 15px;
+}
+
+.phone1 p {
+  color: #ad8547;
+  margin-top: 0;
+  margin-bottom: 2px;
+  font-family: Poppins;
+  font-size: 15px;
+}
+
+.dialog-content1 input:focus {
+    border-color: #AD8547;
+    outline: none; /* Optional: remove default focus outline */
+  }
+
