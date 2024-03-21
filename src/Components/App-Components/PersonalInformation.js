@@ -1,38 +1,43 @@
 import React, { useEffect, useState } from "react";
 import "./PersonalInformation.css";
-import PersonalInformationDialog from './PersonalInformationDialog'; // Assuming the correct file name is 'PersonalInformationDialog'
+import PersonalInformationDialog from "./PersonalInformationDialog"; // Assuming the correct file name is 'PersonalInformationDialog'
 import { db } from "../Config/firebase"; // Import auth from Firebase
 import { useUser } from "../App-Components/UserContext";
 import { doc, onSnapshot } from "firebase/firestore";
 
 const PersonalInformation = () => {
-    const { currentUser } = useUser();
-    const [userDetails, setUserDetails] = useState({
-        email: ""
+  const { currentUser } = useUser();
+  const [userDetails, setUserDetails] = useState({
+    email: "",
+  });
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+
+  const handleEditClick = () => {
+    setIsEditDialogOpen(true);
+  };
+
+  useEffect(() => {
+    if (currentUser?.uid) {
+      const userRef = doc(db, "User", currentUser.uid);
+      const unsubscribe = onSnapshot(userRef, (docSnapshot) => {
+        if (docSnapshot.exists()) {
+          const userData = docSnapshot.data();
+          setUserDetails({
+            email: userData.email,
+            phoneNumber: userData.phoneNumber,
+            dob: userData.dob,
+            address: userData.address,
+            salaryExpected: userData.salaryExpected,
+            workType: userData.workType,
+          });
+        } else {
+          console.log("No such document in 'User' collection!");
+        }
       });
-    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
-    const handleEditClick = () => {
-        setIsEditDialogOpen(true);
-    };
-
-    useEffect (() => {
-        if (currentUser?.uid) {
-            const userRef = doc(db, "User", currentUser.uid);
-            const unsubscribe = onSnapshot(userRef, (docSnapshot) => {
-                if (docSnapshot.exists()) {
-                  const userData = docSnapshot.data();
-                  setUserDetails({
-                    email: userData.email
-                  });
-                } else {
-                    console.log("No such document in 'User' collection!");
-                  }
-                });
-
-                return unsubscribe; // Cleanup subscription on unmount
-            }
-          }, [currentUser]);
+      return unsubscribe; // Cleanup subscription on unmount
+    }
+  }, [currentUser]);
   return (
     <div className="personal-information">
       {isEditDialogOpen && (
@@ -81,7 +86,11 @@ const PersonalInformation = () => {
                 </svg>
               </div>
               <div className="phone-details">
-                <h3>+233 -- --- ----</h3>
+                <h3>
+                  {userDetails.phoneNumber
+                    ? userDetails.phoneNumber
+                    : "+233 -- --- ----"}
+                </h3>
                 <p>Phone Number</p>
               </div>
             </div>
@@ -148,7 +157,7 @@ const PersonalInformation = () => {
                 </svg>
               </div>
               <div className="birthday-details">
-                <h3>Day Month Year</h3>
+                <h3>{userDetails.dob ? userDetails.dob : "Day Month Year"}</h3>
                 <p>Birth Date</p>
               </div>
             </div>
@@ -168,7 +177,11 @@ const PersonalInformation = () => {
                 </svg>
               </div>
               <div className="salary-details">
-                <h3>GHS --- ---</h3>
+                <h3>
+                  {userDetails.salaryExpected
+                    ? userDetails.salaryExpected
+                    : "GHS --- ---"}
+                </h3>
                 <p>Salary Expectation</p>
               </div>
             </div>
@@ -198,7 +211,11 @@ const PersonalInformation = () => {
               </svg>
             </div>
             <div className="location-details">
-              <h3>Accra, Ghana</h3>
+              <h3>
+                {userDetails.address
+                  ? userDetails.address
+                  : "City/Province, Country"}
+              </h3>
               <p>Location</p>
             </div>
           </div>
@@ -218,7 +235,11 @@ const PersonalInformation = () => {
               </svg>
             </div>
             <div className="worktype-details">
-              <h3>Remote, Fulltime, Part-Time, Internship, Freelance</h3>
+              <h3>
+                {userDetails.workType
+                  ? userDetails.workType
+                  : "Remote, Fulltime, Part-Time, Internship etc."}
+              </h3>
               <p>Work Type</p>
             </div>
           </div>
@@ -229,4 +250,3 @@ const PersonalInformation = () => {
 };
 
 export default PersonalInformation;
-
