@@ -106,8 +106,7 @@
 }
 
 .savebutton1 {
-  margin-left: auto;
-  margin-right: auto;
+  margin: auto;
   height: 46px;
   width: 131px;
   border: none;
@@ -156,9 +155,35 @@
   font-size: 15px;
   font-family: poppins;
   color: rgba(255, 255, 255, 0.5);
+  padding-left: 10px;
 }
 
+.worktype-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px; /* Adjust spacing as needed */
+  }
+  
+  .worktype01-types {
+    display: flex;
+    align-items: center;
+  }
+
+  .worktype01-types input {
+    background-color: #292929;
+    color: #ffffff; /* Ensuring the text is visible on a dark background */
+    border: none; /* Optional: removes the default border */
+    margin-right: 8px; /* Adds some space between the checkbox and the label */
+  }
+  
+  .worktype1 label {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 15px;
+    font-family: Poppins;
+  }
+
 .email01 {
+  padding-left: 10px;
   width: 250px;
   height: 50px;
   border: none;
@@ -171,6 +196,7 @@
 }
 
 .birthdate01 {
+  padding-left: 10px;
   width: 250px;
   height: 50px;
   border: none;
@@ -183,6 +209,7 @@
 }
 
 .phone01 {
+  padding-left: 10px;
   width: 250px;
   height: 50px;
   border: none;
@@ -195,6 +222,7 @@
 }
 
 .location01 {
+  padding-left: 10px;
   height: 50px;
   border: none;
   border-radius: 8px;
@@ -206,6 +234,7 @@
 }
 
 .worktype01 {
+  padding-left: 10px;
   height: 50px;
   border: none;
   border-radius: 8px;
@@ -265,7 +294,6 @@
 }
 
 .dialog-content1 input:focus {
-    border-color: #AD8547;
-    outline: none; /* Optional: remove default focus outline */
-  }
-
+  border-color: #ad8547;
+  outline: none; /* Optional: remove default focus outline */
+}

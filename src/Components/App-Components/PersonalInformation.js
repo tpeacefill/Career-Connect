@@ -1,18 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./PersonalInformation.css";
-import PersonalInformationDialo from './PersonalInformationDialo';
-import { useState } from "react";
+import PersonalInformationDialog from './PersonalInformationDialog'; // Assuming the correct file name is 'PersonalInformationDialog'
+import { db } from "../Config/firebase"; // Import auth from Firebase
+import { useUser } from "../App-Components/UserContext";
+import { doc, onSnapshot } from "firebase/firestore";
 
 const PersonalInformation = () => {
+    const { currentUser } = useUser();
+    const [userDetails, setUserDetails] = useState({
+        email: ""
+      });
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
-  const handleEditClick = () => {
-    setIsEditDialogOpen(true);
-  };
+    const handleEditClick = () => {
+        setIsEditDialogOpen(true);
+    };
+
+    useEffect (() => {
+        if (currentUser?.uid) {
+            const userRef = doc(db, "User", currentUser.uid);
+            const unsubscribe = onSnapshot(userRef, (docSnapshot) => {
+                if (docSnapshot.exists()) {
+                  const userData = docSnapshot.data();
+                  setUserDetails({
+                    email: userData.email
+                  });
+                } else {
+                    console.log("No such document in 'User' collection!");
+                  }
+                });
+
+                return unsubscribe; // Cleanup subscription on unmount
+            }
+          }, [currentUser]);
   return (
-    
     <div className="personal-information">
-        {isEditDialogOpen && <PersonalInformationDialo onClose={() => setIsEditDialogOpen(false)} />}
+      {isEditDialogOpen && (
+        <PersonalInformationDialog onClose={() => setIsEditDialogOpen(false)} />
+      )}
       <div className="personal-container">
         <div className="personal-infoHeading">
           <h3>All Personal Informations</h3>
@@ -36,7 +61,7 @@ const PersonalInformation = () => {
                 </svg>
               </div>
               <div className="email-details">
-                <h3>peacefillt@outlook.com</h3>
+                <h3>{userDetails.email}</h3>
                 <p>Email Address</p>
               </div>
             </div>
@@ -149,7 +174,7 @@ const PersonalInformation = () => {
             </div>
           </div>
         </div>
-        <div className="loacation-worktype">
+        <div className="location-worktype">
           <div className="location">
             <div className="location-icon">
               <svg
@@ -204,3 +229,4 @@ const PersonalInformation = () => {
 };
 
 export default PersonalInformation;
+
