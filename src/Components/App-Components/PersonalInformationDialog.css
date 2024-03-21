@@ -1,7 +1,7 @@
 .overlay {
   position: fixed;
-  bottom: 1;
-  right: 1;
+  top: 0; /* Changed from bottom: 1; covers the top edge of the viewport */
+  left: 0; /* Changed from right: 1; covers the left edge of the viewport */
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
@@ -10,11 +10,9 @@
   -webkit-backdrop-filter: blur(8px); /* For Safari */
   justify-content: center;
   align-items: center;
-  margin-bottom: 0;
-  margin-top: auto;
-  flex-direction: column;
-  display: flex;
+  display: flex; /* This is enough to center the content, no need for margins */
 }
+
 
 .dialog-box1 {
   width: 700px;
