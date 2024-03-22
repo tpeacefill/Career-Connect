@@ -45,7 +45,7 @@ const PersonalInformation = () => {
       )}
       <div className="personal-container">
         <div className="personal-infoHeading">
-          <h3>All Personal Informations</h3>
+          <h3>All Personal Information</h3>
           <label onClick={handleEditClick}>Edit</label>
         </div>
         <div className="personal-contacts">

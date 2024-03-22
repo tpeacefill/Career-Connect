@@ -7,6 +7,7 @@ import "./Settings.css";
 import Sidepane from "../../App-Components/Sidepane";
 import Menubar from "../../App-Components/Menubar";
 import PersonalInformation from "../../App-Components/PersonalInformation";
+import ResumeDownload from "../../App-Components/ResumeDownload";
 import EditProfileDialog from "../../App-Components/EditProfileDialog";
 import ProfilePicture from "../../App-Components/profilePicture";
 import { useUser } from "../../App-Components/UserContext";
@@ -104,6 +105,7 @@ const Settings = () => {
           )}
         </div>
         <PersonalInformation />
+        <ResumeDownload />
       </div>
       
     </div>

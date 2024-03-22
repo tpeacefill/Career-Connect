@@ -1,0 +1,82 @@
+.resumeDownload {
+  width: 831px;
+  height: 120px;
+  background: #151617;
+  border: none;
+  border-radius: 10px;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.resumeContent {
+  display: flex;
+  flex-direction: column;
+  width: 780px;
+  height: 100px;
+}
+
+.resumeContent h3 {
+  color: white;
+  font-family: Poppins;
+  font-weight: 200;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.resumePlace {
+  flex-direction: row;
+  display: flex;
+  height: 80px;
+  justify-content: space-between;
+}
+
+.resumeCnt {
+  flex-direction: row;
+  display: flex;
+  width: 300px;
+  justify-content: space-between;
+}
+
+.Rsm {
+  height: 45px;
+  width: 45px;
+  background: rgba(41, 42, 44, 0.7);
+  margin-top: auto;
+  margin-bottom: auto;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  display: flex;
+}
+
+.resumeCnt p {
+  color: white;
+  opacity: 0.5;
+  font-family: Poppins;
+  font-weight: 100;
+  font-size: 15px;
+  margin-top: auto;
+  margin-bottom: auto;
+  justify-content: space-between;
+}
+
+
+.rsmDownload {
+    height: 40px;
+    width: 150px;
+    border: none;
+    border-radius: 10px;
+    background: #ad8547;
+    color: white;
+    font-family: Poppins;
+    margin-top: auto;
+    margin-bottom: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
