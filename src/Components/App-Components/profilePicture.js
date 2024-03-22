@@ -28,7 +28,7 @@ const ProfilePicture = ({ className, imageUrl, onUpload, uploading, showDropdown
       )}
       {showDropdown && showDropdownMenu && (
         <div className="dropdown-content">
-          <Link to="/view-profile" onClick={() => setShowDropdown(false)}>View Profile</Link>
+          <Link to="/settings" onClick={() => setShowDropdown(false)}>View Profile</Link>
           <Link to="/settings" onClick={() => setShowDropdown(false)}>Settings</Link>
           <Link to="/help" onClick={() => setShowDropdown(false)}>Help</Link>
         </div>
