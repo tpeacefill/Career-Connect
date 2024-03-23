@@ -1,15 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
 
 .menubar {
-  width: 87%; 
-  height: 82px; 
+  width: 87%;
+  height: 82px;
   flex-shrink: 0;
   background: #151617;
   position: fixed;
   top: 0;
   right: 0;
   display: flex;
-  flex-direction: row; 
+  flex-direction: row;
   justify-content: center;
   align-items: right;
 }
@@ -25,17 +25,15 @@
 .Welcome-div {
   display: flex;
   justify-content: space-between;
-  align-items: right;  
+  align-items: right;
   flex-direction: column;
-  width: 250px; 
+  width: 250px;
   height: 60px;
 }
 
-
 .Welcome-div h4,
 .Welcome-div p {
-  margin: 0; 
-  
+  margin: 0;
 }
 .Welcome-div h4 {
   color: #ffff;
@@ -47,7 +45,7 @@
 }
 
 .Welcome-div p {
-  color: rgba(255, 255, 255, 0.5);;
+  color: rgba(255, 255, 255, 0.5);
   font-family: Poppins;
   font-size: 15px;
   font-style: normal;
@@ -60,9 +58,10 @@
   height: 40px;
   flex-shrink: 0;
   border-radius: 1.5rem;
-  background: rgba(41, 42, 44, 0.7) url('../Images/search-icon.svg') no-repeat 285px center;
+  background: rgba(41, 42, 44, 0.7) url("../Images/search-icon.svg") no-repeat
+    285px center;
   display: flex;
-  justify-content: center; 
+  justify-content: center;
   border: 1px solid rgba(41, 42, 44, 0.7);
   color: rgba(255, 255, 255, 0.5);
   padding-left: 30px;
@@ -75,9 +74,9 @@
 .search-bar:focus {
   border-color: rgba(173, 132, 71, 0.5);
   outline: none;
-  background: rgba(41, 42, 44, 0.7) url('../Images/search-icon.svg') no-repeat 10px center;
+  background: rgba(41, 42, 44, 0.7) url("../Images/search-icon.svg") no-repeat
+    10px center;
 }
-
 
 .search-bar::placeholder {
   text-align: center;
@@ -116,11 +115,37 @@
   /* Other styles specific to Menubar ProfilePicture */
 }
 
-
 .menubar-profile-picture .profile-image {
   width: 37px;
   height: 37px;
   border-radius: 50%;
   object-fit: cover; /* This will make sure the image covers the area without stretching */
   margin-right: 20px;
+}
+
+.search-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(41, 42, 44, 0.7);
+  border: 1px solid #ccc;
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+  width: 600px;
+  margin-left: 490px;
+  margin-right: auto;
+  border: none;
+  border-radius: 8px;
+}
+
+.dropdown-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.dropdown-item:hover {
+  background-color: rgba(41, 42, 44, 0.7);
 }
