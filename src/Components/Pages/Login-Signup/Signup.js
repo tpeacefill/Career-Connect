@@ -26,9 +26,13 @@ const Signup = () => {
   };
 
   // Helper function to get initials
-const getInitials = (name) => {
-  return name.split(' ').map((n) => n[0]).join('').toUpperCase();
-};
+  const getInitials = (name) => {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase();
+  };
 
   const signup = async () => {
     try {
@@ -40,14 +44,15 @@ const getInitials = (name) => {
       const user = userCredential.user;
       const initials = getInitials(fullName);
       const timestamp = Timestamp.now(); // Get the current timestamp
+      const fullNameLowerCase = fullName.toLowerCase(); // Convert full name to lowercase
 
       await setDoc(doc(db, "User", user.uid), {
         fullName,
+        fullNameLowerCase, // Store the lowercase full name
         email,
-        dateJoined: timestamp, // Save the current timestamp as dateJoined
-        lastActive: timestamp, // Initialize lastActive with the current timestamp
+        dateJoined: timestamp,
+        lastActive: timestamp,
         profilePicture: initials,
-
       });
 
       setShowSuccess(true);
@@ -60,8 +65,9 @@ const getInitials = (name) => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         await updateLastActive(user.uid);
-        navigate("/dashboard", { state: { userName: user.displayName || fullName } });
-
+        navigate("/dashboard", {
+          state: { userName: user.displayName || fullName },
+        });
       }
     });
 
@@ -74,22 +80,22 @@ const getInitials = (name) => {
       const user = result.user;
       const timestamp = Timestamp.now(); // Get the current timestamp
       const initials = getInitials(user.displayName || "");
+      const fullNameLowerCase = (user.displayName || "").toLowerCase(); // Convert full name to lowercase
 
       await setDoc(doc(db, "User", user.uid), {
         fullName: user.displayName,
+        fullNameLowerCase, // Store the lowercase full name
         email: user.email,
         dateJoined: timestamp,
         lastActive: timestamp,
         profilePicture: initials,
       });
 
-
       setShowSuccess(true);
     } catch (error) {
       setError(error.message);
     }
   };
-
 
   const closeErrorOverlay = () => {
     setError(null);
@@ -99,7 +105,6 @@ const getInitials = (name) => {
     setShowSuccess(false);
     navigate("/dashboard", { state: { userName: fullName } });
   };
-
 
   return (
     <div className="signup-page">
