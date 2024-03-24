@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import {
   getFirestore,
   collection,
@@ -17,14 +17,15 @@ const Menubar = () => {
   const firstName = profileData.fullName?.split(" ")[0] || "User";
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const [showDropdown, setShowDropdown] = useState(false); // State to control dropdown display
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const db = getFirestore();
+  const searchBarRef = useRef(null);
+  const dropdownRef = useRef(null);
 
-  // Memoize performSearch function
   const performSearch = useCallback(() => {
     if (searchQuery.length > 0) {
-      setShowDropdown(true); // Show the dropdown when search begins
+      setShowDropdown(true);
       const searchLowerCase = searchQuery.toLowerCase();
 
       const q = query(
@@ -46,21 +47,34 @@ const Menubar = () => {
         });
     } else {
       setSearchResults([]);
-      setShowDropdown(false); // Hide the dropdown when search is cleared
+      setShowDropdown(false);
     }
   }, [db, searchQuery]);
 
-  // useEffect hook to trigger performSearch on searchQuery changes
   useEffect(() => {
     performSearch();
   }, [performSearch]);
 
-  const handleSelectUser = (user) => {
-    // Implement the action when a user is selected
-    console.log(user); // Placeholder action
-    setShowDropdown(false); // Hide the dropdown
-    setSearchQuery(""); // Optionally clear the search query
-  };
+  // Function to hide the dropdown if the click is outside the search bar and dropdown
+  const handleClickOutside = useCallback((event) => {
+    if (
+      searchBarRef.current &&
+      dropdownRef.current &&
+      !searchBarRef.current.contains(event.target) &&
+      !dropdownRef.current.contains(event.target)
+    ) {
+      setShowDropdown(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Attach the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Remove the event listener on cleanup
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [handleClickOutside]);
 
   return (
     <div className="menubar">
@@ -70,6 +84,7 @@ const Menubar = () => {
           <p>Let's get going today!</p>
         </div>
         <input
+          ref={searchBarRef}
           className="search-bar"
           type="text"
           placeholder="Search"
@@ -82,13 +97,9 @@ const Menubar = () => {
           }}
         />
         {showDropdown && searchResults.length > 0 && (
-          <div className="search-dropdown">
+          <div ref={dropdownRef} className="search-dropdown">
             {searchResults.map((user) => (
-              <div
-                key={user.id}
-                onClick={() => handleSelectUser(user)}
-                className="dropdown-item"
-              >
+              <div key={user.id} className="dropdown-item">
                 {user.fullName}
               </div>
             ))}
