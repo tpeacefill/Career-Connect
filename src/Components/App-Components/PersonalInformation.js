@@ -5,7 +5,7 @@ import { db } from "../Config/firebase"; // Import auth from Firebase
 import { useUser } from "../App-Components/UserContext";
 import { doc, onSnapshot } from "firebase/firestore";
 
-const PersonalInformation = () => {
+const PersonalInformation = ({ isProfilePage }) => {
   const { currentUser } = useUser();
   const [userDetails, setUserDetails] = useState({
     email: "",
@@ -46,7 +46,7 @@ const PersonalInformation = () => {
       <div className="personal-container">
         <div className="personal-infoHeading">
           <h3>All Personal Information</h3>
-          <label onClick={handleEditClick}>Edit</label>
+          {!isProfilePage && <label onClick={handleEditClick}>Edit</label>}
         </div>
         <div className="personal-contacts">
           <div className="personal1">

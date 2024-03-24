@@ -1,0 +1,131 @@
+.settings {
+    display: grid;
+    grid-template-columns: 13% 87%; /* 13% for Sidepane, 87% for Menubar and page-content */
+    grid-template-rows: 82px calc(100vh - 82px); /* 82px for Menubar, remaining for page-content */
+}
+
+.page-content {
+    grid-column: 2; /* Span across the second column */
+    grid-row: 2; /* Span across the second row */
+    background: #1b1b1b;
+  }
+
+  .dash-content {
+    width: 831px;
+    height: 228px;
+    border: none;
+    border-radius: 10px;
+    margin-top: 35px;
+    margin-left: 20px;
+    background: #151617;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .profileContent {
+    height: 178px;
+    width: 800px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  .profileCnt {
+    height: 90px;
+    width: 800px;
+    flex-direction: row;
+    display: flex;
+    margin-bottom: 15px;
+  }
+
+  .settings-profile-picture .profile-initials {
+    width: 90px;
+    height: 90px;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color:  #ad8547; /* Choose a background color that fits your design */
+    color: white;
+    margin-right: 20px;
+    /* other styles you want to override */
+  }
+
+  .profile-image {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover; /* This will make sure the image covers the area without stretching */
+    margin-right: 20px;
+  }
+
+  .name-password {
+    width: 275px;
+    height: 61px;
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 299px;
+  }
+
+  .name-password-name {
+    color: white;
+    font-size: 32px;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-family: Poppins;
+    font-weight: 300;
+  }
+
+  .name-password-email {
+    color: white;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-family: Poppins;
+    font-weight: 100;
+    opacity: 0.50;
+    margin-top: -10px;
+  }
+
+  .edit-profile {
+    height: 43px;
+    width: 125px;
+    background: #ad8547;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 20px;
+  }
+
+  .profilebio {
+    height: auto;
+    width: 650px;
+    display: flex;
+    flex-direction: column; /* Set flex-direction to column */
+  }
+
+  .profilebio p {
+    color: white;
+    opacity: 0.5;
+    word-wrap: break-word; /* or overflow-wrap: break-word; */
+  }
+  
+  
+  .dialog-overlay {
+  position: fixed; /* Fixed position to cover the entire screen */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  display: flex;
+  justify-content: center; /* Center children horizontally */
+  align-items: center; /* Center children vertically */
+  z-index: 1000; /* High z-index to ensure it's on top of other content */
+}
+
