@@ -5,7 +5,7 @@ import { db } from "../Config/firebase"; // Import auth from Firebase
 import { useUser } from "../App-Components/UserContext";
 import { doc, onSnapshot } from "firebase/firestore";
 
-const PersonalInformation = ({ isProfilePage }) => {
+const PersonalInformation = ({ editable = true }) => {
   const { currentUser } = useUser();
   const [userDetails, setUserDetails] = useState({
     email: "",
@@ -46,7 +46,8 @@ const PersonalInformation = ({ isProfilePage }) => {
       <div className="personal-container">
         <div className="personal-infoHeading">
           <h3>All Personal Information</h3>
-          {!isProfilePage && <label onClick={handleEditClick}>Edit</label>}
+          {/* Conditionally render the Edit label based on `editable` */}
+          {editable && <label onClick={handleEditClick}>Edit</label>}
         </div>
         <div className="personal-contacts">
           <div className="personal1">

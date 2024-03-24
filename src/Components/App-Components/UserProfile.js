@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, db } from "../../Config/firebase";
+import { auth, db } from "../Config/firebase";
 import { signOut } from "firebase/auth";
 import { doc, onSnapshot } from "firebase/firestore";
 import "./UserProfile.css";
-import Sidepane from "../../App-Components/Sidepane";
-import Menubar from "../../App-Components/Menubar";
-import PersonalInformation from "../../App-Components/PersonalInformation";
-import ResumeDownload from "../../App-Components/ResumeDownload";
-import EditProfileDialog from "../../App-Components/EditProfileDialog";
-import ProfilePicture from "../../App-Components/profilePicture";
-import { useUser } from "../../App-Components/UserContext";
+import Sidepane from "../App-Components/Sidepane";
+import Menubar from "../App-Components/Menubar";
+import PersonalInformation from "../App-Components/PersonalInformation";
+import ResumeDownload from "../App-Components/ResumeDownload";
+import ProfilePicture from "../App-Components/profilePicture";
+import { useUser } from "../App-Components/UserContext";
 
 const UserProfile = () => {
   const navigate = useNavigate();
@@ -20,7 +19,6 @@ const UserProfile = () => {
     email: "",
     bio: "",
   });
-  const [showEditProfile, setShowEditProfile] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
@@ -44,13 +42,6 @@ const UserProfile = () => {
     }
   }, [currentUser]);
 
-  const handleEditClick = () => {
-    setShowEditProfile(true);
-  };
-
-  const handleCloseEditProfile = () => {
-    setShowEditProfile(false);
-  };
 
   const logout = async () => {
     try {
@@ -91,19 +82,10 @@ const UserProfile = () => {
               <p>{userDetails.bio || "Add your bio in here....."}</p>
             </div>
           </div>
-          {showEditProfile && currentUser?.uid && (
-            <div className="dialog-overlay">
-              <EditProfileDialog
-                onClose={handleCloseEditProfile}
-                userId={currentUser?.uid}
-                updateBio={updateBio}
-              />
-            </div>
-          )}
         </div>
-        <PersonalInformation isProfilePage={true} />
+        <PersonalInformation editable={false} />
 
-        <ResumeDownload />
+        <ResumeDownload editable={false} />
       </div>
     </div>
   );
