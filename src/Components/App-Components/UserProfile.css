@@ -63,14 +63,14 @@
     margin-right: 20px;
   }
 
-  .name-password {
+  .name-passwordd {
     width: 275px;
     height: 61px;
     display: flex;
     flex-direction: column;
     margin-top: auto;
     margin-bottom: auto;
-    margin-right: 299px;
+    margin-right: 280px;
   }
 
   .name-password-name {
@@ -129,3 +129,18 @@
   z-index: 1000; /* High z-index to ensure it's on top of other content */
 }
 
+.send-message {
+    height: 40px;
+    width: 150px;
+    border: none;
+    border-radius: 10px;
+    background: #ad8547;
+    color: white;
+    font-family: Poppins;
+    margin-top: auto;
+    margin-bottom: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}

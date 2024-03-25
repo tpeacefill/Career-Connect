@@ -53,6 +53,10 @@ const UserProfile = () => {
     }
   };
 
+  const handleMessageClick = () => {
+    
+  };
+
   const updateBio = (newBio) => {
     setUserDetails((prevDetails) => ({
       ...prevDetails,
@@ -73,10 +77,13 @@ const UserProfile = () => {
                 showDropdownMenu={false} // Set to false for Settings
                 imageUrl={imageUrl}
               />
-              <div className="name-password">
+              <div className="name-passwordd">
                 <h3 className="name-password-name">{userDetails.fullName}</h3>
                 <p className="name-password-email">{userDetails.email}</p>
               </div>
+              <button className="send-message" onClick={handleMessageClick}>
+                Message
+              </button>
             </div>
             <div className="profilebio">
               <p>{userDetails.bio || "Add your bio in here....."}</p>
