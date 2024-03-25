@@ -1,45 +1,47 @@
-import React, { useRef, useEffect } from "react"; // Step 1
+import React, { useState, useRef, useEffect } from "react"; // Adjusted import
 import { Link } from "react-router-dom";
 import "./profilePicture.css";
 import { useUser } from "../App-Components/UserContext";
 
 const ProfilePicture = ({ className, imageUrl, onUpload, uploading, showDropdownMenu = false }) => {
-  const [showDropdown, setShowDropdown] = React.useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
   const { profileData } = useUser();
-  const containerRef = useRef(null); // Step 2
+  const containerRef = useRef(null);
 
   const toggleDropdown = () => {
-    if (showDropdownMenu) { // Only show dropdown if enabled
+    if (showDropdownMenu) {
       setShowDropdown(!showDropdown);
     }
   };
 
-  useEffect(() => { // Step 3
+  useEffect(() => {
     function handleClickOutside(event) {
       if (containerRef.current && !containerRef.current.contains(event.target)) {
-        setShowDropdown(false); // Step 4
+        setShowDropdown(false);
       }
     }
 
-    // Add when the component mounts
     document.addEventListener("mousedown", handleClickOutside);
-    // Return function to be called when it unmounts
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [containerRef]); // Empty array ensures effect only runs on mount and unmount
+  }, []);
 
+  // Here, ensure that imageUrl is treated strictly as a URL, not as any non-null value
+  const hasValidImageUrl = imageUrl && (imageUrl.startsWith('http://') || imageUrl.startsWith('https://'));
+
+  // Correctly calculate initials only if fullName is available
   const initials = profileData.fullName
-    ? profileData.fullName.split(' ').map((name) => name[0]).join('').toUpperCase()
-    : "U";
+    ? profileData.fullName.split(' ').map(name => name[0]).join('').toUpperCase()
+    : "";
 
   const containerClasses = `profile-container ${className || ''}`.trim();
 
   return (
-    <div className={containerClasses} ref={containerRef} onClick={toggleDropdown}> {/* Attach the ref here */}
-      {imageUrl ? ( // If imageUrl exists, display the image
+    <div className={containerClasses} ref={containerRef} onClick={toggleDropdown}>
+      {hasValidImageUrl ? (
         <img src={imageUrl} alt="Profile" className="profile-image" />
-      ) : ( // Otherwise, display initials
+      ) : (
         <div className="profile-initials">{initials}</div>
       )}
       {showDropdown && showDropdownMenu && (

@@ -1,44 +1,51 @@
 /* ProfilePicture.css */
 
-  .profile-container {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-  }
-  
-  .profile-initials {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color:  #ad8547; /* Choose a background color that fits your design */
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px; /* Adjust as necessary */
-  }
-  
-  .dropdown-content {
-    display: none;
-    right: 0;
-    position: absolute;
-    background-color:  #151617;;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 2000;
-  }
-  
-  .profile-container .dropdown-content {
-    display: block;
-  } 
-  
-  .dropdown-content a {
-    color: white;
-    opacity: 0.5;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
-  
-  .dropdown-content a:hover {background-color: rgba(41, 42, 44, 0.7);}
-  
+.profile-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.profile-initials {
+  display: flex; /* Ensure it's flex to center content */
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ad8547; /* Customizable */
+  color: white;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px; /* Customizable */
+}
+
+.profile-image {
+  width: 40px; /* Match the size of initials for consistency */
+  height: 40px;
+  border-radius: 50%;
+}
+
+.dropdown-content {
+  display: none;
+  right: 0;
+  position: absolute;
+  background-color: #151617;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 2000;
+}
+
+.profile-container .dropdown-content {
+  display: block;
+}
+
+.dropdown-content a {
+  color: white;
+  opacity: 0.5;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: rgba(41, 42, 44, 0.7);
+}
