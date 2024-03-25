@@ -7,6 +7,7 @@ import {
   getDocs,
 } from "firebase/firestore";
 import "./Menubar.css";
+import { useNavigate } from "react-router-dom";
 import { useUser } from "../App-Components/UserContext";
 import Addpost from "../Images/Addpost.svg";
 import Notifications from "../Images/Notifications.svg";
@@ -18,10 +19,19 @@ const Menubar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
+  const navigate = useNavigate(); // Use the useNavigate hook
+
+
 
   const db = getFirestore();
   const searchBarRef = useRef(null);
   const dropdownRef = useRef(null);
+
+  const handleSelectUser = (user) => {
+    // Assuming the user profile page route is '/userprofile/:userId'
+    // Replace ':userId' with how your app's routing is set up
+    navigate(`/userprofile/${user.id}`);
+  };
 
   const performSearch = useCallback(() => {
     if (searchQuery.length > 0) {
@@ -99,7 +109,8 @@ const Menubar = () => {
         {showDropdown && searchResults.length > 0 && (
           <div ref={dropdownRef} className="search-dropdown">
             {searchResults.map((user) => (
-              <div key={user.id} className="dropdown-item">
+              <div key={user.id} onClick={() => handleSelectUser(user)}
+              className="dropdown-item">
                 {user.fullName}
               </div>
             ))}

@@ -39,7 +39,7 @@ function App() {
           <Route path="/network" element={< Network />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/try" element={<Tryout />} />
-          <Route path="/userprofile" element={<UserProfile />} />
+          <Route path="/userprofile/:userId" element={<UserProfile />} />
         </Routes>
       </Router>
       </UserProvider>

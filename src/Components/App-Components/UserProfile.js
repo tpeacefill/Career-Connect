@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { auth, db } from "../Config/firebase";
+import { useNavigate, useParams } from "react-router-dom"; // Import useParams
+import { auth, db } from "../Config/firebase"; // Adjust the path as necessary
 import { signOut } from "firebase/auth";
-import { doc, onSnapshot } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore"; // Use getDoc for one-time fetch
 import "./UserProfile.css";
 import Sidepane from "../App-Components/Sidepane";
 import Menubar from "../App-Components/Menubar";
 import PersonalInformation from "../App-Components/PersonalInformation";
 import ResumeDownload from "../App-Components/ResumeDownload";
-import ProfilePicture from "../App-Components/profilePicture";
+import ProfilePicture from "./profilePicture";
 import { useUser } from "../App-Components/UserContext";
 
 const UserProfile = () => {
   const navigate = useNavigate();
+  const { userId } = useParams(); // Extract userId from the URL parameters
   const { currentUser } = useUser();
   const [userDetails, setUserDetails] = useState({
     fullName: "",
@@ -22,26 +23,26 @@ const UserProfile = () => {
   const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
-    if (currentUser?.uid) {
-      const userRef = doc(db, "User", currentUser.uid);
-      const unsubscribe = onSnapshot(userRef, (docSnapshot) => {
-        if (docSnapshot.exists()) {
-          const userData = docSnapshot.data();
+    const fetchUserData = async () => {
+      if (userId) {
+        const userRef = doc(db, "User", userId);
+        const docSnap = await getDoc(userRef);
+        if (docSnap.exists()) {
+          const userData = docSnap.data();
           setUserDetails({
             fullName: userData.fullName,
             email: userData.email,
             bio: userData.bio || "",
           });
-          setImageUrl(userData.profilePicture || ""); // Set the initial imageUrl
+          setImageUrl(userData.profilePicture || "");
         } else {
           console.log("No such document in 'User' collection!");
         }
-      });
+      }
+    };
 
-      return unsubscribe; // Cleanup subscription on unmount
-    }
-  }, [currentUser]);
-
+    fetchUserData();
+  }, [userId]);
 
   const logout = async () => {
     try {
