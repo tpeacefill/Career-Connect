@@ -1,11 +1,33 @@
 import React, { useEffect, useState } from "react";
 import "./ResumeDownload.css";
-import PersonalInformationDialog from "./PersonalInformationDialog"; // Assuming the correct file name is 'PersonalInformationDialog'
-import { db } from "../Config/firebase"; // Import auth from Firebase
+import { db } from "../Config/firebase";
 import { useUser } from "../App-Components/UserContext";
-import { doc, onSnapshot } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 
-const ResumeDownload = () => {
+
+  const ResumeDownload = () => {
+    const { currentUser } = useUser();
+    const [resumeFileName, setResumeFileName] = useState("");
+  
+    useEffect(() => {
+      const fetchUserDetails = async () => {
+        if (currentUser?.uid) {
+          const userRef = doc(db, "User", currentUser.uid);
+          const docSnap = await getDoc(userRef);
+          if (docSnap.exists()) {
+            const { fullName } = docSnap.data();
+            // Format fullName: replace spaces with underscores and append "_Resume.pdf"
+            const formattedName = `${fullName.replace(/\s+/g, "_")}_Resume.pdf`;
+            setResumeFileName(formattedName);
+          } else {
+            console.log("No such document in 'User' collection!");
+          }
+        }
+      };
+  
+      fetchUserDetails();
+    }, [currentUser]);
+
   return (
     <div className="resumeDownload">
       <div className="resumeContent">
@@ -26,7 +48,7 @@ const ResumeDownload = () => {
                 </g>
               </svg>
             </div>
-            <p>Peacefill_Tawiah_Resume.pdf</p>
+            <p>{resumeFileName}</p>
           </div>
           <button className="rsmDownload">
             Download

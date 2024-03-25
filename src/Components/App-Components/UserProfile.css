@@ -64,13 +64,13 @@
   }
 
   .name-passwordd {
-    width: 275px;
+    width: 290px;
     height: 61px;
     display: flex;
     flex-direction: column;
     margin-top: auto;
     margin-bottom: auto;
-    margin-right: 280px;
+    margin-right: 270px;
   }
 
   .name-password-name {
