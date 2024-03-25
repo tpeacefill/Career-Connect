@@ -54,9 +54,7 @@ const UserProfile = () => {
     }
   };
 
-  const handleMessageClick = () => {
-    
-  };
+  const handleMessageClick = () => {};
 
   const updateBio = (newBio) => {
     setUserDetails((prevDetails) => ({
@@ -93,7 +91,7 @@ const UserProfile = () => {
         </div>
         <PersonalInformation editable={false} userId={userId} />
 
-        <ResumeDownload editable={false} />
+        <ResumeDownload editable={false} userId={userId} />
       </div>
     </div>
   );

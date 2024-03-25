@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
 import "./ResumeDownload.css";
 import { db } from "../Config/firebase";
-import { useUser } from "../App-Components/UserContext";
 import { doc, getDoc } from "firebase/firestore";
+import { useUser } from "../App-Components/UserContext";
+
+const ResumeDownload = ({ userId }) => {
+  const { currentUser } = useUser();
+  const [resumeFileName, setResumeFileName] = useState("");
 
 
-  const ResumeDownload = () => {
-    const { currentUser } = useUser();
-    const [resumeFileName, setResumeFileName] = useState("");
+    // Determine the effective userId to use: prop or current user's ID
+    const effectiveUserId = userId || currentUser?.uid;
   
     useEffect(() => {
       const fetchUserDetails = async () => {
-        if (currentUser?.uid) {
-          const userRef = doc(db, "User", currentUser.uid);
+        if (effectiveUserId) {
+          const userRef = doc(db, "User", effectiveUserId);
           const docSnap = await getDoc(userRef);
           if (docSnap.exists()) {
             const { fullName } = docSnap.data();
@@ -26,7 +29,7 @@ import { doc, getDoc } from "firebase/firestore";
       };
   
       fetchUserDetails();
-    }, [currentUser]);
+    }, [effectiveUserId]);
 
   return (
     <div className="resumeDownload">
