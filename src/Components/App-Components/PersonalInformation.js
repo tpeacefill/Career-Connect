@@ -5,8 +5,9 @@ import { db } from "../Config/firebase"; // Import auth from Firebase
 import { useUser } from "../App-Components/UserContext";
 import { doc, onSnapshot } from "firebase/firestore";
 
-const PersonalInformation = ({ editable = true }) => {
+const PersonalInformation = ({ editable = true, userId }) => {
   const { currentUser } = useUser();
+  const effectiveUserId = userId || currentUser?.uid;
   const [userDetails, setUserDetails] = useState({
     email: "",
   });
@@ -17,8 +18,8 @@ const PersonalInformation = ({ editable = true }) => {
   };
 
   useEffect(() => {
-    if (currentUser?.uid) {
-      const userRef = doc(db, "User", currentUser.uid);
+    if (effectiveUserId) {
+      const userRef = doc(db, "User", effectiveUserId);
       const unsubscribe = onSnapshot(userRef, (docSnapshot) => {
         if (docSnapshot.exists()) {
           const userData = docSnapshot.data();
@@ -37,7 +38,7 @@ const PersonalInformation = ({ editable = true }) => {
 
       return unsubscribe; // Cleanup subscription on unmount
     }
-  }, [currentUser]);
+  }, [effectiveUserId]);
   return (
     <div className="personal-information">
       {isEditDialogOpen && (

@@ -91,7 +91,7 @@ const UserProfile = () => {
             </div>
           </div>
         </div>
-        <PersonalInformation editable={false} />
+        <PersonalInformation editable={false} userId={userId} />
 
         <ResumeDownload editable={false} />
       </div>
