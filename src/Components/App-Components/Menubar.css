@@ -150,20 +150,23 @@
   background-color: rgba(41, 42, 44, 0.7);
 }
 
-
 .notification-dropdown {
   position: absolute;
   top: 100%;
   right: 0;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-  z-index: 100;
+  background-color: #000; /* Solid black background */
+  border: none;
+  z-index: 9999; /* High enough z-index to be on top */
+  border-radius: 10px;
+  width: 350px; /* Set a fixed width */
+  height: 30vh;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5); /* Optional: Add some shadow for better visibility */
 }
 
 .notification-item {
   padding: 8px 12px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #eee; /* If you want borders between items */
+  color: white; /* White text color for readability on black background */
 }
 
 .notification-item:last-child {
