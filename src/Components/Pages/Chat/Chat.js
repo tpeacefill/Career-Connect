@@ -4,7 +4,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../Config/firebase";
 import { signOut } from "firebase/auth";
-import "./Interviews.css";
+import "./Chat.css";
 import Sidepane from '../../App-Components/Sidepane';
 import Menubar from '../../App-Components/Menubar';
 

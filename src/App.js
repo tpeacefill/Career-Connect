@@ -16,6 +16,7 @@ import Help from "./Components/Pages/Help/Help.js";
 import Network from "./Components/Pages/Network/Network.js";
 import Settings from "./Components/Pages/Settings/Settings.js";
 import UserProfile from "./Components/App-Components/UserProfile.js";
+import Chats from "./Components/Pages/Chat/Chat.js";
 import Tryout from "./Components/Pages/Tryout.js";
 
 
@@ -38,6 +39,7 @@ function App() {
           <Route path="/interviews" element={<Interviews />} />
           <Route path="/network" element={< Network />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/chats" element={<Chats />} />
           <Route path="/try" element={<Tryout />} />
           <Route path="/userprofile/:userId" element={<UserProfile />} />
         </Routes>

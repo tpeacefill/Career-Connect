@@ -19,17 +19,20 @@ const Menubar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showNotificationDropdown, setShowNotificationDropdown] =
+    useState(false);
   const navigate = useNavigate(); // Use the useNavigate hook
-
-
-
   const db = getFirestore();
   const searchBarRef = useRef(null);
   const dropdownRef = useRef(null);
+  const notificationRef = useRef(null);
+
+  // Toggle notification dropdown
+  const toggleNotificationDropdown = () => {
+    setShowNotificationDropdown(!showNotificationDropdown);
+  };
 
   const handleSelectUser = (user) => {
-    // Assuming the user profile page route is '/userprofile/:userId'
-    // Replace ':userId' with how your app's routing is set up
     navigate(`/userprofile/${user.id}`);
   };
 
@@ -65,23 +68,26 @@ const Menubar = () => {
     performSearch();
   }, [performSearch]);
 
-  // Function to hide the dropdown if the click is outside the search bar and dropdown
+  // Handle click outside for search dropdown and notification dropdown
   const handleClickOutside = useCallback((event) => {
+    // If the click is outside the search bar and search dropdown, close the search dropdown.
     if (
-      searchBarRef.current &&
-      dropdownRef.current &&
-      !searchBarRef.current.contains(event.target) &&
-      !dropdownRef.current.contains(event.target)
+      searchBarRef.current && !searchBarRef.current.contains(event.target) &&
+      dropdownRef.current && !dropdownRef.current.contains(event.target)
     ) {
       setShowDropdown(false);
     }
+  
+    // If the click is outside the notification icon and its dropdown, close the notification dropdown.
+    if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+      setShowNotificationDropdown(false);
+    }
   }, []);
+  
 
   useEffect(() => {
-    // Attach the event listener
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      // Remove the event listener on cleanup
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [handleClickOutside]);
@@ -109,8 +115,11 @@ const Menubar = () => {
         {showDropdown && searchResults.length > 0 && (
           <div ref={dropdownRef} className="search-dropdown">
             {searchResults.map((user) => (
-              <div key={user.id} onClick={() => handleSelectUser(user)}
-              className="dropdown-item">
+              <div
+                key={user.id}
+                onClick={() => handleSelectUser(user)}
+                className="dropdown-item"
+              >
                 {user.fullName}
               </div>
             ))}
@@ -121,8 +130,17 @@ const Menubar = () => {
           <img
             src={Notifications}
             alt="Notifications"
+            ref={notificationRef}
             className="Notifications"
+            onClick={toggleNotificationDropdown}
           />
+          {showNotificationDropdown && (
+            <div className="notification-dropdown" ref={notificationRef}>
+              <div className="notification-item">
+                You have new notifications!
+              </div>
+            </div>
+          )}
           <ProfilePicture
             className="menubar-profile-picture"
             showDropdownMenu={true}
