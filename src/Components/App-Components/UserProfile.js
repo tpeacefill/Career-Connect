@@ -9,12 +9,10 @@ import Menubar from "../App-Components/Menubar";
 import PersonalInformation from "../App-Components/PersonalInformation";
 import ResumeDownload from "../App-Components/ResumeDownload";
 import ProfilePicture from "./profilePicture";
-import { useUser } from "../App-Components/UserContext";
 
 const UserProfile = () => {
   const navigate = useNavigate();
   const { userId } = useParams(); // Extract userId from the URL parameters
-  const { currentUser } = useUser();
   const [userDetails, setUserDetails] = useState({
     fullName: "",
     email: "",
@@ -34,7 +32,7 @@ const UserProfile = () => {
             email: userData.email,
             bio: userData.bio || "",
           });
-          setImageUrl(userData.profilePicture || "");
+          setImageUrl(userData.profilePictureUrl || "");
         } else {
           console.log("No such document in 'User' collection!");
         }
@@ -56,12 +54,6 @@ const UserProfile = () => {
 
   const handleMessageClick = () => {};
 
-  const updateBio = (newBio) => {
-    setUserDetails((prevDetails) => ({
-      ...prevDetails,
-      bio: newBio,
-    }));
-  };
 
   return (
     <div className="settings">
@@ -75,6 +67,7 @@ const UserProfile = () => {
                 className="settings-profile-picture" // Use a different className here
                 showDropdownMenu={false} // Set to false for Settings
                 imageUrl={imageUrl}
+                fullName={userDetails.fullName} 
               />
               <div className="name-passwordd">
                 <h3 className="name-password-name">{userDetails.fullName}</h3>

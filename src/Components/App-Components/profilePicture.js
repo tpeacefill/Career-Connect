@@ -1,11 +1,11 @@
-import React, { useState, useRef, useEffect } from "react"; // Adjusted import
-import { Link } from "react-router-dom";
+import React, { useState, useRef, useEffect } from "react";
 import "./profilePicture.css";
+import { Link } from "react-router-dom";
 import { useUser } from "../App-Components/UserContext";
 
-const ProfilePicture = ({ className, imageUrl, onUpload, uploading, showDropdownMenu = false }) => {
+const ProfilePicture = ({ className, imageUrl, onUpload, uploading, fullName, showDropdownMenu = false }) => {
   const [showDropdown, setShowDropdown] = useState(false);
-  const { profileData } = useUser();
+  const { profileData } = useUser(); // Use profileData as a fallback
   const containerRef = useRef(null);
 
   const toggleDropdown = () => {
@@ -15,30 +15,27 @@ const ProfilePicture = ({ className, imageUrl, onUpload, uploading, showDropdown
   };
 
   useEffect(() => {
-    function handleClickOutside(event) {
+    const handleClickOutside = (event) => {
       if (containerRef.current && !containerRef.current.contains(event.target)) {
         setShowDropdown(false);
       }
-    }
+    };
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Here, ensure that imageUrl is treated strictly as a URL, not as any non-null value
+  // Check if a valid image URL is provided
   const hasValidImageUrl = imageUrl && (imageUrl.startsWith('http://') || imageUrl.startsWith('https://'));
 
-  // Correctly calculate initials only if fullName is available
-  const initials = profileData.fullName
-    ? profileData.fullName.split(' ').map(name => name[0]).join('').toUpperCase()
-    : "";
-
-  const containerClasses = `profile-container ${className || ''}`.trim();
+  // Use fullName prop if available; otherwise, fall back to the current user's name
+  const displayName = fullName || profileData.fullName || "";
+  const initials = displayName
+    ? displayName.split(' ').map(name => name[0]).join('').toUpperCase()
+    : "U"; // Fallback to "U" if no name is available
 
   return (
-    <div className={containerClasses} ref={containerRef} onClick={toggleDropdown}>
+    <div className={`profile-container ${className || ''}`} ref={containerRef} onClick={toggleDropdown}>
       {hasValidImageUrl ? (
         <img src={imageUrl} alt="Profile" className="profile-image" />
       ) : (
