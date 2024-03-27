@@ -1,17 +1,20 @@
 import React, { useState, useRef } from "react";
 import { storage, db } from "../Config/firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { doc, updateDoc } from "firebase/firestore";
+import {
+  doc,
+  updateDoc,
+  collection, // Import the collection function
+  addDoc, // Import the addDoc function
+} from "firebase/firestore";
 import "./EditProfileDialog.css";
 import closeBrown from "../Images/closebrown.svg";
 import Cropper from "react-cropper";
-import "cropperjs/dist/cropper.css"; // Ensure the CSS is correctly imported
+import "cropperjs/dist/cropper.css";
 import AddImage from "../Images/AddImage.svg";
 import ErrorOverlay from "../Pages/Error-Success/ErrorOverlay";
 import SuccessOverlay from "../Pages/Error-Success/SuccessOverlay";
 import { useUser } from "../App-Components/UserContext";
-
-
 
 const EditProfileDialog = ({ onClose, userId, updateBio }) => {
   const [bio, setBio] = useState("");
@@ -28,6 +31,21 @@ const EditProfileDialog = ({ onClose, userId, updateBio }) => {
     const imageElement = cropperRef?.current;
     const cropper = imageElement?.cropper;
     setCroppedImageUrl(cropper.getCroppedCanvas().toDataURL());
+  };
+
+  // Function to create a notification
+  const createNotification = async () => {
+    const notificationsRef = collection(db, "notifications");
+    try {
+      await addDoc(notificationsRef, {
+        userId: userId,
+        message: "Your profile was updated successfully!",
+        timestamp: Date.now(), // Add a timestamp
+      });
+      console.log("Notification created");
+    } catch (error) {
+      console.error("Error creating notification: ", error);
+    }
   };
 
   const handleBioChange = (e) => setBio(e.target.value);
@@ -94,8 +112,8 @@ const EditProfileDialog = ({ onClose, userId, updateBio }) => {
 
   const handleSaveClick = async () => {
     await uploadImage(updateBio); // Pass updateBio as the callback function
+    createNotification(); // Create a notification after the bio is updated
   };
-  
 
   const handleCloseError = () => {
     setError(null);
@@ -109,11 +127,12 @@ const EditProfileDialog = ({ onClose, userId, updateBio }) => {
   return (
     <div className="dialog-box">
       <div className="dialog-container">
-        {error && (
-          <ErrorOverlay message={error} onClose={handleCloseError} />
-        )}
+        {error && <ErrorOverlay message={error} onClose={handleCloseError} />}
         {success && (
-          <SuccessOverlay message="Profile updated successfully" onClose={handleCloseSuccess} />
+          <SuccessOverlay
+            message="Profile updated successfully"
+            onClose={handleCloseSuccess}
+          />
         )}
         <div className="dialog-headers">
           <p>Edit your user Profile</p>
@@ -122,10 +141,13 @@ const EditProfileDialog = ({ onClose, userId, updateBio }) => {
         <div className="dialog-content">
           <div className="dialog-content-profile">
             {isCropping ? (
-              <div className="cropper-container" style={{ height: 300, width: "100%" }}>
+              <div
+                className="cropper-container"
+                style={{ height: 300, width: "100%" }}
+              >
                 <Cropper
                   src={image}
-                  style={{ height: 250, width: "100%"}}
+                  style={{ height: 250, width: "100%" }}
                   initialAspectRatio={1}
                   aspectRatio={1}
                   preview=".img-preview"

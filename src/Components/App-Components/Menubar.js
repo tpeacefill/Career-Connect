@@ -26,6 +26,35 @@ const Menubar = () => {
   const searchBarRef = useRef(null);
   const dropdownRef = useRef(null);
   const notificationRef = useRef(null);
+  const [notifications, setNotifications] = useState([]);
+
+  // Define fetchNotifications inside useCallback and include profileData in the dependencies
+  const fetchNotifications = useCallback(async () => {
+    if (!profileData || !profileData.id) {
+      console.log("User ID is undefined, skipping notifications fetch.");
+      return;
+    }
+
+    try {
+      const notificationsRef = collection(db, "notifications");
+      const q = query(notificationsRef, where("userId", "==", profileData.id));
+
+      const querySnapshot = await getDocs(q);
+      const fetchedNotifications = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setNotifications(fetchedNotifications);
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+      // Handle the error appropriately
+    }
+  }, [db, profileData]);
+
+  // Use useEffect to call fetchNotifications when the component mounts or profileData.id changes
+  useEffect(() => {
+    fetchNotifications();
+  }, [fetchNotifications]);
 
   // Toggle notification dropdown
   const toggleNotificationDropdown = () => {
@@ -72,18 +101,22 @@ const Menubar = () => {
   const handleClickOutside = useCallback((event) => {
     // If the click is outside the search bar and search dropdown, close the search dropdown.
     if (
-      searchBarRef.current && !searchBarRef.current.contains(event.target) &&
-      dropdownRef.current && !dropdownRef.current.contains(event.target)
+      searchBarRef.current &&
+      !searchBarRef.current.contains(event.target) &&
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target)
     ) {
       setShowDropdown(false);
     }
-  
+
     // If the click is outside the notification icon and its dropdown, close the notification dropdown.
-    if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+    if (
+      notificationRef.current &&
+      !notificationRef.current.contains(event.target)
+    ) {
       setShowNotificationDropdown(false);
     }
   }, []);
-  
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -136,11 +169,14 @@ const Menubar = () => {
           />
           {showNotificationDropdown && (
             <div className="notification-dropdown" ref={notificationRef}>
-              <div className="notification-item">
-                You have new notifications!
-              </div>
+              {notifications.map((notification) => (
+                <div key={notification.id} className="notification-item">
+                  {notification.message}
+                </div>
+              ))}
             </div>
           )}
+
           <ProfilePicture
             className="menubar-profile-picture"
             showDropdownMenu={true}
