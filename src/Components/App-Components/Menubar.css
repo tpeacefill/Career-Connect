@@ -184,3 +184,7 @@
 .notification-timestamp {
   color: rgba(255, 255, 255, 0.5);
 }
+
+.clear-notification {
+  color: #ad8547;
+}

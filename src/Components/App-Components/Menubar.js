@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import { getAuth } from "firebase/auth";
 import {
   getFirestore,
   collection,
   query,
   where,
   getDocs,
+  doc,
+  writeBatch,
 } from "firebase/firestore";
 import "./Menubar.css";
 import { useNavigate } from "react-router-dom";
@@ -16,19 +19,68 @@ import useFetchUserNotifications from "./FetchUserNotification";
 
 const Menubar = () => {
   const { profileData } = useUser();
-  const notifications = useFetchUserNotifications(profileData.id);
+  const { notifications, setNotifications } = useFetchUserNotifications(
+    profileData.id
+  );
+
   const firstName = profileData.fullName?.split(" ")[0] || "User";
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showNotificationDropdown, setShowNotificationDropdown] =
     useState(false);
-  const navigate = useNavigate(); // Use the useNavigate hook
+  const navigate = useNavigate();
   const db = getFirestore();
   const searchBarRef = useRef(null);
   const dropdownRef = useRef(null);
   const notificationRef = useRef(null);
+  const auth = getAuth();
+  const currentUser = auth.currentUser;
 
+  const clearUserNotifications = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const userUid = currentUser.uid;
+    const notificationsRef = collection(db, "notifications");
+    const q = query(notificationsRef, where("userId", "==", userUid));
+
+    try {
+      const querySnapshot = await getDocs(q);
+      const batch = writeBatch(db); // Correct use of writeBatch
+
+      querySnapshot.docs.forEach((docSnapshot) => {
+        batch.delete(doc(db, "notifications", docSnapshot.id));
+      });
+
+      await batch.commit();
+      setNotifications([]);
+      console.log("Notifications cleared.");
+    } catch (error) {
+      console.error("Error clearing notifications:", error);
+    }
+  };
+
+  // Fetch notifications
+  const fetchNotifications = useCallback(async () => {
+    if (!profileData.id) return;
+    const notificationsRef = collection(db, "notifications");
+    const q = query(notificationsRef, where("userId", "==", profileData.id));
+    try {
+      const querySnapshot = await getDocs(q);
+      const notificationsData = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setNotifications(notificationsData);
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+    }
+  }, [profileData.id, db, setNotifications]);
+
+  useEffect(() => {
+    fetchNotifications();
+  }, [profileData.id, db, fetchNotifications]);
 
   const timeAgo = (date) => {
     const formatter = new Intl.RelativeTimeFormat(undefined, {
@@ -55,8 +107,6 @@ const Menubar = () => {
       duration /= division.amount;
     }
   };
-
-
 
   // Toggle notification dropdown
   const toggleNotificationDropdown = () => {
@@ -101,7 +151,6 @@ const Menubar = () => {
 
   // Handle click outside for search dropdown and notification dropdown
   const handleClickOutside = useCallback((event) => {
-    // If the click is outside the search bar and search dropdown, close the search dropdown.
     if (
       searchBarRef.current &&
       !searchBarRef.current.contains(event.target) &&
@@ -111,7 +160,6 @@ const Menubar = () => {
       setShowDropdown(false);
     }
 
-    // If the click is outside the notification icon and its dropdown, close the notification dropdown.
     if (
       notificationRef.current &&
       !notificationRef.current.contains(event.target)
@@ -171,15 +219,19 @@ const Menubar = () => {
           />
           {showNotificationDropdown && (
             <div className="notification-dropdown">
+              <button onMouseDown={clearUserNotifications}>
+                Clear All Notifications
+              </button>
+
               {notifications.map((notification) => (
                 <div key={notification.id} className="notification-item">
                   <p>{notification.message}</p>
                   <p>{timeAgo(notification.timestamp)}</p>
-                  {/* Or use your timeAgo function */}
                 </div>
-              ))} 
+              ))}
             </div>
           )}
+
           <ProfilePicture
             className="menubar-profile-picture"
             showDropdownMenu={true}

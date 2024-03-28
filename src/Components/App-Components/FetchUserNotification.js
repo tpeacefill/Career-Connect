@@ -13,36 +13,39 @@ const useFetchUserNotifications = (userId) => {
 
   useEffect(() => {
     const fetchNotifications = async () => {
-      console.log("userId received:", userId);
-      // Log to verify that we have a user ID
       console.log("Fetching notifications for user ID:", userId);
-
       if (!userId) {
-        console.log("No user ID available, skipping fetch");
+        console.log("No user ID provided");
         return;
       }
 
       const notificationsRef = collection(db, "notifications");
       const q = query(notificationsRef, where("userId", "==", userId));
 
-      try {   
+      try {
         const querySnapshot = await getDocs(q);
-        // Log to see the querySnapshot
         console.log("querySnapshot:", querySnapshot);
 
         const fetchedNotifications = querySnapshot.docs.map((doc) => {
-          // Log each document to see the data
           console.log("Notification doc data:", doc.data());
+
+          // Convert Firestore timestamp to Date object safely
+          const timestamp = doc.data().timestamp;
+          const date = timestamp.toDate
+            ? timestamp.toDate()
+            : new Date(timestamp.seconds * 1000);
+
           return {
             id: doc.id,
             message: doc.data().message,
-            // Log to see the timestamp
-            timestamp: new Date(doc.data().timestamp),
+            timestamp: date,
           };
         });
 
-                // Sort notifications by timestamp in descending order
-                const sortedNotifications = fetchedNotifications.sort((a, b) => b.timestamp - a.timestamp);
+        // Sort notifications by timestamp in descending order
+        const sortedNotifications = fetchedNotifications.sort(
+          (a, b) => b.timestamp - a.timestamp
+        );
         setNotifications(sortedNotifications);
       } catch (error) {
         console.error("Error fetching notifications:", error);
@@ -52,6 +55,6 @@ const useFetchUserNotifications = (userId) => {
     fetchNotifications();
   }, [userId, db]);
 
-  return notifications;
+  return { notifications, setNotifications };
 };
 export default useFetchUserNotifications;
