@@ -219,9 +219,9 @@ const Menubar = () => {
           />
           {showNotificationDropdown && (
             <div className="notification-dropdown">
-              <button onMouseDown={clearUserNotifications}>
+              <label onMouseDown={clearUserNotifications} className="clear-notification ">
                 Clear All Notifications
-              </button>
+              </label>
 
               {notifications.map((notification) => (
                 <div key={notification.id} className="notification-item">
