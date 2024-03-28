@@ -41,7 +41,9 @@ const useFetchUserNotifications = (userId) => {
           };
         });
 
-        setNotifications(fetchedNotifications);
+                // Sort notifications by timestamp in descending order
+                const sortedNotifications = fetchedNotifications.sort((a, b) => b.timestamp - a.timestamp);
+        setNotifications(sortedNotifications);
       } catch (error) {
         console.error("Error fetching notifications:", error);
       }
