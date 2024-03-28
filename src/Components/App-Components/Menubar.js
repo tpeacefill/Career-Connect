@@ -118,36 +118,44 @@ const Menubar = () => {
   };
 
   const performSearch = useCallback(() => {
+    console.log("Search Query:", searchQuery); // Log the current search query
+
     if (searchQuery.length > 0) {
       setShowDropdown(true);
+      // Convert the search query to lowercase and trim it
       const searchLowerCase = searchQuery.toLowerCase();
+      console.log("Search Query Lowercase:", searchLowerCase); // Log the lowercase version of the search query
 
+      // Perform the query in the "User" collection
+      const usersRef = collection(db, "User");
       const q = query(
-        collection(db, "User"),
+        usersRef,
         where("fullNameLowerCase", ">=", searchLowerCase),
         where("fullNameLowerCase", "<=", searchLowerCase + "\uf8ff")
       );
 
+      console.log("Executing Firestore query..."); // Indicate that the Firestore query is about to be executed
+
+      // Fetch the matching documents
       getDocs(q)
         .then((querySnapshot) => {
+          console.log(`Found ${querySnapshot.docs.length} users`); // Log the number of users found
           const users = querySnapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
           }));
-          setSearchResults(users);
+          console.log("Search Results:", users); // Log the search results
+          setSearchResults(users); // Update the state with the search results
         })
         .catch((error) => {
-          console.error("Error getting documents: ", error);
+          console.error("Error getting documents: ", error); // Log any errors encountered during the query
         });
     } else {
-      setSearchResults([]);
+      console.log("Clearing search results."); // Log that search results are being cleared
+      setSearchResults([]); // Clear the search results if the query is empty
       setShowDropdown(false);
     }
   }, [db, searchQuery]);
-
-  useEffect(() => {
-    performSearch();
-  }, [performSearch]);
 
   // Handle click outside for search dropdown and notification dropdown
   const handleClickOutside = useCallback((event) => {
@@ -219,7 +227,10 @@ const Menubar = () => {
           />
           {showNotificationDropdown && (
             <div className="notification-dropdown">
-              <label onMouseDown={clearUserNotifications} className="clear-notification ">
+              <label
+                onMouseDown={clearUserNotifications}
+                className="clear-notification "
+              >
                 Clear All Notifications
               </label>
 
