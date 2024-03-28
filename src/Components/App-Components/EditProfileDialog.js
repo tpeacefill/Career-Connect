@@ -38,15 +38,16 @@ const EditProfileDialog = ({ onClose, userId, updateBio }) => {
     const notificationsRef = collection(db, "notifications");
     try {
       await addDoc(notificationsRef, {
-        userId: userId,
-        message: "Your profile was updated successfully!",
-        timestamp: Date.now(), // Add a timestamp
+        userId: userId, // This should be the ID of the current user
+        message: "Your profile picture and bio were updated successfully!",
+        timestamp: Date.now(),
       });
-      console.log("Notification created");
+      console.log("Notification created for user ID:", userId);
     } catch (error) {
-      console.error("Error creating notification: ", error);
+      console.error("Error creating notification for user ID:", userId, error);
     }
   };
+
 
   const handleBioChange = (e) => setBio(e.target.value);
 
