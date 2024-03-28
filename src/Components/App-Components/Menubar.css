@@ -161,6 +161,7 @@
   width: 350px; /* Set a fixed width */
   height: 30vh;
   overflow-y: auto;
+  margin-top: 10px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.5); /* Optional: Add some shadow for better visibility */
 }
 
@@ -168,8 +169,19 @@
   padding: 8px 12px;
   border-bottom: 1px solid #eee; /* If you want borders between items */
   color: white; /* White text color for readability on black background */
+  background-color: rgba(41, 42, 44, 0.7);
+  width: 350px;
+  height: 5vh;
 }
 
 .notification-item:last-child {
   border-bottom: none;
+}
+
+.notification-item p{
+  color: white;
+}
+
+.notification-timestamp {
+  color: rgba(255, 255, 255, 0.5);
 }

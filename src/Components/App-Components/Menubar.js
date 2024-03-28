@@ -12,9 +12,11 @@ import { useUser } from "../App-Components/UserContext";
 import Addpost from "../Images/Addpost.svg";
 import Notifications from "../Images/Notifications.svg";
 import ProfilePicture from "../App-Components/profilePicture";
+import useFetchUserNotifications from "./FetchUserNotification";
 
 const Menubar = () => {
   const { profileData } = useUser();
+  const notifications = useFetchUserNotifications(profileData.id);
   const firstName = profileData.fullName?.split(" ")[0] || "User";
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -26,35 +28,35 @@ const Menubar = () => {
   const searchBarRef = useRef(null);
   const dropdownRef = useRef(null);
   const notificationRef = useRef(null);
-  const [notifications, setNotifications] = useState([]);
 
-  // Define fetchNotifications inside useCallback and include profileData in the dependencies
-  const fetchNotifications = useCallback(async () => {
-    if (!profileData || !profileData.id) {
-      console.log("User ID is undefined, skipping notifications fetch.");
-      return;
+
+  const timeAgo = (date) => {
+    const formatter = new Intl.RelativeTimeFormat(undefined, {
+      numeric: "auto",
+    });
+
+    const DIVISIONS = [
+      { amount: 60, name: "seconds" },
+      { amount: 60, name: "minutes" },
+      { amount: 24, name: "hours" },
+      { amount: 7, name: "days" },
+      { amount: 4.34524, name: "weeks" },
+      { amount: 12, name: "months" },
+      { amount: Number.POSITIVE_INFINITY, name: "years" },
+    ];
+
+    let duration = (date - new Date()) / 1000;
+
+    for (let i = 0; i < DIVISIONS.length; i++) {
+      const division = DIVISIONS[i];
+      if (Math.abs(duration) < division.amount) {
+        return formatter.format(Math.round(duration), division.name);
+      }
+      duration /= division.amount;
     }
+  };
 
-    try {
-      const notificationsRef = collection(db, "notifications");
-      const q = query(notificationsRef, where("userId", "==", profileData.id));
 
-      const querySnapshot = await getDocs(q);
-      const fetchedNotifications = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setNotifications(fetchedNotifications);
-    } catch (error) {
-      console.error("Error fetching notifications:", error);
-      // Handle the error appropriately
-    }
-  }, [db, profileData]);
-
-  // Use useEffect to call fetchNotifications when the component mounts or profileData.id changes
-  useEffect(() => {
-    fetchNotifications();
-  }, [fetchNotifications]);
 
   // Toggle notification dropdown
   const toggleNotificationDropdown = () => {
@@ -168,15 +170,16 @@ const Menubar = () => {
             onClick={toggleNotificationDropdown}
           />
           {showNotificationDropdown && (
-            <div className="notification-dropdown" ref={notificationRef}>
+            <div className="notification-dropdown">
               {notifications.map((notification) => (
                 <div key={notification.id} className="notification-item">
-                  {notification.message}
+                  <p>{notification.message}</p>
+                  <p>{timeAgo(notification.timestamp)}</p>
+                  {/* Or use your timeAgo function */}
                 </div>
-              ))}
+              ))} 
             </div>
           )}
-
           <ProfilePicture
             className="menubar-profile-picture"
             showDropdownMenu={true}
