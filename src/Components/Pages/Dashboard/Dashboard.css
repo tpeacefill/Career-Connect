@@ -82,7 +82,6 @@
   display: flex;
   flex-direction: row;
   gap: 145px;
-  z-index: 1;
 }
 
 .content-img1,
@@ -92,7 +91,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 1;
 }
 
 .content-img3-1 {
@@ -117,9 +115,8 @@
   align-items: center;
 }
 
-.content-img1 p,
-.content-img2 p,
-.content-img3 p {
+
+.conttext {
   font-size: 18px;
   color: white;
   opacity: 0.5;

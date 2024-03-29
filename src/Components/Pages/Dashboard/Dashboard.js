@@ -9,7 +9,7 @@ import "./Dashboard.css";
 import Sidepane from "../../App-Components/Sidepane";
 import DialogBox from "../../App-Components/Dialog";
 import ExtraSkillsBox from "../../App-Components/ExtraSkillsBox"; // Import ExtraSkillsBox
-import CreateAlertBox from "../../App-Components/CreateAlertBox"; 
+import CreateAlertBox from "../../App-Components/CreateAlertBox";
 import CourseCards from "../../App-Components/CourseCards";
 import JobsContent from "../../App-Components/JobsContent";
 import Menubar from "../../App-Components/Menubar";
@@ -24,7 +24,7 @@ const Dashboard = () => {
   const logout = async () => {
     try {
       await signOut(auth);
-      console.log('User has been logged out');
+      console.log("User has been logged out");
       navigate("/login");
     } catch (error) {
       console.error("Logout Error:", error);
@@ -53,7 +53,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
-      <Sidepane auth={auth} handleLogout={logout} /> 
+      <Sidepane auth={auth} handleLogout={logout} />
       <Menubar />
       <div className="page-content">
         <div className="dash-content1">
@@ -64,21 +64,27 @@ const Dashboard = () => {
           <div className="content-feature">
             <div className="content-imgs">
               <div className="content-img1">
-                <div className="content-img1-inner" onClick={() => toggleDialog("createAlert")}>
+                <div
+                  className="content-img1-inner"
+                  onClick={() => toggleDialog("createAlert")}
+                >
                   <img src={JobAlert} alt="Job Alert" />
-                  <p>Create a job alert</p>
+                  <p className="conttext">Create a job alert</p>
                 </div>
               </div>
               <div className="content-img2">
-                <div className="content-img2-inner" onClick={() => toggleDialog("extraSkills")}>
+                <div
+                  className="content-img2-inner"
+                  onClick={() => toggleDialog("extraSkills")}
+                >
                   <img src={ExtraSkillss} alt="Extra Skill Sets" />
-                  <p>Add extra skill sets</p>
+                  <p className="conttext">Add extra skill sets</p>
                 </div>
               </div>
               <div className="content-img3">
                 <Link to="/resumes" className="content-img3-1">
                   <img src={ResumeLoad} alt="Upload Resume" />
-                  <p>Upload your resume</p>
+                  <p className="conttext">Upload your resume</p>
                 </Link>
               </div>
             </div>
@@ -124,11 +130,12 @@ const Dashboard = () => {
             <div className="activity-alert">
               <p>Create an activity alert</p>
               {isDialogOpen && (
-                <div className="dialog-overlay">
-                  {renderDialogComponent()}
-                </div>
+                <div className="dialog-overlay">{renderDialogComponent()}</div>
               )}
-              <button className="activity-alert-button" onClick={() => toggleDialog("activityAlert")}>
+              <button
+                className="activity-alert-button"
+                onClick={() => toggleDialog("activityAlert")}
+              >
                 <img src={AddIcon} alt="add-icon" />
               </button>
             </div>
@@ -140,10 +147,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
-
-
-
-
-
-

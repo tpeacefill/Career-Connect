@@ -12,16 +12,26 @@ import {
 import "./Menubar.css";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../App-Components/UserContext";
+import ReactDOM from "react-dom";
 import Addpost from "../Images/Addpost.svg";
 import Notifications from "../Images/Notifications.svg";
 import ProfilePicture from "../App-Components/profilePicture";
 import useFetchUserNotifications from "./FetchUserNotification";
+import CreateAlertBox from "../App-Components/CreateAlertBox";
 
 const Menubar = () => {
   const { profileData } = useUser();
   const { notifications, setNotifications } = useFetchUserNotifications(
     profileData.id
   );
+
+  // Step 1: Define state for dialog visibility
+  const [isCreateAlertBoxVisible, setCreateAlertBoxVisible] = useState(false);
+
+  // Step 2: Toggle function for dialog visibility
+  const toggleCreateAlertBox = () => {
+    setCreateAlertBoxVisible(!isCreateAlertBoxVisible);
+  };
 
   const firstName = profileData.fullName?.split(" ")[0] || "User";
   const [searchQuery, setSearchQuery] = useState("");
@@ -217,7 +227,22 @@ const Menubar = () => {
           </div>
         )}
         <div className="Post-items">
-          <img src={Addpost} alt="Addpost" className="Addpost" />
+          <img
+            src={Addpost}
+            alt="Addpost"
+            className="Addpost"
+            onClick={toggleCreateAlertBox} // Ensure this handler is properly set
+          />
+          {isCreateAlertBoxVisible &&
+            ReactDOM.createPortal(
+              <div className="dialog-overlay">
+                <CreateAlertBox
+                  onClose={() => setCreateAlertBoxVisible(false)}
+                />
+              </div>,
+              document.body
+            )}
+
           <img
             src={Notifications}
             alt="Notifications"
