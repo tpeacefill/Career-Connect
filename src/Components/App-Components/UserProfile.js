@@ -18,6 +18,7 @@ const UserProfile = () => {
     email: "",
     bio: "",
   });
+  // Correctly declare imageUrl using useState
   const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
@@ -32,7 +33,8 @@ const UserProfile = () => {
             email: userData.email,
             bio: userData.bio || "",
           });
-          setImageUrl(userData.profilePictureUrl || "");
+          setImageUrl(userData.profilePicture || "");
+          console.log(userData.profilePictureUrl);
         } else {
           console.log("No such document in 'User' collection!");
         }
@@ -54,7 +56,6 @@ const UserProfile = () => {
 
   const handleMessageClick = () => {};
 
-
   return (
     <div className="settings">
       <Sidepane auth={auth} handleLogout={logout} />
@@ -64,11 +65,12 @@ const UserProfile = () => {
           <div className="profileContent">
             <div className="profileCnt">
               <ProfilePicture
-                className="settings-profile-picture" // Use a different className here
-                showDropdownMenu={false} // Set to false for Settings
-                imageUrl={imageUrl}
-                fullName={userDetails.fullName} 
+                className="settings-profile-picture"
+                showDropdownMenu={false}
+                imageUrl={imageUrl} // Make sure this is correctly passed
+                fullName={userDetails.fullName}
               />
+
               <div className="name-passwordd">
                 <h3 className="name-password-name">{userDetails.fullName}</h3>
                 <p className="name-password-email">{userDetails.email}</p>
