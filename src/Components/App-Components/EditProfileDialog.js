@@ -14,7 +14,6 @@ import "cropperjs/dist/cropper.css";
 import AddImage from "../Images/AddImage.svg";
 import ErrorOverlay from "../Pages/Error-Success/ErrorOverlay";
 import SuccessOverlay from "../Pages/Error-Success/SuccessOverlay";
-import { useUser } from "../App-Components/UserContext";
 
 const EditProfileDialog = ({ onClose, userId, updateBio }) => {
   const [bio, setBio] = useState("");
@@ -25,7 +24,6 @@ const EditProfileDialog = ({ onClose, userId, updateBio }) => {
   const [isCropping, setIsCropping] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
-  const { updateProfilePicture } = useUser();
 
   const onCrop = () => {
     const imageElement = cropperRef?.current;

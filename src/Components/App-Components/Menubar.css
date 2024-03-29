@@ -199,6 +199,5 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1050; /* Adjusted z-index */
   background-color: rgba(0,0,0,0.4); /* Optional: adds a semi-transparent backdrop */
 }

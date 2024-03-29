@@ -1,5 +1,5 @@
 .post-box {
-  height: 500px;
+  height: 460px;
   width: 600px;
   background: #1b1b1b;
   z-index: 1;
@@ -10,7 +10,7 @@
 }
 
 .makepost {
-  height: 480px;
+  height: 440px;
   width: 580px;
   margin: auto;
 }
@@ -65,34 +65,60 @@
   font-family: Poppins;
   font-size: 15px;
   border-width: 0.2px;
-  padding: 10px; /* Added padding for better text alignment */
   resize: none; /* Optional: Prevents resizing, remove if you want the user to be able to resize */
   vertical-align: top;
   outline: none; /* Keeps the removal of outline when focused */
-  margin-bottom: 5px;
+  margin-bottom: 15px;
+  padding-top: 5px;
 }
 
 .post-input:focus {
   border-color: transparent; /* Keeps the border color transparent when focused */
 }
 
+.eib {
+  flex-direction: row;
+  display: flex;
+  justify-content: space-between;
+}
+
+.emoji-image svg {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
 .emoji-image {
-    display: flex;
-    flex-direction: row;
-    width: 60px;
-    justify-content: space-between;
-    margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  width: 60px;
+  justify-content: space-between;
 }
 
 .post-button {
-    height: 40px;
-    width: 100px;
-    color: white;
-    font-family: Poppins;
-    border-radius: 25px;
-    border: none;
-    background: #ad8547;
-    margin-right: 0;
-    margin-left: 480px;
-    font-size: 15px;
+  height: 40px;
+  width: 100px;
+  color: white;
+  font-family: Poppins;
+  border-radius: 25px;
+  border: none;
+  background: #ad8547;
+  font-size: 15px;
+}
+
+/* Add this rule to your CSS file */
+
+.emoji-picker-react {
+  z-index: 9999 !important; /* Adjust the z-index as needed, and make sure it's higher than the dialog's z-index */
+}
+
+.image-upload {
+  /* Style for the image upload area */
+  cursor: pointer;
+}
+
+.preview-img {
+  /* Style for the image preview */
+  max-width: 100%; /* or other styling as needed */
+  border-radius: 4px; /* optional, for styled corners */
+  margin-top: 10px; /* space above the image */
 }

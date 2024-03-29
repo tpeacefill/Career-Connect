@@ -1,8 +1,6 @@
-// App.js
-
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { UserProvider } from './Components/App-Components/UserContext.js';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // Removed Navigate import
+import { UserProvider } from "./Components/App-Components/UserContext.js";
 import SplashScreen from "./Components/Pages/SplashScreen/SplashScreen.js";
 import Login from "./Components/Pages/Login-Signup/Login.js";
 import Signup from "./Components/Pages/Login-Signup/Signup.js";
@@ -19,38 +17,32 @@ import UserProfile from "./Components/App-Components/UserProfile.js";
 import Chats from "./Components/Pages/Chat/Chat.js";
 import Tryout from "./Components/Pages/Tryout.js";
 
-
-
 function App() {
   return (
     <div className="App">
       <UserProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<SplashScreen />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/jobs" element={<Jobs />} />
-          <Route path="/internships" element={<Internships />} />
-          <Route path="/courses" element={<Courses />} />
-          <Route path="/resumes" element={<Resumes />} />
-          <Route path="/help" element={<Help />} />
-          <Route path="/interviews" element={<Interviews />} />
-          <Route path="/network" element={< Network />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/chats" element={<Chats />} />
-          <Route path="/try" element={<Tryout />} />
-          <Route path="/userprofile/:userId" element={<UserProfile />} />
-        </Routes>
-      </Router>
+        <Router>
+          <Routes>
+            <Route path="/" element={<SplashScreen />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/jobs" element={<Jobs />} />
+            <Route path="/internships" element={<Internships />} />
+            <Route path="/courses" element={<Courses />} />
+            <Route path="/resumes" element={<Resumes />} />
+            <Route path="/help" element={<Help />} />
+            <Route path="/interviews" element={<Interviews />} />
+            <Route path="/network" element={<Network />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/chats" element={<Chats />} />
+            <Route path="/try" element={<Tryout />} />
+            <Route path="/userprofile/:userId" element={<UserProfile />} />
+          </Routes>
+        </Router>
       </UserProvider>
     </div>
   );
 }
 
 export default App;
-
-
-
-
