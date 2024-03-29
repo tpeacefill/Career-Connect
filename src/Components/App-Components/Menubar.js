@@ -17,7 +17,7 @@ import Addpost from "../Images/Addpost.svg";
 import Notifications from "../Images/Notifications.svg";
 import ProfilePicture from "../App-Components/profilePicture";
 import useFetchUserNotifications from "./FetchUserNotification";
-import CreateAlertBox from "../App-Components/CreateAlertBox";
+import MakePostBox from "../App-Components/MakePost";
 
 const Menubar = () => {
   const { profileData } = useUser();
@@ -26,11 +26,11 @@ const Menubar = () => {
   );
 
   // Step 1: Define state for dialog visibility
-  const [isCreateAlertBoxVisible, setCreateAlertBoxVisible] = useState(false);
+  const [isMakePostBoxVisible, setMakePostBoxVisible] = useState(false);
 
   // Step 2: Toggle function for dialog visibility
-  const toggleCreateAlertBox = () => {
-    setCreateAlertBoxVisible(!isCreateAlertBoxVisible);
+  const toggleMakePostBox = () => {
+    setMakePostBoxVisible(!isMakePostBoxVisible); 
   };
 
   const firstName = profileData.fullName?.split(" ")[0] || "User";
@@ -231,13 +231,13 @@ const Menubar = () => {
             src={Addpost}
             alt="Addpost"
             className="Addpost"
-            onClick={toggleCreateAlertBox} // Ensure this handler is properly set
+            onClick={toggleMakePostBox} // Ensure this handler is properly set
           />
-          {isCreateAlertBoxVisible &&
+          {isMakePostBoxVisible &&
             ReactDOM.createPortal(
               <div className="dialog-overlay">
-                <CreateAlertBox
-                  onClose={() => setCreateAlertBoxVisible(false)}
+                <MakePostBox
+                  onClose={() => setMakePostBoxVisible(false)}
                 />
               </div>,
               document.body
