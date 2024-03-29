@@ -13,6 +13,9 @@
   height: 440px;
   width: 580px;
   margin: auto;
+  overflow-y: auto; /* Enables scrolling */
+  display: flex;
+  flex-direction: column;
 }
 
 .user-profile {
@@ -68,7 +71,6 @@
   resize: none; /* Optional: Prevents resizing, remove if you want the user to be able to resize */
   vertical-align: top;
   outline: none; /* Keeps the removal of outline when focused */
-  margin-bottom: 15px;
   padding-top: 5px;
 }
 
@@ -114,6 +116,8 @@
 .image-upload {
   /* Style for the image upload area */
   cursor: pointer;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .preview-img {
@@ -121,4 +125,41 @@
   max-width: 100%; /* or other styling as needed */
   border-radius: 4px; /* optional, for styled corners */
   margin-top: 10px; /* space above the image */
+}
+
+.makepost {
+  /* ... existing styles ... */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Add scroll if content overflows vertically */
+}
+
+.post-content {
+  /* This is the new container for the text area and the image preview */
+  /* Adjust padding as needed */
+  border: none; /* Optional border */
+  border-radius: 4px; /* Optional rounded corners */
+  margin-bottom: 16px; /* Space before the buttons */
+  background: rgba(41, 42, 44, 0.7); /* Optional background color */
+  width: 580px;
+  height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+}
+
+.image-preview {
+  width: 100%; /* Full width of the container */
+  min-height: 50px; /* Minimum height to ensure the area is visible even without content */
+  max-height: 200px; /* Set a max-height to limit the container's size */
+  overflow-y: auto; /* Allows vertical scrolling within the container */
+  overflow-x: auto; /* Prevents horizontal scrolling */
+  resize: vertical; /* Allows the container to be resized vertically */
+}
+
+/* Additional styles for the preview-img, emoji-image, and post-button */
+.preview-img {
+  width: 100%; /* Scale the image to match the container's width */
+  height: auto; /* Maintain the image's aspect ratio */
 }
