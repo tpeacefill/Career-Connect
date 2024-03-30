@@ -2,7 +2,7 @@ import React from "react";
 import "./SocialMediaPost.css"; // Assuming you have a CSS file for styling
 import ProfilePicture from "./profilePicture"; // Adjust the path as needed
 
-const SocialMediaPost = ({ user, post }) => {
+const SocialMediaPost = ({ user, post, onNavigateToProfile }) => {
   // Example post object structure:
   // user = { name: "John Doe", profilePicture: "url_to_image" }
   // post = {
@@ -19,9 +19,12 @@ const SocialMediaPost = ({ user, post }) => {
         <ProfilePicture
           imageUrl={user.profilePicture}
           className="profile-image"
+          onClick={() => onNavigateToProfile()}
         />
         <div className="user-info">
-          <div className="user-name">{user.name}</div>
+          <div className="user-name" onClick={() => onNavigateToProfile()}>
+            {user.name}
+          </div>
           <div className="post-time">{post.time}</div>
         </div>
       </div>

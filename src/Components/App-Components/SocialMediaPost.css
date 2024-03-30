@@ -25,6 +25,7 @@
 .user-name {
   font-weight: bold;
   color: white;
+  cursor: pointer;
 }
 
 .post-time {

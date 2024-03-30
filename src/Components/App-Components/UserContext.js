@@ -4,6 +4,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { auth, db } from "../Config/firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 
+
 const UserContext = createContext();
 
 export const useUser = () => useContext(UserContext);

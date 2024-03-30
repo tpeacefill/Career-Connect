@@ -13,9 +13,18 @@ import SocialMediaPost from "../../App-Components/SocialMediaPost";
 
 const Network = () => {
   const navigate = useNavigate();
-  const { profileData } = useUser();
+  const { currentUser, profileData } = useUser();
   const [showMakePostBox, setShowMakePostBox] = useState(false); // Step 1: State to manage modal visibility
   const [posts, setPosts] = useState([]); // State to hold posts
+
+  const handleNavigateToProfile = (userId) => {
+    if (userId === currentUser?.uid) {
+      // Use optional chaining to safely access uid
+      navigate(`/settings`); // Navigate to settings for the current user
+    } else {
+      navigate(`/userprofile/${userId}`); // Navigate to user profile for other users
+    }
+  };
 
   useEffect(() => {
     const fetchPostsAndUserData = async () => {
@@ -152,22 +161,25 @@ const Network = () => {
           )}
           <div className="actual-posts">
             {posts.map((post) => {
-              const postDate = getPostDate(post.time);
+              const postDate = getPostDate(post.createdAt.toDate());
               const readableTime = timeAgo(postDate);
 
               return (
                 <SocialMediaPost
                   key={post.id}
                   user={{
-                    name: post.userName || "Unknown User", // Default value if name is missing
-                    profilePicture:
-                      post.userProfilePicture || "defaultImagePath", // Default path if missing
+                    name: post.userName,
+                    profilePicture: post.userProfilePicture,
+                    userId: post.userId,
                   }}
                   post={{
                     time: readableTime,
-                    message: post.content || "No content available.", // Default if content is missing
-                    media: post.mediaUrl || "", // Assume no media if missing
+                    message: post.content,
+                    media: post.mediaUrl,
                   }}
+                  onNavigateToProfile={() =>
+                    handleNavigateToProfile(post.userId)
+                  }
                 />
               );
             })}
