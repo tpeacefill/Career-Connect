@@ -10,6 +10,8 @@ const SocialMediaPost = ({ user, post }) => {
   //   message: "This is a sample post",
   //   media: "url_to_post_image", // Can be null or empty if no media
   // }
+  // Example usage within the SocialMediaPost component
+  // const formattedTime = post.time.toDate().toLocaleString(); // Adjust formatting as needed
 
   return (
     <div className="social-media-post">
