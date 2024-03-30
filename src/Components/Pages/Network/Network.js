@@ -8,6 +8,7 @@ import Menubar from "../../App-Components/Menubar";
 import ProfilePicture from "../../App-Components/profilePicture";
 import { useUser } from "../../App-Components/UserContext";
 import MakePostBox from "../../App-Components/MakePost"; // Import MakePostBox component
+import SocialMediaPost from "../../App-Components/SocialMediaPost";
 
 const Network = () => {
   const navigate = useNavigate();
@@ -67,6 +68,17 @@ const Network = () => {
               />
             </>
           )}
+          <SocialMediaPost
+            user={{
+              name: "John Doe",
+              profilePicture: "path/to/profile_picture.jpg",
+            }}
+            post={{
+              time: "2 hours ago",
+              message: "This is a sample post",
+              media: "path/to/post_image.jpg",
+            }}
+          />
         </div>
       </div>
     </div>
