@@ -150,25 +150,28 @@ const Network = () => {
               />
             </>
           )}
-          {posts.map((post) => {
-            const postDate = getPostDate(post.time);
-            const readableTime = timeAgo(postDate);
+          <div className="actual-posts">
+            {posts.map((post) => {
+              const postDate = getPostDate(post.time);
+              const readableTime = timeAgo(postDate);
 
-            return (
-              <SocialMediaPost
-                key={post.id}
-                user={{
-                  name: post.userName || "Unknown User", // Default value if name is missing
-                  profilePicture: post.userProfilePicture || "defaultImagePath", // Default path if missing
-                }}
-                post={{
-                  time: readableTime,
-                  message: post.content || "No content available.", // Default if content is missing
-                  media: post.mediaUrl || "", // Assume no media if missing
-                }}
-              />
-            );
-          })}
+              return (
+                <SocialMediaPost
+                  key={post.id}
+                  user={{
+                    name: post.userName || "Unknown User", // Default value if name is missing
+                    profilePicture:
+                      post.userProfilePicture || "defaultImagePath", // Default path if missing
+                  }}
+                  post={{
+                    time: readableTime,
+                    message: post.content || "No content available.", // Default if content is missing
+                    media: post.mediaUrl || "", // Assume no media if missing
+                  }}
+                />
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

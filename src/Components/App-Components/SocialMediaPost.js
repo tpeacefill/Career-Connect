@@ -16,7 +16,10 @@ const SocialMediaPost = ({ user, post }) => {
   return (
     <div className="social-media-post">
       <div className="post-header">
-        <ProfilePicture imageUrl={user.profilePicture} />
+        <ProfilePicture
+          imageUrl={user.profilePicture}
+          className="profile-image"
+        />
         <div className="user-info">
           <div className="user-name">{user.name}</div>
           <div className="post-time">{post.time}</div>

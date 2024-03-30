@@ -44,6 +44,9 @@ const MakePostBox = ({ onClose }) => {
     return mediaDoc.id;
   };
 
+  // Check if postText is empty to determine if the button should be disabled
+  const isPostTextEmpty = postText.trim().length === 0;
+
   const handlePost = async () => {
     let mediaId = null;
 
@@ -170,7 +173,16 @@ const MakePostBox = ({ onClose }) => {
               />
             </svg>
           </div>
-          <button className="post-button" onClick={handlePost}>
+          <button
+            className="post-button"
+            onClick={handlePost}
+            disabled={isPostTextEmpty} // Disable the button if postText is empty
+            style={{
+              background: isPostTextEmpty
+                ? "rgba(255, 255, 255, 0.5)"
+                : "#ad8547",
+            }}
+          >
             Post
           </button>
         </div>

@@ -13,6 +13,11 @@
   margin-bottom: 15px;
 }
 
+.post-header .profile-image {
+    width: 50px;
+    height: 50px;
+}
+
 .user-info {
   margin-left: 10px;
 }
@@ -31,16 +36,21 @@
   margin-bottom: 15px;
   background: #1b1b1b;
   width: 100%;
+  flex-direction: column;
+  display: block;
 }
 
 .post-media {
   width: 100%;
   border-radius: 8px;
   margin-top: 10px;
+  object-fit: cover;
 }
 
 .post-message {
     color: rgba(255, 255, 255, 0.5);
+    height: 80px;
+    text-align: left;
 }
 
 .post-actions {

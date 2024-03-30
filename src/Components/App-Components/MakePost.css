@@ -60,7 +60,7 @@
 
 .post-input {
   width: 580px;
-  height: 320px;
+  height: 300px;
   background: rgba(41, 42, 44, 0.7);
   border: none;
   border-radius: 5px;
@@ -103,6 +103,8 @@
   font-family: Poppins;
   border-radius: 25px;
   border: none;
+  margin-top: auto;
+  margin-bottom: auto;
   background: #ad8547;
   font-size: 15px;
 }
@@ -142,7 +144,6 @@
   margin-bottom: 16px; /* Space before the buttons */
   background: rgba(41, 42, 44, 0.7); /* Optional background color */
   width: 580px;
-  height: 320px;
   display: flex;
   flex-direction: column;
   align-items: center;
