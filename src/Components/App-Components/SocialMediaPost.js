@@ -2,7 +2,7 @@ import React from "react";
 import "./SocialMediaPost.css"; // Assuming you have a CSS file for styling
 import ProfilePicture from "./profilePicture"; // Adjust the path as needed
 
-const SocialMediaPost = ({ user, post, onNavigateToProfile }) => {
+const SocialMediaPost = ({ user, post, onNavigateToProfile, onShare }) => {
   // Example post object structure:
   // user = { name: "John Doe", profilePicture: "url_to_image" }
   // post = {
@@ -12,6 +12,11 @@ const SocialMediaPost = ({ user, post, onNavigateToProfile }) => {
   // }
   // Example usage within the SocialMediaPost component
   // const formattedTime = post.time.toDate().toLocaleString(); // Adjust formatting as needed
+
+  // Function to handle the share action
+  const handleShareClick = () => {
+    onShare(); // This will call handleSharePost(post.id) from the parent component
+  };
 
   return (
     <div className="social-media-post">
@@ -71,7 +76,7 @@ const SocialMediaPost = ({ user, post, onNavigateToProfile }) => {
             />
           </svg>
         </button>
-        <button className="share-button">
+        <button className="share-button" onClick={handleShareClick}>
           Share{" "}
           <svg
             xmlns="http://www.w3.org/2000/svg"

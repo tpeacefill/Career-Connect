@@ -14,8 +14,8 @@
 }
 
 .post-header .profile-image {
-    width: 50px;
-    height: 50px;
+  width: 50px;
+  height: 50px;
 }
 
 .user-info {
@@ -49,9 +49,9 @@
 }
 
 .post-message {
-    color: rgba(255, 255, 255, 0.5);
-    height: 80px;
-    text-align: left;
+  color: rgba(255, 255, 255, 0.5);
+  height: 80px;
+  text-align: left;
 }
 
 .post-actions {
@@ -78,4 +78,23 @@
 .like-button svg {
   margin-top: auto;
   margin-bottom: auto;
+}
+
+.PostDetail {
+  width: 100vw;
+  height: 100vh;
+  background: #2D2D2D;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  overflow: auto;
+}
+
+.social-media-posts {
+  width: 40%;
+  background: #1b1b1b;
+  height: 120%;
+  border-radius: 8px;
+  margin: 20px 0;
+  padding: 15px;
 }

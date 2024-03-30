@@ -26,6 +26,14 @@ const Network = () => {
     }
   };
 
+  const handleSharePost = (postId) => {
+    const postUrl = `${window.location.origin}/post/${postId}`;
+    navigator.clipboard
+      .writeText(postUrl)
+      .then(() => alert("Post link copied to clipboard!"))
+      .catch((err) => console.error("Could not copy post link: ", err));
+  };
+
   useEffect(() => {
     const fetchPostsAndUserData = async () => {
       const postsCollectionRef = collection(db, "Posts");
@@ -170,7 +178,7 @@ const Network = () => {
                   user={{
                     name: post.userName,
                     profilePicture: post.userProfilePicture,
-                    userId: post.userId,
+                    userId: post.userId, // Assuming post.userId is available and stores the ID of the user who created the post
                   }}
                   post={{
                     time: readableTime,
@@ -180,6 +188,7 @@ const Network = () => {
                   onNavigateToProfile={() =>
                     handleNavigateToProfile(post.userId)
                   }
+                  onShare={() => handleSharePost(post.id)} // This function is responsible for sharing logic
                 />
               );
             })}
