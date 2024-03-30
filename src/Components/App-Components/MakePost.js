@@ -4,53 +4,90 @@ import closeBrown from "../Images/closebrown.svg";
 import { useUser } from "../App-Components/UserContext";
 import ProfilePicture from "./profilePicture";
 import { EmojiButton } from "@joeattardi/emoji-button";
+import { db } from "../Config/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const MakePostBox = ({ onClose }) => {
   const { currentUser, profileData } = useUser();
   const [postText, setPostText] = useState("");
-  const [image, setImage] = useState(null); // New state for the image
-  const [imagePreview, setImagePreview] = useState(null); // State to hold the image preview URL
-  const emojiPickerRef = useRef(null); // useRef to hold the emoji picker instance
-  const triggerRef = useRef(null); // useRef for the SVG that triggers the picker
+  const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const emojiPickerRef = useRef(null);
+  const triggerRef = useRef(null);
 
-  // Function to handle file selection
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setImage(file);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result); // Set the preview URL for display
+        setImagePreview(reader.result);
       };
       reader.readAsDataURL(file);
     }
   };
 
+  const uploadMedia = async (file) => {
+    const storage = getStorage();
+    const storageRef = ref(storage, `media/${file.name}`);
+    const snapshot = await uploadBytes(storageRef, file);
+    const url = await getDownloadURL(snapshot.ref);
+
+    const mediaRef = collection(db, "Media");
+    const mediaDoc = await addDoc(mediaRef, {
+      createdAt: serverTimestamp(),
+      type: file.type,
+      url: url,
+      userId: currentUser.uid,
+    });
+    return mediaDoc.id;
+  };
+
+  const handlePost = async () => {
+    let mediaId = null;
+
+    if (image) {
+      mediaId = await uploadMedia(image);
+    }
+
+    const postRef = collection(db, "Posts");
+    await addDoc(postRef, {
+      userId: currentUser.uid,
+      updatedAt: serverTimestamp(),
+      createdAt: serverTimestamp(),
+      content: postText,
+      mediaId: mediaId,
+    });
+
+    // Reset state and close the modal after posting
+    setImage(null);
+    setImagePreview(null);
+    setPostText("");
+    onClose(); // Assuming this function closes the modal
+  };
+
   useEffect(() => {
-    // Create a new EmojiButton instance and assign to the ref
-    // Inside your useEffect in MakePostBox.js
-    emojiPickerRef.current = new EmojiButton({
-      // Ensure this z-index is higher than that of the dialog overlay
-      zIndex: 99999,
-    });
+    const emojiPicker = new EmojiButton({ zIndex: 99999 });
+    emojiPickerRef.current = emojiPicker;
 
-    // Define what should happen when an emoji is selected
-    emojiPickerRef.current.on("emoji", (selection) => {
-      // When an emoji is selected, update the state
-      setPostText((prevPostText) => prevPostText + selection.emoji);
-    });
-
-    // Attach the picker to the trigger element
     const triggerEl = triggerRef.current;
-    triggerEl.addEventListener("click", () =>
-      emojiPickerRef.current.togglePicker(triggerEl)
-    );
-
-    // Cleanup event listeners on unmount
-    return () => {
-      triggerEl.removeEventListener("click", () =>
-        emojiPickerRef.current.togglePicker(triggerEl)
+    if (triggerEl) {
+      triggerEl.addEventListener("click", () =>
+        emojiPicker.togglePicker(triggerEl)
       );
+    }
+
+    emojiPicker.on("emoji", (selection) => {
+      setPostText((prev) => prev + selection.emoji);
+    });
+
+    return () => {
+      if (triggerEl) {
+        triggerEl.removeEventListener("click", () =>
+          emojiPicker.togglePicker(triggerEl)
+        );
+      }
     };
   }, []);
 
@@ -133,7 +170,9 @@ const MakePostBox = ({ onClose }) => {
               />
             </svg>
           </div>
-          <button className="post-button">Post</button>
+          <button className="post-button" onClick={handlePost}>
+            Post
+          </button>
         </div>
       </div>
     </div>
