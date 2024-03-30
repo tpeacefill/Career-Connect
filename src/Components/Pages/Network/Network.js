@@ -38,7 +38,7 @@ const Network = () => {
     const fetchPostsAndUserData = async () => {
       const postsCollectionRef = collection(db, "Posts");
       const querySnapshot = await getDocs(postsCollectionRef);
-      const postsData = await Promise.all(
+      let postsData = await Promise.all(
         querySnapshot.docs.map(async (docSnapshot) => {
           const postData = docSnapshot.data();
           // Fetch user info
@@ -61,11 +61,20 @@ const Network = () => {
           };
         })
       );
+  
+      // Sort the postsData array in descending order based on the createdAt timestamp
+      postsData = postsData.sort((a, b) => {
+        const aTime = a.createdAt?.toDate().getTime() || 0; // Convert Firestore Timestamp to JS Date, then to milliseconds
+        const bTime = b.createdAt?.toDate().getTime() || 0; // Using 0 as fallback for missing createdAt field
+        return bTime - aTime; // Descending order
+      });
+  
       setPosts(postsData);
     };
-
+  
     fetchPostsAndUserData();
   }, []);
+  
 
   function getPostDate(postTime) {
     // Handle Firestore Timestamp directly
