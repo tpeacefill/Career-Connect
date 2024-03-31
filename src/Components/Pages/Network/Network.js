@@ -40,41 +40,45 @@ const Network = () => {
       const querySnapshot = await getDocs(postsCollectionRef);
       let postsData = await Promise.all(
         querySnapshot.docs.map(async (docSnapshot) => {
-          const postData = docSnapshot.data();
+          let postData = docSnapshot.data();
+          // Include the document ID as part of the post object
+          const postWithId = { id: docSnapshot.id, ...postData };
+
           // Fetch user info
-          const userRef = doc(db, "User", postData.userId); // Correct usage of doc
+          const userRef = doc(db, "User", postData.userId);
           const userSnap = await getDoc(userRef);
-          const userData = userSnap.data();
-          // Fetch media info if mediaId exists
-          let mediaUrl = "";
-          if (postData.mediaId) {
-            const mediaRef = doc(db, "Media", postData.mediaId); // Correct usage of doc
-            const mediaSnap = await getDoc(mediaRef);
-            mediaUrl = mediaSnap.data()?.url; // Using optional chaining in case the document or url doesn't exist
+          if (userSnap.exists()) {
+            const userData = userSnap.data();
+            // Add user information to the post object
+            postWithId.userName = userData.fullName;
+            postWithId.userProfilePicture = userData.profilePicture;
           }
-          return {
-            id: docSnapshot.id,
-            ...postData,
-            userName: userData?.fullName, // Using optional chaining in case the document doesn't exist
-            userProfilePicture: userData?.profilePicture,
-            mediaUrl,
-          };
+
+          // Fetch media info if mediaId exists
+          if (postData.mediaId) {
+            const mediaRef = doc(db, "Media", postData.mediaId);
+            const mediaSnap = await getDoc(mediaRef);
+            if (mediaSnap.exists()) {
+              postWithId.mediaUrl = mediaSnap.data().url;
+            }
+          }
+
+          return postWithId;
         })
       );
-  
+
       // Sort the postsData array in descending order based on the createdAt timestamp
       postsData = postsData.sort((a, b) => {
         const aTime = a.createdAt?.toDate().getTime() || 0; // Convert Firestore Timestamp to JS Date, then to milliseconds
         const bTime = b.createdAt?.toDate().getTime() || 0; // Using 0 as fallback for missing createdAt field
         return bTime - aTime; // Descending order
       });
-  
+
       setPosts(postsData);
     };
-  
+
     fetchPostsAndUserData();
   }, []);
-  
 
   function getPostDate(postTime) {
     // Handle Firestore Timestamp directly
@@ -164,6 +168,7 @@ const Network = () => {
               </button>
             </div>
           </div>
+
           {showMakePostBox && (
             <>
               <div
@@ -190,9 +195,12 @@ const Network = () => {
                     userId: post.userId, // Assuming post.userId is available and stores the ID of the user who created the post
                   }}
                   post={{
+                    id: post.id,
                     time: readableTime,
                     message: post.content,
                     media: post.mediaUrl,
+                    likeCount: post.likeCount,
+                    userLikes: post.userLikes,
                   }}
                   onNavigateToProfile={() =>
                     handleNavigateToProfile(post.userId)

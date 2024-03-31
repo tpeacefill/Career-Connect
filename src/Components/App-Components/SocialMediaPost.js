@@ -1,17 +1,65 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useUser } from "../App-Components/UserContext";
+import { db } from "../Config/firebase";
+import { doc, writeBatch, getDoc } from "firebase/firestore";
 import "./SocialMediaPost.css"; // Assuming you have a CSS file for styling
 import ProfilePicture from "./profilePicture"; // Adjust the path as needed
 
 const SocialMediaPost = ({ user, post, onNavigateToProfile, onShare }) => {
-  // Example post object structure:
-  // user = { name: "John Doe", profilePicture: "url_to_image" }
-  // post = {
-  //   time: "2 hours ago",
-  //   message: "This is a sample post",
-  //   media: "url_to_post_image", // Can be null or empty if no media
-  // }
-  // Example usage within the SocialMediaPost component
-  // const formattedTime = post.time.toDate().toLocaleString(); // Adjust formatting as needed
+  const { currentUser } = useUser();
+  const [isLiked, setIsLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(post.likeCount || 0);
+
+  useEffect(() => {
+    console.log("SocialMediaPost post prop:", post);
+    // Assuming post.userLikes is available
+    setIsLiked(post.userLikes?.includes(currentUser.uid));
+  }, [post.id, currentUser.uid, post.userLikes]); // Add post.userLikes to the dependency array
+
+
+  console.log("Post ID:", post.id);
+  console.log("User ID:", currentUser.uid);
+
+  const handleLike = async () => {
+    if (!post.id) {
+      console.error("Post ID is undefined, cannot process like.");
+      return; // Exit the function if post.id is undefined.
+    }
+
+    const postRef = doc(db, "Posts", post.id); // Reference to the post document.
+    const batch = writeBatch(db);
+
+    try {
+        const postSnapshot = await getDoc(postRef);
+        if (postSnapshot.exists()) {
+          let { likeCount, userLikes } = postSnapshot.data();
+          likeCount = likeCount || 0;
+          userLikes = userLikes || [];
+  
+          const userIndex = userLikes.indexOf(currentUser.uid);
+  
+          if (userIndex === -1) {
+            userLikes.push(currentUser.uid);
+            likeCount += 1;
+          } else {
+            userLikes.splice(userIndex, 1);
+            likeCount = Math.max(0, likeCount - 1);
+          }
+  
+          batch.update(postRef, { likeCount, userLikes });
+          await batch.commit();
+          setIsLiked(userIndex === -1);
+          setLikeCount(likeCount);
+        } else {
+          console.error("Post does not exist.");
+        }
+      } catch (error) {
+        console.error("Error processing like:", error);
+      }
+    };
+
+  // SVG fill color based on like status
+  const likeButtonFill = isLiked ? "#ad8547" : "rgba(255, 255, 255, 0.5)";
 
   // Function to handle the share action
   const handleShareClick = () => {
@@ -40,8 +88,8 @@ const SocialMediaPost = ({ user, post, onNavigateToProfile, onShare }) => {
         )}
       </div>
       <div className="post-actions">
-        <button className="like-button">
-          Like{" "}
+        <button className="like-button" onClick={handleLike}>
+          Like {likeCount}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="1em"
@@ -49,7 +97,7 @@ const SocialMediaPost = ({ user, post, onNavigateToProfile, onShare }) => {
             viewBox="0 0 48 48"
           >
             <path
-              fill="#ad8547"
+              fill={likeButtonFill}
               d="M34 9c-4.2 0-7.9 2.1-10 5.4C21.9 11.1 18.2 9 14 9C7.4 9 2 14.4 2 21c0 11.9 22 24 22 24s22-12 22-24c0-6.6-5.4-12-12-12"
             />
           </svg>

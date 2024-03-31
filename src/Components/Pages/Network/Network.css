@@ -38,7 +38,6 @@
   height: 84%;
 }
 
-
 .make-post-element {
   width: 95%;
   height: 80%;
@@ -80,14 +79,14 @@
 }
 
 .dialog-overlay {
-  position: fixed;
+  position: fixed; /* Full coverage */
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
   background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent backdrop */
-  z-index: 1000; /* Ensure this is lower than MakePostBox */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  z-index: 1000; /* Higher than other content but lower than modal */
+  display: flex; /* Flexbox to center children */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
 }

@@ -61,6 +61,8 @@ const MakePostBox = ({ onClose }) => {
       createdAt: serverTimestamp(),
       content: postText,
       mediaId: mediaId,
+      likeCount: 0,
+      userLikes: [],
     });
 
     // Reset state and close the modal after posting
