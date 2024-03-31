@@ -150,10 +150,10 @@ const SocialMediaPost = ({ user, post, onNavigateToProfile, onShare }) => {
         <ProfilePicture
           imageUrl={user.profilePicture}
           className="profile-image"
-          onClick={() => onNavigateToProfile()}
+          onClick={onNavigateToProfile}
         />
         <div className="user-info">
-          <div className="user-name" onClick={() => onNavigateToProfile()}>
+          <div className="user-name" onClick={onNavigateToProfile}>
             {user.name}
           </div>
           <div className="post-time">{post.time}</div>
@@ -215,9 +215,9 @@ const SocialMediaPost = ({ user, post, onNavigateToProfile, onShare }) => {
             <path
               fill="none"
               stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="m20 12l-6.4-7v3.5C10.4 8.5 4 10.6 4 19c0-1.167 1.92-3.5 9.6-3.5V19z"
             />
           </svg>
@@ -248,15 +248,17 @@ const SocialMediaPost = ({ user, post, onNavigateToProfile, onShare }) => {
               {comments.map((comment, index) => (
                 <div key={index} className="comment-item">
                   <div className="User-comment-profile">
-                    <img
-                      src={comment.profilePicture}
-                      alt={comment.fullName}
-                      className="profile-image"
-                    />
-                    <p>{comment.fullName}</p>
-                  </div>
-                  <div>
-                    <p>{comment.content}</p>
+                    <div className="only-comment-profile">
+                      <img
+                        src={comment.profilePicture}
+                        alt={comment.fullName}
+                        className="User-comment-profile-image"
+                      />
+                      <p>{comment.fullName}</p>
+                    </div>
+                    <div className="comment-content">
+                      <p>{comment.content}</p>
+                    </div>
                   </div>
                 </div>
               ))}

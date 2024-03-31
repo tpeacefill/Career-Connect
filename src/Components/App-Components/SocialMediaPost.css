@@ -142,21 +142,42 @@
   margin-bottom: auto;
 }
 
-
 .close-comment-section {
-    height: 24px;
-    width: 24px;
-    margin-top: 0;
-    margin-bottom: 0;
-    margin-left: auto;
+  height: 24px;
+  width: 24px;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: auto;
 }
 
 .comments-list {
-    width: 100%;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
 }
 
-.comment-item .profile-image {
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
+.comment-item {
+  width: 100%;
+  flex-direction: column;
+  display: flex;
+}
+
+.User-comment-profile {
+  display: flex;
+  flex-direction: row;
+}
+
+.User-comment-profile-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.User-comment-profile p {
+    color: white;
+    font-family: Poppins;
+    font-size: 15px;
 }
