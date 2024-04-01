@@ -27,6 +27,7 @@ const Chats = () => {
     <div className="chatss">
       <Sidepane auth={auth} handleLogout={logout} /> 
       <Menubar />
+      <div className="page-content"></div>
     </div>
   );
 };
