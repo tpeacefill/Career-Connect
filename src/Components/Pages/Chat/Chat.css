@@ -4,7 +4,7 @@
   grid-template-rows: 82px calc(100vh - 82px); /* 82px for Menubar, remaining for page-content */
 }
 
-.page-content {
+.page-content1 {
   grid-column: 2; /* Span across the second column */
   grid-row: 2; /* Span across the second row */
   background: #1b1b1b;

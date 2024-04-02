@@ -1,14 +1,19 @@
-// Chat.js
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { auth, db } from "../../Config/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  collection,
+  addDoc,
+  getDocs,
+  serverTimestamp,
+} from "firebase/firestore";
 import { signOut } from "firebase/auth";
 import "./Chat.css";
 import Sidepane from "../../App-Components/Sidepane";
 import Menubar from "../../App-Components/Menubar";
 import ChatListItem from "../../App-Components/ChatListItem";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { EmojiButton } from "@joeattardi/emoji-button";
 
 const Chats = () => {
@@ -18,120 +23,113 @@ const Chats = () => {
   const emojiPickerRef = useRef(null);
   const triggerRef = useRef(null);
   const [postText, setPostText] = useState("");
+  const [chats, setChats] = useState([]);
 
-  console.log("Location:", location);
-
-  const [receiverDetails, setReceiverDetails] = useState({
-    fullName: "",
-    profilePicture: "",
-  });
-
-  const sendMessage = async (db, messageDetails) => {
+  const sendMessage = async (messageDetails) => {
     try {
-      // Add a new document with a generated ID in the "Message" collection
-      await addDoc(collection(db, "Message"), {
-        content: messageDetails.content,
-        createdAt: serverTimestamp(), // Use serverTimestamp for consistency
-        receiverId: messageDetails.receiverId,
-        senderId: messageDetails.senderId,
-        status: "sent", // Example status, adjust as needed
-        // messageId is generated automatically by Firestore
-      });
-      console.log("Document successfully written!");
-    } catch (e) {
-      console.error("Error adding document: ", e);
+      await addDoc(collection(db, "Message"), messageDetails);
+      console.log("Message successfully sent!");
+    } catch (error) {
+      console.error("Error sending message: ", error);
     }
   };
 
-  // Example function to handle message send
-  const handleSendMessage = () => {
-    // Example message details
+  const handleSendMessage = async () => {
+    if (!auth.currentUser) {
+      console.error("No user is signed in.");
+      return;
+    }
+    if (postText.trim() === "") {
+      console.log("No message to send.");
+      return;
+    }
     const messageDetails = {
-      content: "Hello, World!", // This would come from your message input field
-      receiverId: "receiverUserId", // The receiver's userId
-      senderId: "senderUserId", // The sender's userId, likely from auth/current user
+      content: postText.trim(),
+      receiverId: receiverId,
+      senderId: auth.currentUser.uid,
+      createdAt: serverTimestamp(),
+      status: "sent",
     };
-
-    // Call sendMessage with db (Firestore instance) and the message details
-    sendMessage(db, messageDetails);
+    await sendMessage(messageDetails);
+    setPostText("");
   };
 
   useEffect(() => {
-    console.log("Receiver ID:", receiverId);
-    const fetchReceiverDetails = async () => {
-      try {
-        if (receiverId) {
-          const userRef = doc(db, "User", receiverId); // This line changes to use the doc function directly with db
-          const docSnap = await getDoc(userRef);
-          if (docSnap.exists()) {
-            const userData = docSnap.data();
-            console.log("User Data:", userData);
-            setReceiverDetails({
-              fullName: userData.fullName,
-              profilePicture: userData.profilePicture,
-            });
-          } else {
-            console.log("No such document in 'User' collection!");
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching receiver details:", error);
-      }
+    const fetchChats = async () => {
+      const currentUserId = auth.currentUser?.uid;
+      if (!currentUserId) return;
+
+      const chatsRef = collection(db, "Message");
+      const snapshot = await getDocs(chatsRef);
+      const chatUserIds = new Set();
+
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        if (data.senderId === currentUserId) chatUserIds.add(data.receiverId);
+        else if (data.receiverId === currentUserId)
+          chatUserIds.add(data.senderId);
+      });
+
+      const userPromises = Array.from(chatUserIds).map(async (userId) => {
+        const userSnap = await getDoc(doc(db, "User", userId));
+        return { userId, ...userSnap.data() };
+      });
+
+      const users = await Promise.all(userPromises);
+      setChats(users);
     };
 
-    fetchReceiverDetails();
-  }, [receiverId]);
+    fetchChats();
+  }, [auth.currentUser]);
+
+  useEffect(() => {
+    const emojiPicker = new EmojiButton();
+    emojiPickerRef.current = emojiPicker;
+
+    const triggerEl = triggerRef.current;
+    triggerEl.addEventListener("click", () =>
+      emojiPicker.togglePicker(triggerEl)
+    );
+
+    emojiPicker.on("emoji", (emoji) => {
+      setPostText((prev) => prev + emoji);
+    });
+
+    return () => {
+      triggerEl.removeEventListener("click", () =>
+        emojiPicker.togglePicker(triggerEl)
+      );
+    };
+  }, []);
 
   const logout = async () => {
     try {
       await signOut(auth);
-      console.log("User has been logged out");
       navigate("/login");
     } catch (error) {
-      console.error("Logout Error:", error);
+      console.error("Logout error:", error);
     }
   };
-
-  useEffect(() => {
-    const emojiPicker = new EmojiButton({ zIndex: 99999 });
-    emojiPickerRef.current = emojiPicker;
-
-    const triggerEl = triggerRef.current;
-    if (triggerEl) {
-      triggerEl.addEventListener("click", () =>
-        emojiPicker.togglePicker(triggerEl)
-      );
-    }
-
-    emojiPicker.on("emoji", (selection) => {
-      setPostText((prev) => prev + selection.emoji);
-    });
-
-    return () => {
-      if (triggerEl) {
-        triggerEl.removeEventListener("click", () =>
-          emojiPicker.togglePicker(triggerEl)
-        );
-      }
-    };
-  }, []);
 
   return (
     <div className="chatss">
       <Sidepane auth={auth} handleLogout={logout} />
       <Menubar />
-      <div className="page-content">
+      <div className="page-content1">
         <div className="chatList">
-          {receiverDetails.fullName && ( // Check if fullName exists to render the ChatListItem
+          {chats.map((chat) => (
             <ChatListItem
-              key={receiverId} // Use receiverId as key for uniqueness
-              fullName={receiverDetails.fullName}
-              profilePicture={receiverDetails.profilePicture}
-              onClick={() => navigate(`/chat/${receiverId}`)} // Navigate using receiverId
+              key={chat.userId}
+              fullName={chat.fullName || "Unnamed User"}
+              profilePicture={chat.profilePicture || "/defaultProfilePic.jpg"}
+              onClick={() =>
+                navigate(`/chat/${chat.userId}`, {
+                  state: { receiverId: chat.userId },
+                })
+              }
             />
-          )}
+          ))}
         </div>
-
         <div className="main-chat">
           <div className="chatHeader"></div>
           <div className="chat-container"></div>
@@ -165,6 +163,7 @@ const Chats = () => {
                   />
                 </svg>
               </div>
+              {/* Send Icon SVG */}
               <svg
                 className="send-button"
                 onClick={handleSendMessage}
@@ -175,9 +174,7 @@ const Chats = () => {
               >
                 <path
                   fill="#ad8547"
-                  fill-rule="evenodd"
                   d="M2.345 2.245a1 1 0 0 1 1.102-.14l18 9a1 1 0 0 1 0 1.79l-18 9a1 1 0 0 1-1.396-1.211L4.613 13H10a1 1 0 1 0 0-2H4.613L2.05 3.316a1 1 0 0 1 .294-1.071z"
-                  clip-rule="evenodd"
                 />
               </svg>
             </div>
