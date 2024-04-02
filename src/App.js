@@ -36,11 +36,11 @@ function App() {
             <Route path="/interviews" element={<Interviews />} />
             <Route path="/network" element={<Network />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/chats/:userId" element={<Chats />} />
             <Route path="/chats" element={<Chats />} />
             <Route path="/try" element={<Tryout />} />
             <Route path="/userprofile/:userId" element={<UserProfile />} />
             <Route path="/post/:postId" element={<PostDetailPage />} />
-
           </Routes>
         </Router>
       </UserProvider>

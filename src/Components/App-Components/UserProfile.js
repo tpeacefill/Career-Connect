@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom"; // Import useParams
-import { auth, db } from "../Config/firebase"; // Adjust the path as necessary
+import { useNavigate, useParams } from "react-router-dom";
+import { auth, db } from "../Config/firebase";
 import { signOut } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore"; // Use getDoc for one-time fetch
+import { doc, getDoc } from "firebase/firestore";
 import "./UserProfile.css";
 import Sidepane from "../App-Components/Sidepane";
 import Menubar from "../App-Components/Menubar";
@@ -12,13 +12,12 @@ import ProfilePicture from "./profilePicture";
 
 const UserProfile = () => {
   const navigate = useNavigate();
-  const { userId } = useParams(); // Extract userId from the URL parameters
+  const { userId } = useParams();
   const [userDetails, setUserDetails] = useState({
     fullName: "",
     email: "",
     bio: "",
   });
-  // Correctly declare imageUrl using useState
   const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
@@ -34,7 +33,6 @@ const UserProfile = () => {
             bio: userData.bio || "",
           });
           setImageUrl(userData.profilePicture || "");
-          console.log(userData.profilePictureUrl);
         } else {
           console.log("No such document in 'User' collection!");
         }
@@ -54,7 +52,15 @@ const UserProfile = () => {
     }
   };
 
-  const handleMessageClick = () => {};
+  const handleMessageClick = () => {
+    navigate(`/chats/${userId}`, {
+      state: {
+        receiverId: userId,
+        fullName: userDetails.fullName,
+        profilePicture: imageUrl, // Assuming imageUrl holds the profile picture URL
+      },
+    });
+  };
 
   return (
     <div className="settings">
@@ -67,10 +73,9 @@ const UserProfile = () => {
               <ProfilePicture
                 className="settings-profile-picture"
                 showDropdownMenu={false}
-                imageUrl={imageUrl} // Make sure this is correctly passed
+                imageUrl={imageUrl}
                 fullName={userDetails.fullName}
               />
-
               <div className="name-passwordd">
                 <h3 className="name-password-name">{userDetails.fullName}</h3>
                 <p className="name-password-email">{userDetails.email}</p>
@@ -80,12 +85,11 @@ const UserProfile = () => {
               </button>
             </div>
             <div className="profilebio">
-              <p>{userDetails.bio || "Add your bio in here....."}</p>
+              <p>{userDetails.bio || "Add your bio here..."}</p>
             </div>
           </div>
         </div>
         <PersonalInformation editable={false} userId={userId} />
-
         <ResumeDownload editable={false} userId={userId} />
       </div>
     </div>
