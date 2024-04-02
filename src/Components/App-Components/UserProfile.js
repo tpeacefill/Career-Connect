@@ -42,6 +42,8 @@ const UserProfile = () => {
     fetchUserData();
   }, [userId]);
 
+  
+
   const logout = async () => {
     try {
       await signOut(auth);

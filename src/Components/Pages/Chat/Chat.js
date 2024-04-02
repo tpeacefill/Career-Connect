@@ -59,6 +59,51 @@ const Chats = () => {
       const currentUserId = auth.currentUser?.uid;
       if (!currentUserId) return;
 
+      // Get references to the messages collection
+      const chatsRef = collection(db, "Message");
+      // Fetch all messages involving the current user
+      const snapshot = await getDocs(chatsRef);
+      const chatUserIds = new Set();
+
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        // Add both sender and receiver IDs to the set if one of them is the current user
+        if (
+          data.senderId === currentUserId ||
+          data.receiverId === currentUserId
+        ) {
+          chatUserIds.add(data.senderId);
+          chatUserIds.add(data.receiverId);
+        }
+      });
+
+      // Remove the current user's ID from the set
+      chatUserIds.delete(currentUserId);
+
+      // Fetch user details for each unique ID
+      const usersDetails = await Promise.all(
+        Array.from(chatUserIds).map(async (userId) => {
+          const userDoc = await getDoc(doc(db, "User", userId));
+          return userDoc.exists() ? { userId, ...userDoc.data() } : null;
+        })
+      );
+
+      // Filter out any nulls in case a user document doesn't exist
+      const filteredUsersDetails = usersDetails.filter((user) => user !== null);
+
+      setChats(filteredUsersDetails);
+    };
+
+    fetchChats();
+  }, [auth.currentUser]);
+
+  // In Chats.js, adjust the useEffect that fetches chats
+  useEffect(() => {
+    const currentUserId = auth.currentUser?.uid;
+    const fetchChats = async () => {
+      if (!currentUserId) return;
+
+      // Fetch existing chat partners
       const chatsRef = collection(db, "Message");
       const snapshot = await getDocs(chatsRef);
       const chatUserIds = new Set();
@@ -75,12 +120,29 @@ const Chats = () => {
         return { userId, ...userSnap.data() };
       });
 
-      const users = await Promise.all(userPromises);
+      let users = await Promise.all(userPromises);
+
+      // Handle temporary chat partner from UserProfile
+      if (
+        location.state &&
+        location.state.receiverId &&
+        !chatUserIds.has(location.state.receiverId)
+      ) {
+        users = [
+          ...users,
+          {
+            userId: location.state.receiverId,
+            fullName: location.state.fullName,
+            profilePicture: location.state.profilePicture,
+          },
+        ];
+      }
+
       setChats(users);
     };
 
     fetchChats();
-  }, [auth.currentUser]);
+  }, [auth.currentUser, location.state]); // Make sure to include location.state in the dependency array
 
   useEffect(() => {
     const emojiPicker = new EmojiButton();
