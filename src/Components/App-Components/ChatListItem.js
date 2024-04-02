@@ -1,12 +1,10 @@
-// ChatListItem.js
 import React from "react";
 import "./ChatListItem.css";
 import ProfilePicture from "./profilePicture";
 
-const ChatListItem = ({ fullName, profilePicture, userId }) => {
-  // You can add click handlers or other logic here, e.g., navigating to a chat with this user
+const ChatListItem = ({ fullName, profilePicture, onClick }) => {
   return (
-    <div className="chatListitem">
+    <div className="chatListitem" onClick={onClick}>
       <ProfilePicture
         className="profile-image"
         imageUrl={profilePicture}
