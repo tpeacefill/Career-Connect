@@ -12,7 +12,7 @@ import ProfilePicture from "../../App-Components/profilePicture";
 const Chats = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { receiverId, fullName, profilePicture } = location.state || {};
+  const { receiverId } = location.state || {};
 
   console.log("Location:", location);
 
@@ -66,7 +66,7 @@ const Chats = () => {
           {/* Render receiver's profile picture and full name */}
           <div className="chatListitem">
             <ProfilePicture
-              className="chat-profile"
+              className="profile-image"
               imageUrl={receiverDetails.profilePicture}
               fullName={receiverDetails.fullName}
             />
