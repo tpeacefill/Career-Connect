@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
+import "./Chat.css";
 import { auth, db } from "../../Config/firebase";
 import {
   doc,
@@ -20,7 +21,11 @@ import { EmojiButton } from "@joeattardi/emoji-button";
 import ProfilePicture from "../../App-Components/profilePicture";
 import { useUser } from "../../App-Components/UserContext";
 
-const Chats = () => {
+function ChatScreen() {
+  let { userId } = useParams();
+
+  // Use the userId to fetch chat messages or perform other logic
+
   const navigate = useNavigate();
   const location = useLocation();
   const { receiverId } = location.state || {};
@@ -189,7 +194,6 @@ const Chats = () => {
       console.error("Logout error:", error);
     }
   };
-
   return (
     <div className="chatss">
       <Sidepane auth={auth} handleLogout={logout} />
@@ -321,6 +325,6 @@ const Chats = () => {
       </div>
     </div>
   );
-};
+}
 
-export default Chats;
+export default ChatScreen;

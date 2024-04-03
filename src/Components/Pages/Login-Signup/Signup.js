@@ -10,6 +10,7 @@ import GoogleLogo from "../../Images/GoogleLogo.png"; // Update this path
 import ErrorOverlay from "../Error-Success/ErrorOverlay";
 import SuccessOverlay from "../Error-Success/SuccessOverlay";
 
+
 const Signup = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
