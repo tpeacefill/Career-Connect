@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import "./CreateAlertBox.css";
 import closeBrown from "../Images/closebrown.svg";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { useUser } from "./UserContext";
 
 const CreateAlertBox = ({ onClose }) => {
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const { profileData } = useUser();
+  const userId = profileData.id;
 
   const handleOptionSelect = (event) => {
     const selectedOption = event.target.value;
@@ -17,6 +21,20 @@ const CreateAlertBox = ({ onClose }) => {
       (option) => option !== optionToRemove
     );
     setSelectedOptions(updatedOptions);
+  };
+
+  const saveToFirestore = async () => {
+    try {
+      const db = getFirestore();
+      await setDoc(doc(db, "JobPreferences", userId), {
+        userId: userId,
+        preferences: selectedOptions,
+      });
+      console.log("Job preferences saved successfully!");
+      onClose(); // Close the dialog
+    } catch (error) {
+      console.error("Error saving job preferences: ", error);
+    }
   };
 
   return (
@@ -40,9 +58,7 @@ const CreateAlertBox = ({ onClose }) => {
               <option value="Data Scientist/Analyst">
                 Data Scientist/Analyst
               </option>
-              <option value="System Administrator">
-                System Administrator
-              </option>
+              <option value="System Administrator">System Administrator</option>
               <option value="Cyber Security Analyst">
                 Cyber Security Analyst
               </option>
@@ -66,7 +82,9 @@ const CreateAlertBox = ({ onClose }) => {
             </div>
           </div>
         </div>
-        <button className="savebutton">Save</button>
+        <button className="savebutton" onClick={saveToFirestore}>
+          Save
+        </button>
       </div>
     </div>
   );

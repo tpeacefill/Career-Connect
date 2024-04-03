@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import "./ExtraSkillsBox.css";
 import closeBrown from "../Images/closebrown.svg";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { useUser } from "./UserContext";
 
 const ExtraSkillsBox = ({ onClose }) => {
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const { profileData } = useUser();
+  const userId = profileData.id;
 
   const handleOptionSelect = (event) => {
     const selectedOption = event.target.value;
@@ -18,6 +22,22 @@ const ExtraSkillsBox = ({ onClose }) => {
     );
     setSelectedOptions(updatedOptions);
   };
+
+  const saveToFirestore = async () => {
+    try {
+      const db = getFirestore();
+      await setDoc(doc(db, "JobSkills", userId), {
+        userId: userId,
+        skills: selectedOptions,
+      });
+      console.log("Skills saved successfully!");
+      onClose(); // Close the dialog
+    } catch (error) {
+      console.error("Error saving skills: ", error);
+    }
+  };
+
+  console.log("Selected skills:", selectedOptions);
 
   return (
     <div className="dialog-box">
@@ -129,7 +149,9 @@ const ExtraSkillsBox = ({ onClose }) => {
             </div>
           </div>
         </div>
-        <button className="savebutton">Save</button>
+        <button className="savebutton" onClick={saveToFirestore}>
+          Save
+        </button>
       </div>
     </div>
   );
