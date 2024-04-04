@@ -5,11 +5,16 @@ import { useNavigate } from "react-router-dom";
 import "./Help.css";
 import Sidepane from "../../App-Components/Sidepane";
 import Menubar from "../../App-Components/Menubar";
+import DialogBox from "../../App-Components/Dialog";
 
 const Help = () => {
   const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState("");
   const [response, setResponse] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const openDialog = () => setIsDialogOpen(true);
+  const closeDialog = () => setIsDialogOpen(false);
 
   const handleSearchInput = (e) => {
     setSearchInput(e.target.value);
@@ -124,7 +129,30 @@ const Help = () => {
             <div className="actual-response">{response}</div>
           </div>
         </div>
-        <div className=""></div>
+        <div className="Counseling">
+          <div className="counselling1">
+            <div className="Counseling-text">
+              <p>
+                Schedule booking for one-on-one counseling sessions with a
+                career counselor.
+              </p>
+              <p>Counseling sessions are vital for students </p>
+            </div>
+            <button className="schedule">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1em"
+                height="1em"
+                viewBox="0 0 256 256"
+              >
+                <path
+                  fill="white"
+                  d="M216 44H40a20 20 0 0 0-20 20v160a19.82 19.82 0 0 0 11.56 18.1a20.14 20.14 0 0 0 8.49 1.9a19.91 19.91 0 0 0 12.82-4.72l.12-.11L84.47 212H216a20 20 0 0 0 20-20V64a20 20 0 0 0-20-20m-4 144H80a11.93 11.93 0 0 0-7.84 2.92L44 215.23V68h168Z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

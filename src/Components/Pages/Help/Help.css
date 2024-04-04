@@ -80,3 +80,42 @@
     padding: 10px;
     font-family: Poppins;
   }
+
+
+.Counseling {
+  flex-direction: column;
+  display: flex;
+  margin-top: 90px;
+}
+
+.counselling1 {
+  flex-direction: row;
+  display: flex;
+  width: 80%;
+  margin-right: 0;
+  margin-left: auto;
+  justify-content: space-between;
+}
+
+  .Counseling-text {
+    font-family: Poppins;
+    font-size: 18px;
+    color:  rgba(255, 255, 255, 0.5);
+    text-align: center;
+  }
+
+  .schedule {
+    border-radius: 50%;
+    height: 80px;
+    width: 80px;
+    background: #ad8547;
+    margin-top: auto;
+    margin-bottom: auto;
+    border: none;
+    margin-right: 20px;
+  }
+
+  .schedule svg {
+    height: 35px;
+    width: 35px;
+  }
