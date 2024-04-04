@@ -20,6 +20,10 @@ const Help = () => {
     setSearchInput(e.target.value);
   };
 
+  const handleClickInside = (e) => {
+    e.stopPropagation();
+  };
+
   const handleSearch = () => {
     // Logic to search for the question and display the response
     const question = searchInput.toLowerCase().trim();
@@ -138,7 +142,13 @@ const Help = () => {
               </p>
               <p>Counseling sessions are vital for students </p>
             </div>
-            <button className="schedule">
+            {isDialogOpen && (
+              <div className="dialog-overlay" onClick={handleClickInside}>
+                <DialogBox onClose={closeDialog} />
+              </div>
+            )}
+
+            <button className="schedule" onClick={openDialog}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="1em"
