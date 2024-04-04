@@ -11,3 +11,72 @@
     background: #1b1b1b;
     position: static;
   }
+
+  .FAQS {
+    width: 98%;
+    height: 70%;
+    margin-left: auto;
+    margin-top: 15px;
+    margin-right: auto;
+  }
+
+  .FAQS-Heading {
+    font-family: Poppins;
+    font-size: 18px;
+    color: white;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .FAQS-text {
+    font-family: Poppins;
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .FAQS-search {
+    width: 50%;
+    height: 20%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    background: rgba(41, 42, 44, 0.7);
+    border-radius: 25px;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .FAQSsearchInput {
+    width: 100%;
+    height: 100%;
+    background: rgba(41, 42, 44, 0.7);
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    padding: 10px;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: Poppins;
+    font-size: 13px;
+  }
+
+  .response-box {
+    height: 55%;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .actual-response {
+    width: 100%;
+    background: rgba(41, 42, 44, 0.7);
+    border-radius: 10px;
+    height: 90%;
+    color: rgba(255, 255, 255, 0.5);
+    padding: 10px;
+    font-family: Poppins;
+  }
