@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./Help.css";
 import Sidepane from "../../App-Components/Sidepane";
 import Menubar from "../../App-Components/Menubar";
-import DialogBox from "../../App-Components/Dialog";
+import ScheduleCounseling from "../../App-Components/ScheduleCounsel";
 
 const Help = () => {
   const navigate = useNavigate();
@@ -144,7 +144,7 @@ const Help = () => {
             </div>
             {isDialogOpen && (
               <div className="dialog-overlay" onClick={handleClickInside}>
-                <DialogBox onClose={closeDialog} />
+                <ScheduleCounseling onClose={closeDialog} />
               </div>
             )}
 
