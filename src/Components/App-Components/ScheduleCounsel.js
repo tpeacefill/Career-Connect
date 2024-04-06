@@ -1,28 +1,35 @@
-import React, { useState } from "react"; // Import useState here
+import React, { useState } from "react";
 import "./ScheduleCounsel.css";
 import closeBrown from "../Images/closebrown.svg";
 import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
 import { useUser } from "./UserContext";
+import { getFunctions, httpsCallable } from "firebase/functions";
 
 const ScheduleCounseling = ({ onClose }) => {
   const { profileData } = useUser();
-  const [selectedDate, setSelectedDate] = useState(""); // Now useState is defined
-  const [selectedCounselor, setSelectedCounselor] = useState(""); // Now useState is defined
-  const [note, setNote] = useState(""); // Now useState is defined
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedCounselor, setSelectedCounselor] = useState("");
+  const [note, setNote] = useState("");
+  const functions = getFunctions();
+  const sendCounselingEmail = httpsCallable(functions, "sendCounselingEmail");
 
   const handleSendEmail = async () => {
     const email =
       selectedCounselor === "C. Pokuaa"
-        ? "peacefilltawiah123@gmail.com"
+        ? "peacefilltawiah123@outlook.com"
         : "pamenuveve@outlook.com";
     const subject = `Counseling Request from ${profileData.fullName}`;
     const content = `Date and Time: ${selectedDate.toString()}\nNote: ${note}`;
 
-    // You need to define or import this function elsewhere in your project
-    await sendEmail({ to: email, subject, body: content });
-
-    onClose(); // Close the modal/dialog after sending the email
+    // Using sendCounselingEmail within an async function
+    try {
+      await sendCounselingEmail({ to: email, subject, body: content });
+      onClose(); // Close the modal/dialog after sending the email
+    } catch (error) {
+      console.error("Error sending email:", error);
+      // Handle error (show message to user, etc.)
+    }
   };
 
   return (
@@ -35,11 +42,15 @@ const ScheduleCounseling = ({ onClose }) => {
         <div className="dialog-content">
           <div className="activity-title">
             <p>Pick a date*</p>
-            <Datetime />
+            <Datetime onChange={(date) => setSelectedDate(date)} />
           </div>
           <div className="activity-title">
             <p>Select a counselor*</p>
-            <select name="counselor" className="counselor-select">
+            <select
+              name="counselor"
+              className="counselor-select"
+              onChange={(e) => setSelectedCounselor(e.target.value)}
+            >
               <option value="">--Please choose a counselor--</option>
               <option value="Martha Duah">Martha Duah</option>
               <option value="C. Pokuaa">C. Pokuaa</option>
