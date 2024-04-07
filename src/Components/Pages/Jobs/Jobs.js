@@ -16,7 +16,7 @@ const Jobs = () => {
   const logout = async () => {
     try {
       await signOut(auth);
-      console.log('User has been logged out');
+      console.log("User has been logged out");
       navigate("/login");
     } catch (error) {
       console.error("Logout Error:", error);
@@ -25,68 +25,43 @@ const Jobs = () => {
 
   return (
     <div className="jobss">
-      <Sidepane auth={auth} handleLogout={logout} /> 
+      <Sidepane auth={auth} handleLogout={logout} />
       <Menubar />
       <div className="page-content">
-        <div className="Jobss-heading">
-          <div className="Jobss-txt1">
-            <h5>Find available jobs here!</h5>
-            <p>You could be a favorite</p>
+        <div className="JobsButton-Heading">
+          <div className="title-button">
+            <div className="jobtitle-headings">
+              <h3>Open Job Listing</h3>
+              <p>View Job listing of your interest here</p>
+            </div>
+            <button className="Makepost">Make a Post</button>
           </div>
-          <div className="Jobss-txt2">
-            <h5>Your Saved Jobs</h5>
-            <p>Save jobs to apply later</p>
+          <div className="filter-section">
+            <selection className="fulltime-parttime-contract">
+              <label htmlFor="job-type" className="label1">
+                Job Type:
+              </label>
+              <select id="job-type" className="select-options">
+                <option value="full-time">Full Time</option>
+                <option value="part-time">Part Time</option>
+                <option value="contract">Contract</option>
+              </select>
+            </selection>
+            <selection className="remote-Inperson">
+              <label htmlFor="work-location" className="label1">
+                Work Location:
+              </label>
+              <select id="work-location" className="select-options2">
+                <option value="remote">Remote</option>
+                <option value="in-person">In Person</option>
+                <option value="both">Both</option>
+              </select>
+            </selection>
+            <button className="Search-button">Search</button>
           </div>
         </div>
-        <div className="Jobss-content">
-          <div className="jobs-container">
-            <div className="specific-job">
-              <h5>UI/UX Design Jobs</h5>
-              <p>Create alert</p>
-            </div>
-            <div className="thejobs">
-              <JobsContent />
-              <JobsContent />
-              <JobsContent />
-            </div>
-            <div className="specific-job">
-              <h5>UI/UX Design Jobs</h5>
-              <p>Create alert</p>
-            </div>
-            <div className="thejobs">
-              <JobsContent />
-              <JobsContent />
-              <JobsContent />
-            </div>
-            <button className="viewmore">View more jobs</button>
-          </div>
-          <div className="savedjobs-container">
-            <div className="saved-jobs">
-              <div className="special-header">
-                <p>Saved Jobs</p>
-              </div>
-              <div className="display-msg-container">
-                <p className="display-msg">
-                  You do not have any
-                  <br />
-                  saved jobs yet
-                </p>
-              </div>
-            </div>
-            <div className="create-job-alert">
-              <div className="special-header">
-                <p>Saved Jobs</p>
-              </div>
-              <div className="alert-msg">
-                <img src={CreateAlert} alt="create alert"/>
-                <p>
-                  Create job alerts to receive
-                  <br />
-                  job notications
-                </p>
-              </div>
-            </div>
-          </div>
+        <div className="jobs-space">
+          <JobsContent />
         </div>
       </div>
     </div>
