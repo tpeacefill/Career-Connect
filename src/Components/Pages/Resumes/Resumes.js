@@ -1,5 +1,4 @@
-
-import React, {useRef} from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../Config/firebase";
 import { signOut } from "firebase/auth";
@@ -15,21 +14,45 @@ import ResumeTemplate3 from "../Resumes/ResumeTemplate3.pdf";
 const Resumes = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
+  const [selectedTemplate, setSelectedTemplate] = useState(null);
 
   const logout = async () => {
     try {
       await signOut(auth);
-      console.log('User has been logged out');
+      console.log("User has been logged out");
       navigate("/login");
     } catch (error) {
       console.error("Logout Error:", error);
     }
   };
-  
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    // Handle the uploaded file
-    console.log("Uploaded file:", file);
+
+  const handleFileUpload = async (event) => {
+    try {
+      const file = event.target.files[0];
+      const formData = new FormData();
+      formData.append("document", file);
+
+      const response = await fetch(
+        "https://api.mindee.net/v1/products/mindee/resume/v1/predict_async",
+        {
+          method: "POST",
+          headers: {
+            Authorization: "aa0aac51a7ff5c776093c4037b118900",
+          },
+          body: formData,
+        }
+      );
+
+      if (response.ok) {
+        // Handle successful response
+        console.log("Document uploaded successfully!");
+      } else {
+        // Handle error response
+        console.error("Failed to upload document:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error uploading document:", error);
+    }
   };
 
   const handleDragOver = (event) => {
@@ -39,15 +62,14 @@ const Resumes = () => {
   const handleDrop = (event) => {
     event.preventDefault();
     const file = event.dataTransfer.files[0];
-    // Handle the dropped file
-    console.log("Dropped file:", file);
+    handleFileUpload({ target: { files: [file] } });
   };
 
   const openFileExplorer = () => {
     fileInputRef.current.click();
   };
 
-  const openPreview = async (documentUrl) => {
+  const openPreview = (documentUrl) => {
     try {
       // Open the document URL directly in a new tab
       window.open(documentUrl, "_blank");
@@ -56,9 +78,13 @@ const Resumes = () => {
     }
   };
 
+  const handleTemplateChange = (event) => {
+    setSelectedTemplate(event.target.value);
+  };
+
   return (
     <div className="resumes">
-      <Sidepane auth={auth} handleLogout={logout} /> 
+      <Sidepane auth={auth} handleLogout={logout} />
       <Menubar />
       <div className="page-content">
         <div className="Jobss-heading">
@@ -111,15 +137,25 @@ const Resumes = () => {
           </div>
           <div className="savedjobs-container">
             {/* Display buttons to preview documents */}
-            <div className="template1">
-              <button onClick={() => openPreview(ResumeTemplate1)}>Preview</button>
-            </div>
-            <div className="template2">
-              <button onClick={() => openPreview(ResumeTemplate2)}>Preview</button>
-            </div>
-            <div className="template3">
-              <button onClick={() => openPreview(ResumeTemplate3)}>Preview</button>
-            </div>
+            <select
+              onChange={handleTemplateChange}
+              className="Preview-templates"
+            >
+              <option value="">Select a template</option>
+              <option value={ResumeTemplate1}>Template 1</option>
+              <option value={ResumeTemplate2}>Template 2</option>
+              <option value={ResumeTemplate3}>Template 3</option>
+            </select>
+            {selectedTemplate && (
+              <div>
+                <button
+                  onClick={() => openPreview(selectedTemplate)}
+                  className="preview-button"
+                >
+                  Preview
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

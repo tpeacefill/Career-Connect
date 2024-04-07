@@ -16,7 +16,6 @@ import Settings from "./Components/Pages/Settings/Settings.js";
 import ChatScreen from "./Components/Pages/Chat/ChatScreen.js";
 import UserProfile from "./Components/App-Components/UserProfile.js";
 import Chats from "./Components/Pages/Chat/Chat.js";
-import Tryout from "./Components/Pages/Tryout.js";
 import PostDetailPage from "./Components/App-Components/PostDetailPage.js";
 
 function App() {
@@ -40,7 +39,6 @@ function App() {
             <Route path="/chat/:userId" element={<ChatScreen />} />
             <Route path="/chats/:userId" element={<Chats />} />
             <Route path="/chats" element={<Chats />} />
-            <Route path="/try" element={<Tryout />} />
             <Route path="/userprofile/:userId" element={<UserProfile />} />
             <Route path="/post/:postId" element={<PostDetailPage />} />
           </Routes>

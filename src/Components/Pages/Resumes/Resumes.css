@@ -1,262 +1,257 @@
 .resumes {
-    display: grid;
+  display: grid;
   grid-template-columns: 13% 87%; /* 13% for Sidepane, 87% for Menubar and page-content */
   grid-template-rows: 82px calc(100vh - 82px); /* 82px for Menubar, remaining for page-content */
 }
 
-
 .page-content {
-    grid-column: 2; /* Span across the second column */
-    grid-row: 2; /* Span across the second row */
-    background: #1b1b1b;
-    position: static;
-  }
-  
-  .Jobss-heading {
-    width: 1350px;
-    height: 56px;
-    margin: auto;
-    margin-top: 10px;
-    display: flex;
-    flex-direction: row;
-    gap: 780px;
-    margin-bottom: 10px;
-  }
-  
-  .Jobss-txt1 {
-    height: 58px;
-    width: 300px;
-    display: flex;
-    flex-direction: column;
-  }
+  grid-column: 2; /* Span across the second column */
+  grid-row: 2; /* Span across the second row */
+  background: #1b1b1b;
+  position: static;
+}
 
-  .Jobss-txt2 {
-    height: 58px;
-    width: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-  }
-  
-  .Jobss-txt1 h5 {
-    margin-top: 0;
-    margin-bottom: 0;
-    font-family: poppins;
-    font-size: 20px;
-    color: white;
-  }
-  
-  .Jobss-txt1 p {
-    margin-top: 0;
-    margin-bottom: 0;
-    font-family: poppins;
-    font-size: 15px;
-    color: white;
-    opacity: 0.5;
-  }
-  
-  .Jobss-txt2 h5 {
-    margin-top: 0;
-    margin-bottom: 0;
-    font-family: poppins;
-    font-size: 20px;
-    color: white;
-  }
-  
-  .Jobss-txt2 p {
-    margin-top: 0;
-    margin-bottom: 0;
-    font-family: poppins;
-    font-size: 15px;
-    color: white;
-    opacity: 0.5;
-  }
-  
-  .Jobss-content {
-    width: 1350px;
-    height: 750px;
-    margin: auto;
-    flex-direction: row;
-    display: flex;
-    gap: 90px;
-  }
-  
-  .jobs-container {
-    width: 950px;
-    height: 750px;
-    flex-direction: column;
-    display: flex;
-  }
-  
-  .savedjobs-container {
-    height: 750px;
-    width: 320px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .upload-resume {
-    width: 950px;
-    height: 370px;
-    display: flex;
-    flex-direction: column;
-  }
+.Jobss-heading {
+  width: 1350px;
+  height: 56px;
+  margin: auto;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 780px;
+  margin-bottom: 10px;
+}
 
-  .download-resume {
-    width: 950px;
-    height: 370px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
+.Jobss-txt1 {
+  height: 58px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+}
 
-  .upload-container {
-    width: 950px;
-    height: 280px;
-    flex-direction: column;
-    display: flex;
-    border-radius: 20px;
-    border-color: #AD8547;
-    border-style: dashed;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 10px;
-  }
+.Jobss-txt2 {
+  height: 58px;
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
 
-  .upload-item {
-    width: 600px;
-    height: 200px;
-    flex-direction: column;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: auto;
-  }
+.Jobss-txt1 h5 {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: poppins;
+  font-size: 20px;
+  color: white;
+}
 
-  .upload-item img {
-    width: 84px;
-    height: 84px;
-    margin-top: 0;
-    margin-bottom: 0;
-  }
+.Jobss-txt1 p {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: poppins;
+  font-size: 15px;
+  color: white;
+  opacity: 0.5;
+}
 
-  .upload-item h5 {
-    font-family: poppins;
-    font-size: 18px;
-    color: white;
-    margin-bottom: 0;
-  }
+.Jobss-txt2 h5 {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: poppins;
+  font-size: 20px;
+  color: white;
+}
 
-  .upload-item p {
-    font-family: poppins;
-    font-size: 18px;
-    color: white;
-    opacity: 0.5;
-    margin-top: 0;
-    margin-bottom: 0;
-  }
+.Jobss-txt2 p {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: poppins;
+  font-size: 15px;
+  color: white;
+  opacity: 0.5;
+}
 
-  .upload-resume button {
-    width: 204px;
-    height: 50px;
-    border-radius: 5px;
-    background: #AD8547;
-    border: none;
-    margin:auto;
-    color: white;
-    font-family: poppins;
-    font-size: 18px;
-  }
+.Jobss-content {
+  width: 1350px;
+  height: 750px;
+  margin: auto;
+  flex-direction: row;
+  display: flex;
+  gap: 90px;
+}
 
-  .download-container {
-    width: 950px;
-    height: 250px;
-    flex-direction: column;
-    display: flex;
-    border-radius: 20px;
-    border-color: #AD8547;
-    border-style: dashed;
-    align-items: center;
-    justify-content: center;
-  }
+.jobs-container {
+  width: 950px;
+  height: 750px;
+  flex-direction: column;
+  display: flex;
+}
 
-  .download-item {
-    width: 600px;
-    height: 200px;
-    flex-direction: column;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: auto;
-  }
+.savedjobs-container {
+  height: 750px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+}
 
-  .download-item p {
-    font-family: poppins;
-    font-size: 18px;
-    color: white;
-    opacity: 0.5;
-    margin-top: 0;
-    margin-bottom: 0;
-  }
+.upload-resume {
+  width: 950px;
+  height: 370px;
+  display: flex;
+  flex-direction: column;
+}
 
-  .download-resume button {
-    width: 204px;
-    height: 50px;
-    border-radius: 5px;
-    background: #AD8547;
-    border: none;
-    margin:auto;
-    color: white;
-    font-family: poppins;
-    font-size: 18px;
-  }
+.download-resume {
+  width: 950px;
+  height: 370px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
-  .dowload-resume-text h5 {
-    font-family: poppins;
-    font-size: 18px;
-    color: white;
-    margin-bottom: 0;
-    margin-top: 0;
-  }
+.upload-container {
+  width: 950px;
+  height: 280px;
+  flex-direction: column;
+  display: flex;
+  border-radius: 20px;
+  border-color: #ad8547;
+  border-style: dashed;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
 
-  .dowload-resume-text p {
-    font-family: poppins;
-    font-size: 15px;
-    color: white;
-    margin-bottom: 0;
-    margin-top: 0;
-    opacity: 0.5;
-  }
+.upload-item {
+  width: 600px;
+  height: 200px;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
 
-  .template1 ,
-  .template2,
-  .template3 {
-    width: 320px;
-    height: 240px;
-    border: none;
-    border-radius: 10px;
-    background: #151617;
-    flex-direction: column;
-    display: flex;
-    justify-content: center;
-  }
+.upload-item img {
+  width: 84px;
+  height: 84px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
 
-  .template1 ,
-  .template2 {
-    margin-bottom: 15px;
-  }
+.upload-item h5 {
+  font-family: poppins;
+  font-size: 18px;
+  color: white;
+  margin-bottom: 0;
+}
 
-  .template1 button,
-  .template2 button,
-  .template3 button {
-      width: 100px;
-      height: 30px;
-      background: #AD8547;
-      border: none;
-      border-radius: 10px;
-      color: white;font-family: poppins;
-      font-size: 15px;
-      margin: auto;
+.upload-item p {
+  font-family: poppins;
+  font-size: 18px;
+  color: white;
+  opacity: 0.5;
+  margin-top: 0;
+  margin-bottom: 0;
+}
 
-  }
+.upload-resume button {
+  width: 204px;
+  height: 50px;
+  border-radius: 5px;
+  background: #ad8547;
+  border: none;
+  margin: auto;
+  color: white;
+  font-family: poppins;
+  font-size: 18px;
+}
+
+.download-container {
+  width: 950px;
+  height: 250px;
+  flex-direction: column;
+  display: flex;
+  border-radius: 20px;
+  border-color: #ad8547;
+  border-style: dashed;
+  align-items: center;
+  justify-content: center;
+}
+
+.download-item {
+  width: 600px;
+  height: 200px;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+.download-item p {
+  font-family: poppins;
+  font-size: 18px;
+  color: white;
+  opacity: 0.5;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.download-resume button {
+  width: 204px;
+  height: 50px;
+  border-radius: 5px;
+  background: #ad8547;
+  border: none;
+  margin: auto;
+  color: white;
+  font-family: poppins;
+  font-size: 18px;
+}
+
+.dowload-resume-text h5 {
+  font-family: poppins;
+  font-size: 18px;
+  color: white;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.dowload-resume-text p {
+  font-family: poppins;
+  font-size: 15px;
+  color: white;
+  margin-bottom: 0;
+  margin-top: 0;
+  opacity: 0.5;
+}
+
+
+
+
+.Preview-templates {
+  height: 50px;
+  background: #151617;
+  outline: #ad8547;
+  border-color: #ad8547;
+  font-family: Poppins;
+  font-size: 15px;
+  color: white;
+  text-align: center;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.preview-button {
+  width: 100px;
+  height: 30px;
+  background: #ad8547;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-family: poppins;
+  font-size: 15px;
+  margin: auto;
+}
