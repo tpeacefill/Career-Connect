@@ -168,8 +168,20 @@
   margin-left: 10%;
 }
 
-
 .actual-joblistings {
   height: 90%;
   overflow: auto;
+}
+
+.overlay {
+  position: fixed; /* Fixed position to cover the entire viewport */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  display: flex;
+  justify-content: center; /* Center children horizontally */
+  align-items: center; /* Center children vertically */
+  z-index: 1000; /* Ensure it sits above other content */
 }

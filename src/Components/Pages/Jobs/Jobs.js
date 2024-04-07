@@ -1,6 +1,6 @@
 // Jobs.js
 
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../Config/firebase";
 import { signOut } from "firebase/auth";
@@ -8,10 +8,15 @@ import "./Jobs.css";
 import Sidepane from "../../App-Components/Sidepane";
 import Menubar from "../../App-Components/Menubar";
 import JobsContent from "../../App-Components/JobsContent";
-import CreateAlert from "../../Images/Create-alert.svg";
+import CreateAlertBox from "../../App-Components/CreateAlertBox";
 
 const Jobs = () => {
   const navigate = useNavigate();
+  const [isAlertBoxVisible, setIsAlertBoxVisible] = useState(false);
+
+  const toggleAlertBox = () => {
+    setIsAlertBoxVisible(!isAlertBoxVisible);
+  };
 
   const logout = async () => {
     try {
@@ -34,7 +39,14 @@ const Jobs = () => {
               <h3>Open Job Listing</h3>
               <p>View Job listing of your interest here</p>
             </div>
-            <button className="Makepost">Make a Post</button>
+            <button className="Makepost" onClick={toggleAlertBox}>
+              Make a Post
+            </button>
+            {isAlertBoxVisible && (
+              <div className="overlay">
+                <CreateAlertBox onClose={toggleAlertBox} />
+              </div>
+            )}
           </div>
           <div className="filter-section">
             <selection className="fulltime-parttime-contract">
