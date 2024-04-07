@@ -61,7 +61,12 @@ const Jobs = () => {
           </div>
         </div>
         <div className="jobs-space">
-          <JobsContent />
+          <h3>Available Jobs</h3>
+          <p className="jobsp">All jobs are tailored to your preference</p>
+          <div className="actual-joblistings">
+            <JobsContent />
+            <JobsContent />
+          </div>
         </div>
       </div>
     </div>

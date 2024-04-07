@@ -2,10 +2,13 @@
 
 
 .jobs-content {
-    height: 182px;
+    height: 75px;
     width: 950px;
     display: flex;
     flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 15px;
 }
 
 .jobs-content1 {
