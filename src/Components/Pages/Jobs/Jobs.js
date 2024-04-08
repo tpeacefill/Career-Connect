@@ -8,7 +8,7 @@ import "./Jobs.css";
 import Sidepane from "../../App-Components/Sidepane";
 import Menubar from "../../App-Components/Menubar";
 import JobsContent from "../../App-Components/JobsContent";
-import CreateAlertBox from "../../App-Components/CreateAlertBox";
+import MakeJobPost from "../../App-Components/MakeJobPost";
 
 const Jobs = () => {
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ const Jobs = () => {
             </button>
             {isAlertBoxVisible && (
               <div className="overlay">
-                <CreateAlertBox onClose={toggleAlertBox} />
+                <MakeJobPost onClose={toggleAlertBox} />
               </div>
             )}
           </div>

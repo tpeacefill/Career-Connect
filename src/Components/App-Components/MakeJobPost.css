@@ -1,0 +1,131 @@
+.makejobpost-box {
+  height: 500px;
+  width: 900px;
+  background: #1b1b1b;
+  z-index: 1;
+  border-radius: 10px;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+}
+
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050; /* Adjusted z-index */
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.4
+  ); /* Optional: adds a semi-transparent backdrop */
+}
+
+.makeJob-header {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  justify-content: space-between;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+}
+
+.makeJob-header h3 {
+  color: #ad8547;
+  font-family: Poppins;
+  font-size: 15px;
+  font-weight: 100;
+  text-align: center;
+  margin-left: 40%;
+}
+
+.makeJobContent {
+  width: 90%;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+}
+
+.jobName-jobType {
+  width: 90%;
+  height: 20%;
+  flex-direction: row;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: space-between;
+}
+
+.input-jobName {
+  width: 40%;
+  height: 70%;
+  margin-top: auto;
+  margin-bottom: auto;
+  background: #292929;
+  border: none;
+  font-family: Poppins;
+  color: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  outline: #ad8547;
+  text-align: center;
+}
+
+.jobType-selection {
+  width: 40%;
+  height: 70%;
+  margin-top: auto;
+  margin-bottom: auto;
+  background: #292929;
+  border: none;
+  font-family: Poppins;
+  color: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  outline: #ad8547;
+  text-align: center;
+}
+
+.job-link {
+  width: 40%;
+  height: 60%;
+  margin-top: auto;
+  margin-bottom: auto;
+  background: #292929;
+  border: none;
+  font-family: Poppins;
+  color: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  text-align: center;
+  outline: #ad8547;
+}
+
+.job-description {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 60%;
+  background: #292929;
+  border-radius: 10px;
+  border: none;
+  outline: #ad8547;
+  font-family: Poppins;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.post-job {
+  width: 20%;
+  height: 12%;
+  margin: auto;
+  border-radius: 10px;
+  background: #ad8547;
+  font-family: Poppins;
+  color: white;
+  border: none;
+  font-size: 15px;
+}
