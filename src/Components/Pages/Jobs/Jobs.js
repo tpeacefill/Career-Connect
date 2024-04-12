@@ -1,9 +1,10 @@
 // Jobs.js
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../Config/firebase";
+import { getFirestore, collection, onSnapshot } from "firebase/firestore";
 import { signOut } from "firebase/auth";
+import { auth } from "../../Config/firebase";
 import "./Jobs.css";
 import Sidepane from "../../App-Components/Sidepane";
 import Menubar from "../../App-Components/Menubar";
@@ -12,7 +13,28 @@ import MakeJobPost from "../../App-Components/MakeJobPost";
 
 const Jobs = () => {
   const navigate = useNavigate();
+  const [jobs, setJobs] = useState([]);
   const [isAlertBoxVisible, setIsAlertBoxVisible] = useState(false);
+
+  useEffect(() => {
+    const db = getFirestore();
+    const jobsCollection = collection(db, "JobListings");
+    const unsubscribe = onSnapshot(
+      jobsCollection,
+      (snapshot) => {
+        const jobList = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setJobs(jobList);
+      },
+      (error) => {
+        console.error("Error fetching jobs:", error);
+      }
+    );
+
+    return () => unsubscribe(); // Cleanup subscription on component unmount
+  }, []);
 
   const toggleAlertBox = () => {
     setIsAlertBoxVisible(!isAlertBoxVisible);
@@ -76,8 +98,9 @@ const Jobs = () => {
           <h3>Available Jobs</h3>
           <p className="jobsp">All jobs are tailored to your preference</p>
           <div className="actual-joblistings">
-            <JobsContent />
-            <JobsContent />
+            {jobs.map((job) => (
+              <JobsContent key={job.id} job={job} />
+            ))}
           </div>
         </div>
       </div>
