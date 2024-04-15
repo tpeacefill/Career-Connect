@@ -18,6 +18,8 @@ import JobAlert from "../../Images/Create-alert.svg";
 import ExtraSkillss from "../../Images/addskill.svg";
 import ResumeLoad from "../../Images/ResumeLoad.svg";
 import AddIcon from "../../Images/add_icon.svg";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -35,6 +37,11 @@ const Dashboard = () => {
   const [jobs, setJobs] = useState([]);
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState("");
+  const [date, setDate] = useState(new Date());
+
+  const onChange = (newDate) => {
+    setDate(newDate);
+  };
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -152,7 +159,9 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="activity-event">
-            <div className="created-activity"></div>
+            <div className="created-activity">
+              <Calendar onChange={onChange} value={date} className= "calendar"/>
+            </div>
             <div className="divider1"></div>
             <div className="activity-alert">
               <p>Create an activity alert</p>

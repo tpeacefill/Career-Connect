@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import "./JobsContent.css";
 import Jobspic from "../Images/App_logo.png";
 import SaveJobs from "../Images/savejobs.svg";
-import DialogBox from "./Dialog"; // Import DialogBox component
+import ViewJobDetails from "./ViewJobDetails"; // Import DialogBox component
 
 const JobsContent = ({ job }) => {
   const [isDialogOpen, setDialogOpen] = useState(false);
+  const [jobId, setJobId] = useState(null); // Add state to store jobId
 
   const toggleDialog = () => {
     setDialogOpen(!isDialogOpen);
@@ -26,8 +27,13 @@ const JobsContent = ({ job }) => {
             <p>Job Description: {job?.description}</p>
           </div>
         </div>
-        <div className="jobs-save" onClick={toggleDialog}>
-          {" "}
+        <div
+          className="jobs-save"
+          onClick={() => {
+            setJobId(job.id);
+            toggleDialog();
+          }}
+        >
           {/* Add onClick event */}
           <img src={SaveJobs} alt="save jobs icon" />
           <p>Click to view job details</p>
@@ -35,11 +41,10 @@ const JobsContent = ({ job }) => {
       </div>
       {isDialogOpen && (
         <div className="dialog-overlay">
-          <DialogBox onClose={toggleDialog} />
+          <ViewJobDetails jobId={jobId} onClose={toggleDialog} />{" "}
+          {/* Pass jobId as prop */}
         </div>
       )}
-
-      {/* Render DialogBox conditionally */}
     </div>
   );
 };
