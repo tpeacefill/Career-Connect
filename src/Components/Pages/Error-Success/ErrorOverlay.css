@@ -28,3 +28,16 @@
   z-index: 1000;
   /* Add any other styles needed for your error dialog */
 }
+
+.error-button {
+  height: 46px;
+  width: 131px;
+  border: none;
+  border-radius: 5px;
+  background: #ad8547;
+  font-family: poppins;
+  font-size: 15px;
+  color: white;
+  margin-left: auto;
+  margin-right: auto;
+}

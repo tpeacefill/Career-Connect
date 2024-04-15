@@ -12,7 +12,9 @@ const ErrorOverlay = ({ message, onClose }) => {
       <div className="error-dialog">
         <div className="error-content">
           <p>{message}</p>
-          <button onClick={onClose}>Close</button>
+          <button className="error-button" onClick={onClose}>
+            Close
+          </button>
         </div>
       </div>
     </div>

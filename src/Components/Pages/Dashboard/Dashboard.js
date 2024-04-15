@@ -1,14 +1,15 @@
 // Dashboard.js
 
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../Config/firebase";
+import { Link } from "react-router-dom";
+import { getFirestore, collection, onSnapshot } from "firebase/firestore";
 import { signOut } from "firebase/auth";
+import { auth } from "../../Config/firebase";
 import "./Dashboard.css";
 import Sidepane from "../../App-Components/Sidepane";
 import DialogBox from "../../App-Components/Dialog";
-import ExtraSkillsBox from "../../App-Components/ExtraSkillsBox"; // Import ExtraSkillsBox
+import ExtraSkillsBox from "../../App-Components/ExtraSkillsBox";
 import CreateAlertBox from "../../App-Components/CreateAlertBox";
 import CourseCards from "../../App-Components/CourseCards";
 import JobsContent from "../../App-Components/JobsContent";
@@ -31,8 +32,29 @@ const Dashboard = () => {
     }
   };
 
+  const [jobs, setJobs] = useState([]);
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState("");
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      const db = getFirestore();
+      const jobsCollection = collection(db, "JobListings");
+
+      // Subscribe to changes in the jobs collection
+      const unsubscribe = onSnapshot(jobsCollection, (snapshot) => {
+        const jobList = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setJobs(jobList);
+      });
+
+      return unsubscribe; // Cleanup subscription on component unmount
+    };
+
+    fetchJobs();
+  }, []);
 
   const toggleDialog = (type) => {
     setDialogType(type);
@@ -116,11 +138,16 @@ const Dashboard = () => {
                   <h4>Today’s available job vacancies</h4>
                   <p>Keep applying, you might be the one they want</p>
                 </div>
-                <p className="text-msg1">View More</p>
+                <p className="text-msg1">
+                  <Link to="/jobs" className="text-msg1">
+                    View More
+                  </Link>
+                </p>
               </div>
               <div className="jobs2">
-                <JobsContent />
-                <JobsContent />
+                {jobs.slice(0, 2).map((job) => (
+                  <JobsContent key={job.id} job={job} />
+                ))}
               </div>
             </div>
           </div>
