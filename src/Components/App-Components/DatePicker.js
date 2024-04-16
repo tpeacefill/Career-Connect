@@ -1,10 +1,9 @@
+// MyDatePicker.js
 import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const BirthdateInput = ({ selectedDate, setSelectedDate }) => {
-
-
+const MyDatePicker = ({ selectedDate, onChange }) => {
   // Function to convert the selected date into words
   const formatDateToWords = (date) => {
     const options = {
@@ -21,7 +20,7 @@ const BirthdateInput = ({ selectedDate, setSelectedDate }) => {
       <DatePicker
         className="birthdate01"
         selected={selectedDate}
-        onChange={(date) => setSelectedDate(date)}
+        onChange={onChange} // Ensure that the onChange event properly updates the selected date
         dateFormat="MMMM d, yyyy"
         value={selectedDate ? formatDateToWords(selectedDate) : ""}
       />
@@ -29,4 +28,4 @@ const BirthdateInput = ({ selectedDate, setSelectedDate }) => {
   );
 };
 
-export default BirthdateInput;
+export default MyDatePicker;

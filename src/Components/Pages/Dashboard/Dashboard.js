@@ -1,9 +1,13 @@
-// Dashboard.js
-
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { getFirestore, collection, onSnapshot } from "firebase/firestore";
+import { useNavigate, Link } from "react-router-dom";
+import {
+  getFirestore,
+  collection,
+  onSnapshot,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
+import ReactModal from "react-modal";
 import { signOut } from "firebase/auth";
 import { auth } from "../../Config/firebase";
 import "./Dashboard.css";
@@ -23,23 +27,14 @@ import "react-calendar/dist/Calendar.css";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-
-  const logout = async () => {
-    try {
-      await signOut(auth);
-      console.log("User has been logged out");
-      navigate("/login");
-    } catch (error) {
-      console.error("Logout Error:", error);
-    }
-  };
-
   const [jobs, setJobs] = useState([]);
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [dialogType, setDialogType] = useState("");
   const [date, setDate] = useState(new Date());
+  const [activityAlerts, setActivityAlerts] = useState([]);
+  const [hoveredActivity, setHoveredActivity] = useState(null);
 
-  const onChange = (newDate) => {
+  const onDateChange = (newDate) => {
     setDate(newDate);
   };
 
@@ -47,8 +42,6 @@ const Dashboard = () => {
     const fetchJobs = async () => {
       const db = getFirestore();
       const jobsCollection = collection(db, "JobListings");
-
-      // Subscribe to changes in the jobs collection
       const unsubscribe = onSnapshot(jobsCollection, (snapshot) => {
         const jobList = snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -56,19 +49,112 @@ const Dashboard = () => {
         }));
         setJobs(jobList);
       });
-
       return unsubscribe; // Cleanup subscription on component unmount
     };
 
     fetchJobs();
   }, []);
 
+  useEffect(() => {
+    const fetchActivityAlerts = async () => {
+      const db = getFirestore();
+      const activityAlertsCollection = collection(db, "ActivityAlert");
+      const unsubscribe = onSnapshot(
+        activityAlertsCollection,
+        async (snapshot) => {
+          const alerts = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+            date: new Date(doc.data().date),
+          }));
+
+          // Filter out alerts with dates in the past
+          const currentDate = new Date();
+          const activeAlerts = alerts.filter(
+            (alert) => alert.date >= currentDate
+          );
+
+          // Update state with active alerts
+          setActivityAlerts(activeAlerts);
+
+          // Delete expired alerts from the database
+          const expiredAlerts = alerts.filter(
+            (alert) => alert.date < currentDate
+          );
+          expiredAlerts.forEach(async (alert) => {
+            try {
+              await deleteDoc(doc(db, "ActivityAlert", alert.id));
+              console.log("Expired alert deleted:", alert.id);
+            } catch (error) {
+              console.error("Error deleting expired alert:", error);
+            }
+          });
+        }
+      );
+      return unsubscribe; // Cleanup subscription on component unmount
+    };
+
+    fetchActivityAlerts();
+  }, []);
+
+  const getTileClassName = ({ date, view }) => {
+    if (view === "month") {
+      // Check if there is an activity alert for this date
+      const hasActivity = activityAlerts.some(
+        (alert) => new Date(alert.date).toDateString() === date.toDateString()
+      );
+
+      return hasActivity ? "hasActivity" : "";
+    }
+  };
+
+  const tileContent = ({ date, view }) => {
+    if (view === "month") {
+      // Find the activity alert for this date
+      const alert = activityAlerts.find(
+        (alert) => new Date(alert.date).toDateString() === date.toDateString()
+      );
+
+      // If there is an alert for this date, render its title and description
+      if (alert) {
+        return (
+          <div className="tile-content">
+            <h4>{alert.activityTitle}</h4>
+            <p>{alert.activityDescription}</p>
+          </div>
+        );
+      }
+    }
+    return null; // Return null by default
+  };
+
+  const handleTileHover = (date) => {
+    // Find the activity alert for the hovered date
+    const alert = activityAlerts.find(
+      (alert) => new Date(alert.date).toDateString() === date.toDateString()
+    );
+
+    // Set the hovered activity details
+    setHoveredActivity(
+      alert ? (
+        <div className="hovered-activity">
+          <h4>{alert.activityTitle}</h4>
+          <p>{alert.activityDescription}</p>
+        </div>
+      ) : null
+    );
+  };
+
+  const handleTileLeave = () => {
+    // Clear the hovered activity details when leaving the tile
+    setHoveredActivity(null);
+  };
+
   const toggleDialog = (type) => {
     setDialogType(type);
     setDialogOpen(!isDialogOpen);
   };
 
-  // Function to render the appropriate dialog component based on dialogType
   const renderDialogComponent = () => {
     switch (dialogType) {
       case "extraSkills":
@@ -77,6 +163,16 @@ const Dashboard = () => {
         return <CreateAlertBox onClose={toggleDialog} />;
       default:
         return <DialogBox onClose={toggleDialog} type={dialogType} />;
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      console.log("User has been logged out");
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout Error:", error);
     }
   };
 
@@ -159,9 +255,22 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="activity-event">
+            <ReactModal
+              isOpen={hoveredActivity !== null}
+              onRequestClose={() => setHoveredActivity(null)}
+            >
+              {hoveredActivity}
+            </ReactModal>
             <div className="created-activity">
-              <Calendar onChange={onChange} value={date} className= "calendar"/>
+              <Calendar
+                tileClassName={getTileClassName} // Pass the function to highlight dates
+                onChange={onDateChange}
+                value={date}
+                onMouseOver={({ date }) => handleTileHover(date)} // Attach handleTileHover to onMouseOver event
+                onMouseOut={() => handleTileLeave()} // Attach handleTileLeave to onMouseOut event
+              />
             </div>
+
             <div className="divider1"></div>
             <div className="activity-alert">
               <p>Create an activity alert</p>
