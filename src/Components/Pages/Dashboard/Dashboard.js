@@ -6,6 +6,8 @@ import {
   onSnapshot,
   deleteDoc,
   doc,
+  where,
+  query,
 } from "firebase/firestore";
 import ReactModal from "react-modal";
 import { signOut } from "firebase/auth";
@@ -59,9 +61,16 @@ const Dashboard = () => {
     const fetchActivityAlerts = async () => {
       const db = getFirestore();
       const activityAlertsCollection = collection(db, "ActivityAlert");
-      const unsubscribe = onSnapshot(
-        activityAlertsCollection,
-        async (snapshot) => {
+
+      // Check if user is authenticated
+      if (auth.currentUser) {
+        // Create a query against the collection, filtering by userId
+        const alertsQuery = query(
+          activityAlertsCollection,
+          where("userId", "==", auth.currentUser.uid)
+        );
+
+        const unsubscribe = onSnapshot(alertsQuery, async (snapshot) => {
           const alerts = snapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
@@ -73,8 +82,6 @@ const Dashboard = () => {
           const activeAlerts = alerts.filter(
             (alert) => alert.date >= currentDate
           );
-
-          // Update state with active alerts
           setActivityAlerts(activeAlerts);
 
           // Delete expired alerts from the database
@@ -89,11 +96,13 @@ const Dashboard = () => {
               console.error("Error deleting expired alert:", error);
             }
           });
-        }
-      );
-      return unsubscribe; // Cleanup subscription on component unmount
+        });
+        return unsubscribe; // Cleanup subscription on component unmount
+      } else {
+        console.error("No user logged in to fetch activity alerts for.");
+        // Handle user not logged in or any other related issues
+      }
     };
-
     fetchActivityAlerts();
   }, []);
 
@@ -194,7 +203,7 @@ const Dashboard = () => {
                   onClick={() => toggleDialog("createAlert")}
                 >
                   <img src={JobAlert} alt="Job Alert" />
-                  <p className="conttext">Create a job alert</p>
+                  <p className="conttext">Create a job preference</p>
                 </div>
               </div>
               <div className="content-img2">
